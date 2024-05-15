@@ -13,26 +13,26 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="Neuron Version Story 一张图片是 3 维的 tensor，(channel, height, weight)。channel 表示 rgb 三通道；将图片的三维压缩成一维度向量输入到神经网络 如果使用Fully Connected Network，需要的参数量非常巨大，输入向量长度为 1001003， 神经元个数是 1000 个，模型参数越多，越容易 overfiting Ob">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://suebwj.github.io/public/images/CNN_img/Untitled.png">
-<meta property="og:image" content="https://suebwj.github.io/public/images/CNN_img/Untitled%201.png">
-<meta property="og:image" content="https://suebwj.github.io/public/images/CNN_img/Untitled%202.png">
-<meta property="og:image" content="https://suebwj.github.io/public/images/CNN_img/Untitled%203.png">
-<meta property="og:image" content="https://suebwj.github.io/public/images/CNN_img/Untitled%204.png">
-<meta property="og:image" content="https://suebwj.github.io/public/images/CNN_img/Untitled%205.png">
-<meta property="og:image" content="https://suebwj.github.io/public/images/CNN_img/Untitled%206.png">
-<meta property="og:image" content="https://suebwj.github.io/public/images/CNN_img/Untitled%207.png">
-<meta property="og:image" content="https://suebwj.github.io/public/images/CNN_img/Untitled%208.png">
-<meta property="og:image" content="https://suebwj.github.io/public/images/CNN_img/Untitled%209.png">
-<meta property="og:image" content="https://suebwj.github.io/public/images/CNN_img/Untitled%2010.png">
-<meta property="og:image" content="https://suebwj.github.io/public/images/CNN_img/Untitled%2011.png">
-<meta property="og:image" content="https://suebwj.github.io/public/images/CNN_img/Untitled%2012.png">
-<meta property="og:image" content="https://suebwj.github.io/public/images/CNN_img/Untitled%2013.png">
+<meta property="og:image" content="https://suebwj.github.io/CNN_img/Untitled.png">
+<meta property="og:image" content="https://suebwj.github.io/CNN_img/Untitled%201.png">
+<meta property="og:image" content="https://suebwj.github.io/CNN_img/Untitled%202.png">
+<meta property="og:image" content="https://suebwj.github.io/CNN_img/Untitled%203.png">
+<meta property="og:image" content="https://suebwj.github.io/CNN_img/Untitled%204.png">
+<meta property="og:image" content="https://suebwj.github.io/CNN_img/Untitled%205.png">
+<meta property="og:image" content="https://suebwj.github.io/CNN_img/Untitled%206.png">
+<meta property="og:image" content="https://suebwj.github.io/CNN_img/Untitled%207.png">
+<meta property="og:image" content="https://suebwj.github.io/CNN_img/Untitled%208.png">
+<meta property="og:image" content="https://suebwj.github.io/CNN_img/Untitled%209.png">
+<meta property="og:image" content="https://suebwj.github.io/CNN_img/Untitled%2010.png">
+<meta property="og:image" content="https://suebwj.github.io/CNN_img/Untitled%2011.png">
+<meta property="og:image" content="https://suebwj.github.io/CNN_img/Untitled%2012.png">
+<meta property="og:image" content="https://suebwj.github.io/CNN_img/Untitled%2013.png">
 <meta property="article:published_time" content="2024-05-14T02:01:58.000Z">
-<meta property="article:modified_time" content="2024-05-15T06:09:49.783Z">
+<meta property="article:modified_time" content="2024-05-15T06:13:34.577Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="李宏毅机器学习">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://suebwj.github.io/public/images/CNN_img/Untitled.png">
+<meta name="twitter:image" content="https://suebwj.github.io/CNN_img/Untitled.png">
     
     
       
@@ -176,15 +176,15 @@
 
   <div class="content e-content" itemprop="articleBody">
     <h3 id="Neuron-Version-Story"><a href="#Neuron-Version-Story" class="headerlink" title="Neuron Version Story"></a>Neuron Version Story</h3><ul>
-<li>一张图片是 3 维的 tensor，(channel, height, weight)。channel 表示 rgb 三通道；将图片的三维压缩成一维度向量输入到神经网络<br><img src="/../../public/images/CNN_img/Untitled.png" alt="Untitled"></li>
+<li>一张图片是 3 维的 tensor，(channel, height, weight)。channel 表示 rgb 三通道；将图片的三维压缩成一维度向量输入到神经网络<br><img src="/../CNN_img/Untitled.png" alt="Untitled"></li>
 <li>如果使用<strong>Fully Connected Network</strong>，需要的参数量非常巨大，输入向量长度为 100<em>100</em>3， 神经元个数是 1000 个，模型参数越多，越容易 overfiting</li>
 <li>Observation1<ul>
-<li>神经元的作用：Identifying some critical patterns，发现一些重要的特征<br><img src="/../../public/images/CNN_img/Untitled%201.png" alt="Untitled"></li>
+<li>神经元的作用：Identifying some critical patterns，发现一些重要的特征<br><img src="/../CNN_img/Untitled%201.png" alt="Untitled"></li>
 <li>Some patterns are much smaller than the whole image.特征只占图片的一小部分<ol>
 <li>每一个 neural 只关注一小部分（receptive field）就好了</li>
 <li>receptive field 可以重叠</li>
 <li>receptive field 可以只 cover 部分 channel</li>
-<li>receptive field 不一定要是正方形<br><img src="/../../public/images/CNN_img/Untitled%202.png" alt="Untitled"><br><img src="/../../public/images/CNN_img/Untitled%203.png" alt="Untitled"></li>
+<li>receptive field 不一定要是正方形<br><img src="/../CNN_img/Untitled%202.png" alt="Untitled"><br><img src="/../CNN_img/Untitled%203.png" alt="Untitled"></li>
 </ol>
 </li>
 <li>Typical Setting<ol>
@@ -192,16 +192,16 @@
 <li>receptive field 也被称为 kernel size，一般设置为 3*3</li>
 <li>同一个 receptive field 会有一组，一排去检测它（64 个神经元）</li>
 <li>stride 表示每个 receptive field 之间的间隔是多少 （stride &#x3D; 2），最好每个 receptive field 之间有一定的重叠</li>
-<li>receptive field 有一部分超出了图片的范围，那么就用 padding 来补充<br><img src="/../../public/images/CNN_img/Untitled%204.png" alt="Untitled"></li>
+<li>receptive field 有一部分超出了图片的范围，那么就用 padding 来补充<br><img src="/../CNN_img/Untitled%204.png" alt="Untitled"></li>
 </ol>
 </li>
 </ul>
 </li>
 <li>Observation2:<ul>
 <li>The same patterns appear in different regions<ul>
-<li>每一个 receptive field 都有一个侦测鸟嘴的神经元 → 问题：参数量太多了<br><img src="/../../public/images/CNN_img/Untitled%205.png" alt="Untitled"></li>
-<li>解决方案：<strong>参数共享</strong>，虽然参数一样，但是输入是不一样的，所以输出是不一样的<br><img src="/../../public/images/CNN_img/Untitled%206.png" alt="Untitled"></li>
-<li>Typical Setting - 常见的共享参数的方法<br><img src="/../../public/images/CNN_img/Untitled%207.png" alt="Untitled"></li>
+<li>每一个 receptive field 都有一个侦测鸟嘴的神经元 → 问题：参数量太多了<br><img src="/../CNN_img/Untitled%205.png" alt="Untitled"></li>
+<li>解决方案：<strong>参数共享</strong>，虽然参数一样，但是输入是不一样的，所以输出是不一样的<br><img src="/../CNN_img/Untitled%206.png" alt="Untitled"></li>
+<li>Typical Setting - 常见的共享参数的方法<br><img src="/../CNN_img/Untitled%207.png" alt="Untitled"></li>
 </ul>
 </li>
 </ul>
@@ -211,8 +211,8 @@
 <li>从图片中去抓取 pattern</li>
 </ol>
 <ul>
-<li>计算方式<br><img src="/../../public/images/CNN_img/Untitled%208.png" alt="表明左上角和左下角都出现了这个pattern"><br>表明左上角和左下角都出现了这个 pattern</li>
-<li>future map<br>如果有 64 个 filter，那么就会有 64<em>4</em>4 的矩阵，可以把这个 future map 理解成一张新的图片，有 64 个 channel<br><img src="/../../public/images/CNN_img/Untitled%209.png" alt="Untitled"></li>
+<li>计算方式<br><img src="/../CNN_img/Untitled%208.png" alt="表明左上角和左下角都出现了这个pattern"><br>表明左上角和左下角都出现了这个 pattern</li>
+<li>future map<br>如果有 64 个 filter，那么就会有 64<em>4</em>4 的矩阵，可以把这个 future map 理解成一张新的图片，有 64 个 channel<br><img src="/../CNN_img/Untitled%209.png" alt="Untitled"></li>
 </ul>
 <ol>
 <li>如果 network 足够深，filter 能够看到足够大的 pattern</li>
@@ -223,15 +223,15 @@
 </ol>
 <ul>
 <li>Pooling - Max Pooling<ul>
-<li>Pooling 的作用 - 减少运算量，如果运算量足够强，也可以不做 pooling<br><img src="/../../public/images/CNN_img/Untitled%2010.png" alt="Untitled"></li>
-<li>Convolutional Layers + Pooling<br><img src="/../../public/images/CNN_img/Untitled%2011.png" alt="Untitled"></li>
+<li>Pooling 的作用 - 减少运算量，如果运算量足够强，也可以不做 pooling<br><img src="/../CNN_img/Untitled%2010.png" alt="Untitled"></li>
+<li>Convolutional Layers + Pooling<br><img src="/../CNN_img/Untitled%2011.png" alt="Untitled"></li>
 </ul>
 </li>
 </ul>
 </li>
 </ul>
-<h3 id="The-whole-CNN"><a href="#The-whole-CNN" class="headerlink" title="The whole CNN"></a>The whole CNN</h3><p><img src="/../../public/images/CNN_img/Untitled%2012.png" alt="Untitled"></p>
-<p><img src="/../../public/images/CNN_img/Untitled%2013.png" alt="Untitled"></p>
+<h3 id="The-whole-CNN"><a href="#The-whole-CNN" class="headerlink" title="The whole CNN"></a>The whole CNN</h3><p><img src="/../CNN_img/Untitled%2012.png" alt="Untitled"></p>
+<p><img src="/../CNN_img/Untitled%2013.png" alt="Untitled"></p>
 <aside>
 ❓ CNN无法处理放大和缩小之后或旋转的图像，CNN is not invariant to scaling and rotation
 
