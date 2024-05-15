@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="Neuron Version Story 一张图片是 3 维的 tensor，(channel, height, weight)。channel 表示 rgb 三通道；将图片的三维压缩成一维度向量输入到神经网络 如果使用Fully Connected Network，需要的参数量非常巨大，输入向量长度为 1001003， 神经元个数是 1000 个，模型参数越多，越容易 overfiting Ob">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CNN">
+<meta property="og:url" content="https://suebwj.github.io/2024/05/14/CNN/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Neuron Version Story 一张图片是 3 维的 tensor，(channel, height, weight)。channel 表示 rgb 三通道；将图片的三维压缩成一维度向量输入到神经网络 如果使用Fully Connected Network，需要的参数量非常巨大，输入向量长度为 1001003， 神经元个数是 1000 个，模型参数越多，越容易 overfiting Ob">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://suebwj.github.io/public/images/CNN_img/Untitled.png">
+<meta property="og:image" content="https://suebwj.github.io/public/images/CNN_img/Untitled%201.png">
+<meta property="og:image" content="https://suebwj.github.io/public/images/CNN_img/Untitled%202.png">
+<meta property="og:image" content="https://suebwj.github.io/public/images/CNN_img/Untitled%203.png">
+<meta property="og:image" content="https://suebwj.github.io/public/images/CNN_img/Untitled%204.png">
+<meta property="og:image" content="https://suebwj.github.io/public/images/CNN_img/Untitled%205.png">
+<meta property="og:image" content="https://suebwj.github.io/public/images/CNN_img/Untitled%206.png">
+<meta property="og:image" content="https://suebwj.github.io/public/images/CNN_img/Untitled%207.png">
+<meta property="og:image" content="https://suebwj.github.io/public/images/CNN_img/Untitled%208.png">
+<meta property="og:image" content="https://suebwj.github.io/public/images/CNN_img/Untitled%209.png">
+<meta property="og:image" content="https://suebwj.github.io/public/images/CNN_img/Untitled%2010.png">
+<meta property="og:image" content="https://suebwj.github.io/public/images/CNN_img/Untitled%2011.png">
+<meta property="og:image" content="https://suebwj.github.io/public/images/CNN_img/Untitled%2012.png">
+<meta property="og:image" content="https://suebwj.github.io/public/images/CNN_img/Untitled%2013.png">
+<meta property="article:published_time" content="2024-05-14T02:01:58.000Z">
+<meta property="article:modified_time" content="2024-05-15T06:09:49.783Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="李宏毅机器学习">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://suebwj.github.io/public/images/CNN_img/Untitled.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>CNN</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/suebwj">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2024/05/08/Markov-Decision-Process-%E9%A9%AC%E5%B0%94%E5%8F%AF%E5%A4%AB%E5%86%B3%E7%AD%96%E8%BF%87%E7%A8%8B/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://suebwj.github.io/2024/05/14/CNN/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://suebwj.github.io/2024/05/14/CNN/&text=CNN"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://suebwj.github.io/2024/05/14/CNN/&title=CNN"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://suebwj.github.io/2024/05/14/CNN/&is_video=false&description=CNN"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=CNN&body=Check out this article: https://suebwj.github.io/2024/05/14/CNN/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://suebwj.github.io/2024/05/14/CNN/&title=CNN"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://suebwj.github.io/2024/05/14/CNN/&title=CNN"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://suebwj.github.io/2024/05/14/CNN/&title=CNN"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://suebwj.github.io/2024/05/14/CNN/&title=CNN"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://suebwj.github.io/2024/05/14/CNN/&name=CNN&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://suebwj.github.io/2024/05/14/CNN/&t=CNN"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Neuron-Version-Story"><span class="toc-number">1.</span> <span class="toc-text">Neuron Version Story</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Convolution-Layer-%E2%80%94-another-story-based-on-filter"><span class="toc-number">2.</span> <span class="toc-text">Convolution Layer — another story based on filter</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#The-whole-CNN"><span class="toc-number">3.</span> <span class="toc-text">The whole CNN</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        CNN
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">John Doe</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2024-05-14T02:01:58.000Z" class="dt-published" itemprop="datePublished">2024-05-14</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/%E6%9D%8E%E5%AE%8F%E6%AF%85%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag">李宏毅机器学习</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h3 id="Neuron-Version-Story"><a href="#Neuron-Version-Story" class="headerlink" title="Neuron Version Story"></a>Neuron Version Story</h3><ul>
+<li>一张图片是 3 维的 tensor，(channel, height, weight)。channel 表示 rgb 三通道；将图片的三维压缩成一维度向量输入到神经网络<br><img src="/../../public/images/CNN_img/Untitled.png" alt="Untitled"></li>
+<li>如果使用<strong>Fully Connected Network</strong>，需要的参数量非常巨大，输入向量长度为 100<em>100</em>3， 神经元个数是 1000 个，模型参数越多，越容易 overfiting</li>
+<li>Observation1<ul>
+<li>神经元的作用：Identifying some critical patterns，发现一些重要的特征<br><img src="/../../public/images/CNN_img/Untitled%201.png" alt="Untitled"></li>
+<li>Some patterns are much smaller than the whole image.特征只占图片的一小部分<ol>
+<li>每一个 neural 只关注一小部分（receptive field）就好了</li>
+<li>receptive field 可以重叠</li>
+<li>receptive field 可以只 cover 部分 channel</li>
+<li>receptive field 不一定要是正方形<br><img src="/../../public/images/CNN_img/Untitled%202.png" alt="Untitled"><br><img src="/../../public/images/CNN_img/Untitled%203.png" alt="Untitled"></li>
+</ol>
+</li>
+<li>Typical Setting<ol>
+<li>考虑所有的 channel</li>
+<li>receptive field 也被称为 kernel size，一般设置为 3*3</li>
+<li>同一个 receptive field 会有一组，一排去检测它（64 个神经元）</li>
+<li>stride 表示每个 receptive field 之间的间隔是多少 （stride &#x3D; 2），最好每个 receptive field 之间有一定的重叠</li>
+<li>receptive field 有一部分超出了图片的范围，那么就用 padding 来补充<br><img src="/../../public/images/CNN_img/Untitled%204.png" alt="Untitled"></li>
+</ol>
+</li>
+</ul>
+</li>
+<li>Observation2:<ul>
+<li>The same patterns appear in different regions<ul>
+<li>每一个 receptive field 都有一个侦测鸟嘴的神经元 → 问题：参数量太多了<br><img src="/../../public/images/CNN_img/Untitled%205.png" alt="Untitled"></li>
+<li>解决方案：<strong>参数共享</strong>，虽然参数一样，但是输入是不一样的，所以输出是不一样的<br><img src="/../../public/images/CNN_img/Untitled%206.png" alt="Untitled"></li>
+<li>Typical Setting - 常见的共享参数的方法<br><img src="/../../public/images/CNN_img/Untitled%207.png" alt="Untitled"></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="Convolution-Layer-—-another-story-based-on-filter"><a href="#Convolution-Layer-—-another-story-based-on-filter" class="headerlink" title="Convolution Layer — another story based on filter"></a>Convolution Layer — another story based on filter</h3><ol>
+<li>从图片中去抓取 pattern</li>
+</ol>
+<ul>
+<li>计算方式<br><img src="/../../public/images/CNN_img/Untitled%208.png" alt="表明左上角和左下角都出现了这个pattern"><br>表明左上角和左下角都出现了这个 pattern</li>
+<li>future map<br>如果有 64 个 filter，那么就会有 64<em>4</em>4 的矩阵，可以把这个 future map 理解成一张新的图片，有 64 个 channel<br><img src="/../../public/images/CNN_img/Untitled%209.png" alt="Untitled"></li>
+</ul>
+<ol>
+<li>如果 network 足够深，filter 能够看到足够大的 pattern</li>
+</ol>
+<ul>
+<li><strong>Observation3</strong><ol>
+<li>Subsampling the pixels will not change the object - 放大缩小(减去行和列的条数)图片不会对图像内容造成影响</li>
+</ol>
+<ul>
+<li>Pooling - Max Pooling<ul>
+<li>Pooling 的作用 - 减少运算量，如果运算量足够强，也可以不做 pooling<br><img src="/../../public/images/CNN_img/Untitled%2010.png" alt="Untitled"></li>
+<li>Convolutional Layers + Pooling<br><img src="/../../public/images/CNN_img/Untitled%2011.png" alt="Untitled"></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="The-whole-CNN"><a href="#The-whole-CNN" class="headerlink" title="The whole CNN"></a>The whole CNN</h3><p><img src="/../../public/images/CNN_img/Untitled%2012.png" alt="Untitled"></p>
+<p><img src="/../../public/images/CNN_img/Untitled%2013.png" alt="Untitled"></p>
+<aside>
+❓ CNN无法处理放大和缩小之后或旋转的图像，CNN is not invariant to scaling and rotation
+
+</aside>
+
+<p>→ need data augmentation — 处理旋转问题</p>
+<p>→ 处理放大缩小问题 — Spatial Transformer Layer</p>
+<aside>
+💡 通过影像的特性来对模型进行限制，避免overfitting
+
+</aside>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/search/">Search</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="http://github.com/suebwj">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Neuron-Version-Story"><span class="toc-number">1.</span> <span class="toc-text">Neuron Version Story</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Convolution-Layer-%E2%80%94-another-story-based-on-filter"><span class="toc-number">2.</span> <span class="toc-text">Convolution Layer — another story based on filter</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#The-whole-CNN"><span class="toc-number">3.</span> <span class="toc-text">The whole CNN</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://suebwj.github.io/2024/05/14/CNN/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://suebwj.github.io/2024/05/14/CNN/&text=CNN"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://suebwj.github.io/2024/05/14/CNN/&title=CNN"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://suebwj.github.io/2024/05/14/CNN/&is_video=false&description=CNN"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=CNN&body=Check out this article: https://suebwj.github.io/2024/05/14/CNN/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://suebwj.github.io/2024/05/14/CNN/&title=CNN"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://suebwj.github.io/2024/05/14/CNN/&title=CNN"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://suebwj.github.io/2024/05/14/CNN/&title=CNN"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://suebwj.github.io/2024/05/14/CNN/&title=CNN"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://suebwj.github.io/2024/05/14/CNN/&name=CNN&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://suebwj.github.io/2024/05/14/CNN/&t=CNN"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2024
+    John Doe
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/suebwj">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
