@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="博弈论期中课程论文撰写: 要求研读至少一篇的有关博弈论想过论文，并写一份报告  研究背景生成对抗网络(GANs)是一类生成类模型，首先由 Goodfellow et al.(2014b)提出，该模型因其对高纬度复杂现实数据进行建模的潜力和可以从潜在的空间中生成无限真实的新样本的能力而广泛应用于各个领域，从文本编辑图像、图像合成到计算机视觉、视频再到动画生成和网络安全(Alqahtani et a">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Games of GANs">
+<meta property="og:url" content="https://suebwj.github.io/2024/05/21/Games-of-GANs/index.html">
+<meta property="og:site_name" content="Sue&#39;s blog">
+<meta property="og:description" content="博弈论期中课程论文撰写: 要求研读至少一篇的有关博弈论想过论文，并写一份报告  研究背景生成对抗网络(GANs)是一类生成类模型，首先由 Goodfellow et al.(2014b)提出，该模型因其对高纬度复杂现实数据进行建模的潜力和可以从潜在的空间中生成无限真实的新样本的能力而广泛应用于各个领域，从文本编辑图像、图像合成到计算机视觉、视频再到动画生成和网络安全(Alqahtani et a">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2024-05-21T07:29:15.000Z">
+<meta property="article:modified_time" content="2024-05-21T07:38:24.335Z">
+<meta property="article:author" content="Sue Dickinson">
+<meta property="article:tag" content="博弈论课程">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Games of GANs</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/suebwj">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2024/05/21/GAN/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://suebwj.github.io/2024/05/21/Games-of-GANs/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://suebwj.github.io/2024/05/21/Games-of-GANs/&text=Games of GANs"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://suebwj.github.io/2024/05/21/Games-of-GANs/&title=Games of GANs"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://suebwj.github.io/2024/05/21/Games-of-GANs/&is_video=false&description=Games of GANs"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Games of GANs&body=Check out this article: https://suebwj.github.io/2024/05/21/Games-of-GANs/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://suebwj.github.io/2024/05/21/Games-of-GANs/&title=Games of GANs"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://suebwj.github.io/2024/05/21/Games-of-GANs/&title=Games of GANs"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://suebwj.github.io/2024/05/21/Games-of-GANs/&title=Games of GANs"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://suebwj.github.io/2024/05/21/Games-of-GANs/&title=Games of GANs"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://suebwj.github.io/2024/05/21/Games-of-GANs/&name=Games of GANs&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://suebwj.github.io/2024/05/21/Games-of-GANs/&t=Games of GANs"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A0%94%E7%A9%B6%E8%83%8C%E6%99%AF"><span class="toc-number">1.</span> <span class="toc-text">研究背景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A0%94%E7%A9%B6%E6%96%B9%E6%B3%95"><span class="toc-number">2.</span> <span class="toc-text">研究方法</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#a-%E4%B8%80%E4%B8%AA%E7%94%9F%E6%88%90%E5%99%A8%E5%A4%9A%E4%B8%AA%E5%88%A4%E5%88%AB%E5%99%A8"><span class="toc-number">2.0.1.</span> <span class="toc-text">(a) 一个生成器多个判别器</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#b-%E4%B8%80%E4%B8%AA%E5%88%A4%E5%88%AB%E5%99%A8%E5%A4%9A%E4%B8%AA%E7%94%9F%E6%88%90%E5%99%A8"><span class="toc-number">2.0.2.</span> <span class="toc-text">(b) 一个判别器多个生成器</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#a-%E6%97%A0%E6%82%94%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95-No-regret-learning"><span class="toc-number">2.0.3.</span> <span class="toc-text">(a) 无悔学习算法(No-regret learning)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#b-%E8%99%9A%E6%8B%9F%E5%8D%9A%E5%BC%88-Fictitious-Play"><span class="toc-number">2.0.4.</span> <span class="toc-text">(b) 虚拟博弈(Fictitious Play)</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%93%E8%AE%BA"><span class="toc-number">3.</span> <span class="toc-text">结论</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE"><span class="toc-number">4.</span> <span class="toc-text">参考文献</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        Games of GANs
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Sue Dickinson</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2024-05-21T07:29:15.000Z" class="dt-published" itemprop="datePublished">2024-05-21</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/%E5%8D%9A%E5%BC%88%E8%AE%BA%E8%AF%BE%E7%A8%8B/" rel="tag">博弈论课程</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <blockquote>
+<p>博弈论期中课程论文撰写: 要求研读至少一篇的有关博弈论想过论文，并写一份报告</p>
+</blockquote>
+<h3 id="研究背景"><a href="#研究背景" class="headerlink" title="研究背景"></a>研究背景</h3><p>生成对抗网络(GANs)是一类生成类模型，首先由 Goodfellow et al.(2014b)提出，该模型因其对高纬度复杂现实数据进行建模的潜力和可以从潜在的空间中生成无限真实的新样本的能力而广泛应用于各个领域，从文本编辑图像、图像合成到计算机视觉、视频再到动画生成和网络安全(Alqahtani et al. 2021)而广受关注。GANs 的核心思想受到零和极大极小博弈的启发，零和极大极小博弈是指一方的收益必然意味着另一方的损失博弈各方的收益和损失相加总和永远为“零”，同时决策者最大化最坏情况下的收益。在 GANs 的框架下有两个模型，一个是判别器，一个是生成器，生成器生成接近于真实数据的分布，让判别器无法判别真实数据和生成数据，而判别器则是识别出生成器生成的数据，直到 GANs 模型达到纳什均衡，在该均衡下，判别器和生成器都无法在不减少对<br>方增益的情况下增加自己的增益。GANs 自从推出以来，受到了广泛的研究，然而 GANs 模型有难以训练，不稳定的问题，例如：模式坍塌、无法收敛和梯度消失等问题(Wang et al. 2019)。GANs 在训练过程中需要收敛到纳什均衡，但这种收敛被证明非常具有挑战性(Wiatrak and Albert 2019)。为了提高 GANs 的能力，改进和完善 GANs 的缺点，有必要从基础原理出发即博弈论的角度去改善 GANs 的性能，但从博弈论视角出发去研究改善 GANs 的研究不多，故该研究有助于丰富 GANs 的研究视角。</p>
+<h3 id="研究方法"><a href="#研究方法" class="headerlink" title="研究方法"></a>研究方法</h3><p>博弈论的三个基本要素为玩家(players)、策略(strategy)、收益(playoff)，改变其中任何一个要素都会影响博弈的进程和结果；因此有许多论文通过改变以上三个要素的一个或多个来实现优化和改进 GANs。</p>
+<ol>
+<li><p><strong>改变博弈模型</strong><br>一些论文认为 GANs 难以训练和收敛是因为传统 GANs 被视作零和极大极小博弈，想要达到纳什均衡非常困难，因此(FA Oliehoek. 2017)将零和极大极小博弈视为有限零和博弈，并根据有限零和博弈的特性：在混合策略的空间中，任何局部纳什均衡都是全局纳什均衡来避免模型陷入局部最优，同时提出资源有限纳什均衡的概念来解决运算量过大和难以收敛的问题。.Farnia et al. in Farnia and Ozdaglar (2020)则认为，先训练判别器，再训练生成器的模式可以被视作斯塔克尔博弈(Stackelberg game)，转而让模型关注到子博弈纳什均衡。</p>
+</li>
+<li><p><strong>改变玩家数量</strong><br>由于 GAN 的训练需要两个模型的共同参与，一旦有任何一个生成器(player)训练失败，就会降低整体的训练效果，即如果判别器判别能力很差，那么生成器就无法根据较好的反馈，生成接近真实数据的分布。根据(Zhanget al. 2018c)提出的具有多生成器架构的 GAN 的极大极小值差距更小，训练性能更加稳定这一论点，许多文章提出了不同的解决方案。</p>
+<h5 id="a-一个生成器多个判别器"><a href="#a-一个生成器多个判别器" class="headerlink" title="(a) 一个生成器多个判别器"></a>(a) 一个生成器多个判别器</h5><p>训练一个过好的判别器会损坏生成器的性能，这是 GAN 面临的一个大难题，如果能够训练多个判别能力没有那么强的判别器，可以提升生<br>成器的性能，并且多个判别器可以相互进行分工，关注图像的不同特征。</p>
+<h5 id="b-一个判别器多个生成器"><a href="#b-一个判别器多个生成器" class="headerlink" title="(b) 一个判别器多个生成器"></a>(b) 一个判别器多个生成器</h5><p>一般来说，生成器相比判别器要完成的任务更难，因为它要完成数据概率密度的拟合，而判别器只需要进行判别，一个判别器一个生成器架构容易产生的一个问题便是“模式坍塌”即生成器由于发现了判别器的盲点，所以为了获得更高的分数就一直生成高度相似的图片，因此多个判别器能够一定程度上防止生成器找到某一个漏洞而持续生成高度相似的图片，能够有效地缓解模式坍塌这个问题。</p>
+</li>
+<li><p><strong>改变学习策略的方法</strong></p>
+<h5 id="a-无悔学习算法-No-regret-learning"><a href="#a-无悔学习算法-No-regret-learning" class="headerlink" title="(a) 无悔学习算法(No-regret learning)"></a>(a) 无悔学习算法(No-regret learning)</h5><p>一般来讲，采用基于后悔值的学习方法以后，每个智能体根据各个行为的后悔值做出行为选择。如果一种算法能够保证最大后悔值渐进的变<br>为零，那么该种算法就可以被称作无悔学习算法。 Grnarova et al.(2017)采用了无悔最小化方法，他们提供了一种可以证明收敛到 MN 均衡的方法。因为生成者纯策略的最小值总是高于生成者混合均衡策略的最小值</p>
+<h5 id="b-虚拟博弈-Fictitious-Play"><a href="#b-虚拟博弈-Fictitious-Play" class="headerlink" title="(b) 虚拟博弈(Fictitious Play)"></a>(b) 虚拟博弈(Fictitious Play)</h5><p>虚拟博弈常被用来解决零和博弈问题，其基本思想是：使每个智能体拥有两个策略集。一个是最优策略集，一个是历史平均策略集。在每一轮博弈的开始，每个均智能体根据对手的历史平均策略集，找到一个最优的针对策略。然后根据历史平均策略和本轮最优策略更新自己的历史平均策略。Ge at al.（2018）设计了一种训练算法来模拟 GAN 上的虚构游戏，并提供了理论上的收敛保证。他们还表明，通过在虚构 GAN 中每次更新时假设最佳响应，生成器的混合输出分布会收敛到数据分布。判别器输出收敛于最佳判别器函数。Ge at al.（2018）中的作者使用两个队列 D 和 G 来存储判别器和生成器的历史训练模型。他们还表明，虚构 GAN 可以有效解决标准训练方法无法解决的一些收敛问题，并可应用于现有的 GAN 变体之上。</p>
+</li>
+</ol>
+<h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><p>该研究从 GAN 的原理出发，论述了 GAN 的原理、应用和训练上遇到的种种问题如：难以收敛、模式坍塌等，文章认为想要更好的改善这些问题，需要从 GAN 的原理出发，即零和极大极小博弈，从博弈论的三个核心要素：玩家(players)、策略(strategy)、收益(playoff)上出发对 GAN 的改进和优化。</p>
+<h3 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h3><ol>
+<li>Goodfellow, I., Pouget-Abadie, J., Mirza, M., Xu, B., Warde-Farley, D., Ozair, S., … &amp; Bengio,<br>Y. (2014). Generative adversarial nets. Advances in neural information processing<br>systems, 27.</li>
+<li>Alqahtani, H., Kavakli-Thorne, M., &amp; Kumar, G. (2021). Applications of generative<br>adversarial networks (gans): An updated review. Archives of Computational Methods in<br>Engineering, 28, 525-552.</li>
+<li>Wang, Z., She, Q., &amp; Ward, T. E. (2021). Generative adversarial networks in computer<br>vision: A survey and taxonomy. ACM Computing Surveys (CSUR), 54(2), 1-38.</li>
+<li>Wiatrak, M., Albrecht, S. V., &amp; Nystrom, A. (2019). Stabilizing generative adversarial<br>networks: A survey. arXiv preprint arXiv:1910.00927.</li>
+<li>Oliehoek, F. A., Savani, R., Gallego-Posada, J., Van der Pol, E., De Jong, E. D., &amp; Groß,<br>R. (2017). GANGs: Generative adversarial network games. arXiv preprint<br>arXiv:1712.00679.</li>
+<li>Farnia, F., &amp; Ozdaglar, A. (2020). Gans may have no nash equilibria. arXiv preprint<br>arXiv:2002.09124.</li>
+<li>Zhang, H., Xu, S., Jiao, J., Xie, P., Salakhutdinov, R., &amp; Xing, E. P. (2018). Stackelberg<br>GAN: Towards provable minimax equilibrium via multi-generator architectures. arXiv<br>preprint arXiv:1811.08010.</li>
+<li>Grnarova, P., Levy, K. Y., Lucchi, A., Hofmann, T., &amp; Krause, A. (2017). An online learning<br>approach to generative adversarial networks. arXiv preprint arXiv:1706.03269.</li>
+</ol>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/search/">Search</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="http://github.com/suebwj">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A0%94%E7%A9%B6%E8%83%8C%E6%99%AF"><span class="toc-number">1.</span> <span class="toc-text">研究背景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A0%94%E7%A9%B6%E6%96%B9%E6%B3%95"><span class="toc-number">2.</span> <span class="toc-text">研究方法</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#a-%E4%B8%80%E4%B8%AA%E7%94%9F%E6%88%90%E5%99%A8%E5%A4%9A%E4%B8%AA%E5%88%A4%E5%88%AB%E5%99%A8"><span class="toc-number">2.0.1.</span> <span class="toc-text">(a) 一个生成器多个判别器</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#b-%E4%B8%80%E4%B8%AA%E5%88%A4%E5%88%AB%E5%99%A8%E5%A4%9A%E4%B8%AA%E7%94%9F%E6%88%90%E5%99%A8"><span class="toc-number">2.0.2.</span> <span class="toc-text">(b) 一个判别器多个生成器</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#a-%E6%97%A0%E6%82%94%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95-No-regret-learning"><span class="toc-number">2.0.3.</span> <span class="toc-text">(a) 无悔学习算法(No-regret learning)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#b-%E8%99%9A%E6%8B%9F%E5%8D%9A%E5%BC%88-Fictitious-Play"><span class="toc-number">2.0.4.</span> <span class="toc-text">(b) 虚拟博弈(Fictitious Play)</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%93%E8%AE%BA"><span class="toc-number">3.</span> <span class="toc-text">结论</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE"><span class="toc-number">4.</span> <span class="toc-text">参考文献</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://suebwj.github.io/2024/05/21/Games-of-GANs/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://suebwj.github.io/2024/05/21/Games-of-GANs/&text=Games of GANs"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://suebwj.github.io/2024/05/21/Games-of-GANs/&title=Games of GANs"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://suebwj.github.io/2024/05/21/Games-of-GANs/&is_video=false&description=Games of GANs"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Games of GANs&body=Check out this article: https://suebwj.github.io/2024/05/21/Games-of-GANs/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://suebwj.github.io/2024/05/21/Games-of-GANs/&title=Games of GANs"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://suebwj.github.io/2024/05/21/Games-of-GANs/&title=Games of GANs"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://suebwj.github.io/2024/05/21/Games-of-GANs/&title=Games of GANs"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://suebwj.github.io/2024/05/21/Games-of-GANs/&title=Games of GANs"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://suebwj.github.io/2024/05/21/Games-of-GANs/&name=Games of GANs&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://suebwj.github.io/2024/05/21/Games-of-GANs/&t=Games of GANs"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2024
+    Sue Dickinson
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/suebwj">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

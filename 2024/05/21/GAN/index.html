@@ -16,7 +16,7 @@
 <meta property="og:image" content="https://suebwj.github.io/GAN_imgs/Untitled.png">
 <meta property="og:image" content="https://suebwj.github.io/GAN_imgs/Untitled%201.png">
 <meta property="og:image" content="https://suebwj.github.io/GAN_imgs/Untitled%202.png">
-<meta property="og:image" content="https://suebwj.github.io/Untitled%203.png">
+<meta property="og:image" content="https://suebwj.github.io/GAN_imgs/Untitled%203.png">
 <meta property="og:image" content="https://suebwj.github.io/GAN_imgs/Untitled%204.png">
 <meta property="og:image" content="https://suebwj.github.io/GAN_imgs/Untitled%205.png">
 <meta property="og:image" content="https://suebwj.github.io/GAN_imgs/Untitled%206.png">
@@ -33,17 +33,17 @@
 <meta property="og:image" content="https://suebwj.github.io/GAN_imgs/Untitled%2017.png">
 <meta property="og:image" content="https://suebwj.github.io/GAN_imgs/Untitled%2018.png">
 <meta property="og:image" content="https://suebwj.github.io/GAN_imgs/Untitled%2019.png">
-<meta property="og:image" content="https://suebwj.github.io/Untitled%2020.png">
-<meta property="og:image" content="https://suebwj.github.io/Untitled%2021.png">
-<meta property="og:image" content="https://suebwj.github.io/Untitled%2022.png">
-<meta property="og:image" content="https://suebwj.github.io/Untitled%2023.png">
+<meta property="og:image" content="https://suebwj.github.io/GAN_imgs/Untitled%2020.png">
+<meta property="og:image" content="https://suebwj.github.io/GAN_imgs/Untitled%2021.png">
+<meta property="og:image" content="https://suebwj.github.io/GAN_imgs/Untitled%2022.png">
+<meta property="og:image" content="https://suebwj.github.io/GAN_imgs/Untitled%2023.png">
 <meta property="og:image" content="https://suebwj.github.io/GAN_imgs/Untitled%2024.png">
 <meta property="og:image" content="https://suebwj.github.io/GAN_imgs/Untitled%2025.png">
 <meta property="og:image" content="https://suebwj.github.io/GAN_imgs/Untitled%2026.png">
 <meta property="og:image" content="https://suebwj.github.io/GAN_imgs/Untitled%2027.png">
 <meta property="og:image" content="https://suebwj.github.io/GAN_imgs/Untitled%2028.png">
 <meta property="article:published_time" content="2024-05-21T07:16:58.000Z">
-<meta property="article:modified_time" content="2024-05-21T07:22:51.608Z">
+<meta property="article:modified_time" content="2024-05-21T07:28:16.971Z">
 <meta property="article:author" content="Sue Dickinson">
 <meta property="article:tag" content="李宏毅机器学习">
 <meta name="twitter:card" content="summary">
@@ -113,6 +113,8 @@
     <br/>
     <span id="actions">
       <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2024/05/21/Games-of-GANs/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
         
         
         <li><a class="icon" aria-label="Next post" href="/2024/05/14/CNN/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
@@ -215,7 +217,7 @@
 </li>
 <li><p>Basic Idea of GAN<br>GANs 的核心思想受到零和极大极小博弈的启发，零和极大极小博弈是指一方的收益必然意味着另一方的损失博弈各方的收益和损失相加总和永远为“零”，同时决策者最大化最坏情况下的收益。在 GANs 的框架下有两个模型，一个是判别器，一个是生成器，生成器生成接近于真实数据的分布，让判别器无法判别真实数据和生成数据，而判别器则是识别出生成器生成的数据，直到 GANs 模型达到纳什均衡，在该均衡下，判别器和生成器都无法在不减少对方增益的情况下增加自己的增益。</p>
 <ul>
-<li>Anime Face Generator vs Anime Face Discriminator<br><img src="/Untitled%203.png" alt="Untitled"></li>
+<li>Anime Face Generator vs Anime Face Discriminator<br><img src="/../GAN_imgs/Untitled%203.png" alt="Untitled"></li>
 </ul>
 </li>
 <li><p>Algorithm</p>
@@ -317,12 +319,12 @@
 </li>
 <li><p>Condition Generator</p>
 <ul>
-<li>作用 — Text-to-image — supervise learning<br><img src="/Untitled%2020.png" alt="Untitled"><ul>
-<li>discriminator 要同时接受图片和文本，只有图片和文本是相配的，才能拿高分；但是一般这样训练出来的结果不够好<br><img src="/Untitled%2021.png" alt="Untitled"></li>
-<li>为了改进上述的问题，需要加入负样本<br><img src="/Untitled%2022.png" alt="Untitled"></li>
+<li>作用 — Text-to-image — supervise learning<br><img src="/../GAN_imgs/Untitled%2020.png" alt="Untitled"><ul>
+<li>discriminator 要同时接受图片和文本，只有图片和文本是相配的，才能拿高分；但是一般这样训练出来的结果不够好<br><img src="/../GAN_imgs/Untitled%2021.png" alt="Untitled"></li>
+<li>为了改进上述的问题，需要加入负样本<br><img src="/../GAN_imgs/Untitled%2022.png" alt="Untitled"></li>
 </ul>
 </li>
-<li>图片的风格转化 — image translation<br><img src="/Untitled%2023.png" alt="Untitled"></li>
+<li>图片的风格转化 — image translation<br><img src="/../GAN_imgs/Untitled%2023.png" alt="Untitled"></li>
 </ul>
 </li>
 </ul>
