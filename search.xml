@@ -4,6 +4,25 @@
   
     
     <entry>
+      <title>使用 google-colab 云端训练</title>
+      <link href="/2024/05/22/%E4%BD%BF%E7%94%A8google-colab/"/>
+      <url>/2024/05/22/%E4%BD%BF%E7%94%A8google-colab/</url>
+      
+        <content type="html"><![CDATA[<ol><li>将代码和数据集压缩载入到 google colab，上传完毕后解压</li></ol><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">!unzip /content/yolo.<span class="built_in">zip</span> -d /content/yolov5</span><br></pre></td></tr></table></figure><ol><li>需要删除文件_MACOSX(一些关于操作系统的配置)</li></ol><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">!rm -rf /content/_MACOSX</span><br></pre></td></tr></table></figure><ol><li>进入到代码目录</li></ol><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%cd /content/yolov5/yolov5-<span class="number">5.0</span></span><br></pre></td></tr></table></figure><ol><li>安装依赖包文件</li></ol><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">!pip install -r requirements.txt</span><br></pre></td></tr></table></figure><ol><li>启动 tensorboard</li></ol><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">%load_ext tensorboard</span><br><span class="line"><span class="comment"># 如果想要重新加载就使用reload_ext</span></span><br><span class="line"></span><br><span class="line">%tensorboard --logdir=runs/train</span><br></pre></td></tr></table></figure><ol><li>运行 train.py 文件</li></ol><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">!python train.py --rect</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> google-colab </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Games of GANs</title>
       <link href="/2024/05/21/Games-of-GANs/"/>
       <url>/2024/05/21/Games-of-GANs/</url>
