@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="文本分析由于文本数据往往无法直接对比和计算，所以在对其进行分析之前，通常需要将它们处理为一个个更基本的单元  段 比较难度高 句 比较难度高 词 ✔️ 字 可以直接对比，但是不能包含语义，且有歧义  文本切词 英语：将标点符号香换为空格，空格为分隔符 中文：句子中各个词之间没有具体的标识，需要对句子成分进行分析以确定其如何切分  文本过滤内容 符号类：标点符号、特殊符号。比如换行、换页或者表情符号">
+<meta property="og:type" content="article">
+<meta property="og:title" content="文本分析">
+<meta property="og:url" content="https://suebwj.github.io/2024/05/26/%E6%96%87%E6%9C%AC%E5%88%86%E6%9E%90/index.html">
+<meta property="og:site_name" content="Sue&#39;s blog">
+<meta property="og:description" content="文本分析由于文本数据往往无法直接对比和计算，所以在对其进行分析之前，通常需要将它们处理为一个个更基本的单元  段 比较难度高 句 比较难度高 词 ✔️ 字 可以直接对比，但是不能包含语义，且有歧义  文本切词 英语：将标点符号香换为空格，空格为分隔符 中文：句子中各个词之间没有具体的标识，需要对句子成分进行分析以确定其如何切分  文本过滤内容 符号类：标点符号、特殊符号。比如换行、换页或者表情符号">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://suebwj.github.io/%E6%96%87%E6%9C%AC%E5%88%86%E6%9E%90/Untitled.png">
+<meta property="og:image" content="https://suebwj.github.io/%E6%96%87%E6%9C%AC%E5%88%86%E6%9E%90/Untitled%201.png">
+<meta property="og:image" content="https://suebwj.github.io/%E6%96%87%E6%9C%AC%E5%88%86%E6%9E%90/Untitled%202.png">
+<meta property="og:image" content="https://suebwj.github.io/%E6%96%87%E6%9C%AC%E5%88%86%E6%9E%90/Untitled%203.png">
+<meta property="og:image" content="https://suebwj.github.io/%E6%96%87%E6%9C%AC%E5%88%86%E6%9E%90/Untitled%204.png">
+<meta property="og:image" content="https://suebwj.github.io/%E6%96%87%E6%9C%AC%E5%88%86%E6%9E%90/Untitled%205.png">
+<meta property="og:image" content="https://suebwj.github.io/%E6%96%87%E6%9C%AC%E5%88%86%E6%9E%90/Untitled%206.png">
+<meta property="article:published_time" content="2024-05-26T04:13:58.000Z">
+<meta property="article:modified_time" content="2024-05-26T11:59:38.846Z">
+<meta property="article:author" content="Sue Dickinson">
+<meta property="article:tag" content="自动控制原理">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://suebwj.github.io/%E6%96%87%E6%9C%AC%E5%88%86%E6%9E%90/Untitled.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>文本分析</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/suebwj">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2024/05/23/%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://suebwj.github.io/2024/05/26/%E6%96%87%E6%9C%AC%E5%88%86%E6%9E%90/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://suebwj.github.io/2024/05/26/%E6%96%87%E6%9C%AC%E5%88%86%E6%9E%90/&text=文本分析"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://suebwj.github.io/2024/05/26/%E6%96%87%E6%9C%AC%E5%88%86%E6%9E%90/&title=文本分析"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://suebwj.github.io/2024/05/26/%E6%96%87%E6%9C%AC%E5%88%86%E6%9E%90/&is_video=false&description=文本分析"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=文本分析&body=Check out this article: https://suebwj.github.io/2024/05/26/%E6%96%87%E6%9C%AC%E5%88%86%E6%9E%90/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://suebwj.github.io/2024/05/26/%E6%96%87%E6%9C%AC%E5%88%86%E6%9E%90/&title=文本分析"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://suebwj.github.io/2024/05/26/%E6%96%87%E6%9C%AC%E5%88%86%E6%9E%90/&title=文本分析"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://suebwj.github.io/2024/05/26/%E6%96%87%E6%9C%AC%E5%88%86%E6%9E%90/&title=文本分析"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://suebwj.github.io/2024/05/26/%E6%96%87%E6%9C%AC%E5%88%86%E6%9E%90/&title=文本分析"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://suebwj.github.io/2024/05/26/%E6%96%87%E6%9C%AC%E5%88%86%E6%9E%90/&name=文本分析&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://suebwj.github.io/2024/05/26/%E6%96%87%E6%9C%AC%E5%88%86%E6%9E%90/&t=文本分析"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E6%9C%AC%E5%88%86%E6%9E%90"><span class="toc-number">1.</span> <span class="toc-text">文本分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E6%9C%AC%E5%88%87%E8%AF%8D"><span class="toc-number">2.</span> <span class="toc-text">文本切词</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E6%9C%AC%E8%BF%87%E6%BB%A4%E5%86%85%E5%AE%B9"><span class="toc-number">3.</span> <span class="toc-text">文本过滤内容</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%9D%E7%95%99%E5%9B%BA%E5%AE%9A%E6%90%AD%E9%85%8D%E8%AF%8D%E8%AF%AD"><span class="toc-number">4.</span> <span class="toc-text">保留固定搭配词语</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E9%94%AE%E8%AF%8D%E6%8F%90%E5%8F%96"><span class="toc-number">5.</span> <span class="toc-text">关键词提取</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E9%94%AE%E8%AF%8D%E6%8F%90%E5%8F%96%E7%AE%97%E6%B3%95"><span class="toc-number">6.</span> <span class="toc-text">关键词提取算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E6%9C%AC%E6%83%85%E6%84%9F%E6%9E%81%E6%80%A7%E5%88%86%E6%9E%90"><span class="toc-number">7.</span> <span class="toc-text">文本情感极性分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E6%9C%AC%E7%9B%B8%E4%BC%BC%E5%BA%A6%E5%88%86%E6%9E%90"><span class="toc-number">8.</span> <span class="toc-text">文本相似度分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BB%E9%A2%98%E5%88%86%E6%9E%90"><span class="toc-number">9.</span> <span class="toc-text">主题分析</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        文本分析
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Sue Dickinson</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2024-05-26T04:13:58.000Z" class="dt-published" itemprop="datePublished">2024-05-26</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/%E8%87%AA%E5%8A%A8%E6%8E%A7%E5%88%B6%E5%8E%9F%E7%90%86/" rel="tag">自动控制原理</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h3 id="文本分析"><a href="#文本分析" class="headerlink" title="文本分析"></a>文本分析</h3><p>由于文本数据往往无法直接对比和计算，所以在对其进行分析之前，通常需要将它们处理为一个个更基本的单元</p>
+<ul>
+<li>段 比较难度高</li>
+<li>句 比较难度高</li>
+<li>词 ✔️</li>
+<li>字 可以直接对比，但是不能包含语义，且有歧义</li>
+</ul>
+<h3 id="文本切词"><a href="#文本切词" class="headerlink" title="文本切词"></a>文本切词</h3><ol>
+<li>英语：将标点符号香换为空格，空格为分隔符</li>
+<li>中文：句子中各个词之间没有具体的标识，需要对句子成分进行分析以确定其如何切分</li>
+</ol>
+<h3 id="文本过滤内容"><a href="#文本过滤内容" class="headerlink" title="文本过滤内容"></a>文本过滤内容</h3><ol>
+<li>符号类：标点符号、特殊符号。比如换行、换页或者表情符号等</li>
+<li>无意义的词：一些常用的副词、连接词等。例如“的”“得”“地”“了“等</li>
+<li>上下文中无意义的高频词：分析特定事件帖子中的话题分布，与事件名称相关的词语可能在所有话题中都频率很高，其存在会影响话题分布的分析</li>
+</ol>
+<p><img src="/../%E6%96%87%E6%9C%AC%E5%88%86%E6%9E%90/Untitled.png" alt="Untitled"></p>
+<h3 id="保留固定搭配词语"><a href="#保留固定搭配词语" class="headerlink" title="保留固定搭配词语"></a>保留固定搭配词语</h3><ul>
+<li>用户增加自定义词典<br>如果不增加一些自定义词语可能会造成如下的一些歧义产生<ul>
+<li>讨论&#x2F;战争&#x2F;与&#x2F;和平&#x2F;等&#x2F;问题</li>
+<li>讨论&#x2F;战争&#x2F;与&#x2F;和&#x2F;平等&#x2F;问题</li>
+<li>新能源汽车</li>
+<li>新能源&#x2F;汽车</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> jieba</span><br><span class="line"></span><br><span class="line">text = <span class="string">&#x27;中山大学是伟大的民族英雄、伟大的爱国主义者、中国民主革命的伟大先驱孙中山先生于1924年亲手&#x27;</span>\</span><br><span class="line">    <span class="string">&#x27;创办，中国共产党早期领导人共同创建的大学，是中国传播马克思主义的重要发源地之一，具有优良&#x27;</span>\</span><br><span class="line">    <span class="string">&#x27;革命传统、鲜亮红色基因和卓越品格追求。中山大学起初校名为国立广东大学。孙中山先生逝世后，&#x27;</span>\</span><br><span class="line">    <span class="string">&#x27;学校于1926年定名为国立中山大学。&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置自定义词典</span></span><br><span class="line">jieba.load_userdict(<span class="string">&#x27;userdict.txt&#x27;</span>)</span><br><span class="line"><span class="comment"># 避免一个专有词语被切割,如果专用词语过多，就采用第一种方法，将所有的专有词语存储在字典之中</span></span><br><span class="line">jieba.suggest_freq(<span class="string">&#x27;国立广东大学&#x27;</span>, <span class="literal">True</span>)</span><br><span class="line">jieba.suggest_freq(<span class="string">&#x27;国立中山大学&#x27;</span>, <span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 切词，并且在过程中过滤掉停用词</span></span><br><span class="line">segList = jieba.cut(text, use_paddle=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line">filteredSegList = []</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将stopwords存储为一个列表</span></span><br><span class="line">stopwords = <span class="built_in">open</span>(<span class="string">&#x27;stop_words.txt&#x27;</span>, encoding=<span class="string">&#x27;UTF-8&#x27;</span>).readlines()</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> word <span class="keyword">in</span> segList:</span><br><span class="line">    <span class="keyword">if</span> word+<span class="string">&#x27;\n&#x27;</span> <span class="keyword">not</span> <span class="keyword">in</span> stopwords:</span><br><span class="line">        filteredSegList.append(word)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="built_in">print</span>(word, end=<span class="string">&#x27; &#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;\n切词结果: &quot;</span>, filteredSegList)</span><br></pre></td></tr></table></figure>
+
+<h3 id="关键词提取"><a href="#关键词提取" class="headerlink" title="关键词提取"></a>关键词提取</h3><p>关键词提取通常是面向较长的文本去提取具有代表性的词语，使得人们可以从这些词语了解文本的主题和内容，可以用于支持文本比较、内容分类、主题分析等</p>
+<ul>
+<li>提取方法<ul>
+<li>实词<br><img src="/../%E6%96%87%E6%9C%AC%E5%88%86%E6%9E%90/Untitled%201.png" alt="Untitled"></li>
+<li>虚词<br><img src="/../%E6%96%87%E6%9C%AC%E5%88%86%E6%9E%90/Untitled%202.png" alt="Untitled"><br><img src="/../%E6%96%87%E6%9C%AC%E5%88%86%E6%9E%90/Untitled%203.png" alt="jieba包中筛选所需要的特定词性的词语"><br>jieba 包中筛选所需要的特定词性的词语</li>
+</ul>
+</li>
+<li>实词包含更多的实际意义，虚词包含语义不多</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> jieba</span><br><span class="line"><span class="keyword">import</span> jieba.posseg <span class="keyword">as</span> pseg</span><br><span class="line"></span><br><span class="line">text = <span class="string">&#x27;中山大学是伟大的民族英推、伟大的爱国主义者、中国民主革命的伟大先驱孙中山先生于1924年亲手创办，中国共产党早期领导人共同创建的大学，是中国传播马克思主义的重要发源地之一，具有优良革命传统、鲜亮红色基因和卓越品格追求。中山大学起初校名为国立广东大学。孙中山先生逝世后，学校于1926年定名为国立中山大学。&#x27;</span>\</span><br><span class="line">    <span class="string">&#x27;今日的中山大学，由1952年院系调整后分设的中山大学和中山医科大学于2001年10月合井而成。通过部省共建，在国家、地方和社会的大力支持下，中山大学成为一所国内一流、国际知名的现代综合性大学，形成了综合性、研究型、开放式的办学特质。在近百年的办学历史中，中山大学汇聚一大批蜚声海内外的名家大师，学术文脉积淀深厚。邓植仪、丁颖、冯友兰、郭沫若.鲁迅、傅斯年、顾颉刚、商承祚、何思敬、赵元任、周谷城、梁伯强、蒲蛰龙、王亚南、刘节、岑仲勉、王起、柯、陈寅恪、姜立夫、杨荣国、梁方仲、容庚、高兆兰、谢志光、陈耀真、陈心陶、林树模、秦光煜、钟世藩、周寿恺、董每戡、戴镏龄、高由福等著名学者先后在本校任教。近年来，中山大学吸引集聚了一大批海内外优秀的学术英才，奋斗在教学和科研第一线，致力于培养更多更优秀的社会主义事业建设者和接班人。&#x27;</span>\</span><br><span class="line">    <span class="string">&#x27;1999年9月，珠海市人民政府与中山大学正式签署合作建设中山大学珠海校区协议书&#x27;</span>\</span><br><span class="line">    <span class="string">&#x27;2000年1月，教育部批复同意建设中山大学珠海校区。2015年9月，深圳市人民政府与中山大学签署合作举办中山大学深圳校区的备志录&#x27;</span>\</span><br><span class="line">    <span class="string">&#x27;同年12月，获教育部批复同意建设深圳校区。至此，中山大学形成了三校区五校园统筹发展的办学格局，在广州、珠海、深圳扎根办学，各校区统筹规划、错位发展，三校区五校园共同支撑中山大学高质量内涵式发展。&#x27;</span>\</span><br><span class="line">    <span class="string">&#x27;近年来，中山大学在加强文理医传统优势学科的基础上，努力补齐工科短板，填补了农学、艺术学空白，学科门类更加齐全，形成了文理医工农艺综合发展的学科格局。广州校区重点提升文、理、医传统优势学科，珠海校区重点发展深海、深空、深地、深蓝学科群，深圳校区着力发展新医科、新工科、新农科，学校综合性办学优势和特色愈发凸显，学科实力居于国内高校前列。&#x27;</span>\</span><br><span class="line">    <span class="string">&#x27;中山大学人文社会科学以习近平新时代中国特色社会主义思想为指导，坚持“四个面向”，积极倡导“出思想、出理论、出学派”&#x27;</span>\</span><br><span class="line">    <span class="string">&#x27;学科与科研规划聚焦国家重大战略，服务区域社会经济发展需求，紧握粤港澳大湾区建设重要机遇，进一步推进有组织科研，推动跨学科交叉融合发展，激发人文社科发展新动能，为加快建构中国自主的知识体系责献中大力量。&#x27;</span>\</span><br><span class="line">    <span class="string">&#x27;中山大学医科有着悠久的历史和卓越的实力，我国最早的西医教育诞生于此。目前，中山大学医学教育教学改革深入推进，医学科研创新日新月异，拥有10家直属附属医院，构建了门类齐全、实力雄厚、技术领先、设备先进、优势互补、具有强烈社会责任意识的医疗教治服务网络体系，医教研综合实力、医疗服务能力与规模居于全国领先行列。&#x27;</span></span><br><span class="line"></span><br><span class="line">counter = &#123;&#125;</span><br><span class="line"><span class="comment"># 切词并进行词性标注</span></span><br><span class="line">segList = pseg.cut(text)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> word, flag <span class="keyword">in</span> segList:</span><br><span class="line">    <span class="comment"># 判断词语是否符合某个词性</span></span><br><span class="line">    <span class="keyword">if</span> flag <span class="keyword">in</span> <span class="string">&#x27;nva&#x27;</span>:  <span class="comment"># 只选择名词，动词，形容词</span></span><br><span class="line">        <span class="keyword">if</span> word <span class="keyword">in</span> counter.keys():</span><br><span class="line">            counter[word] += <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            counter.update(&#123;word: <span class="number">1</span>&#125;)</span><br><span class="line"></span><br><span class="line">freqWrods = <span class="built_in">list</span>(counter.items())</span><br><span class="line">freqWrods.sort(key=<span class="keyword">lambda</span> x: x[<span class="number">1</span>], reverse=<span class="literal">True</span>)</span><br><span class="line"><span class="built_in">print</span>(freqWrods)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="关键词提取算法"><a href="#关键词提取算法" class="headerlink" title="关键词提取算法"></a>关键词提取算法</h3><ul>
+<li>TF-IDF 算法<br>TF: 词频、 IDF：逆文档频率<br>如果一个词语在当前文档中出现很多，但是在其他文档中出现很少，就说明这个词语可能是这篇文档的一个重要特征<br><img src="/../%E6%96%87%E6%9C%AC%E5%88%86%E6%9E%90/Untitled%204.png" alt="Untitled"></li>
+<li>TextRank 算法<br>TextRank 是一种用于自然语言处理的文本摘要和关键词提取算法，它是基于 PageRank 算法的一种无监督图算法。<ul>
+<li><strong>应用</strong><br>TextRank 算法广泛应用于各种自然语言处理任务，例如自动摘要、关键词提取、文本分类等，因其无需人工标注数据且效果较好而受到广泛关注。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> jieba.analyse</span><br><span class="line">text = <span class="built_in">open</span>(<span class="string">&#x27;牧羊少年奇幻之旅.txt&#x27;</span>, <span class="string">&#x27;r&#x27;</span>, encoding=<span class="string">&#x27;gbk&#x27;</span>).read()</span><br><span class="line">jieba.analyse.set_stop_words(<span class="string">&#x27;stop_words.txt&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 默认提取20个 TF_IDF, withWight返回结果中加上词语的权重</span></span><br><span class="line">keywords_tfidf = jieba.analyse.extract_tags(text, withWeight=<span class="literal">True</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;TF_IDF&quot;</span>, keywords_tfidf)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;\n&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 默认提取20个 Textrank</span></span><br><span class="line">keywords_textrank = jieba.analyse.textrank(text)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;Textrank&#x27;</span>, keywords_textrank)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="文本情感极性分析"><a href="#文本情感极性分析" class="headerlink" title="文本情感极性分析"></a>文本情感极性分析</h3><ul>
+<li>自动情感分类技术<ul>
+<li>字典法 — 遍历所有的情感词，如果是正面情感词则分数为 1，中性词为 0，负面词为 1，将情感分数乘以对应的单词情感程度，计算总和为情感倾向，不同的字典有不同的规则<br><img src="/../%E6%96%87%E6%9C%AC%E5%88%86%E6%9E%90/Untitled%205.png" alt="Untitled"><ul>
+<li>缺点<ol>
+<li>所有词所起的作用性是一样的。当一个褒义的词语和一个贬义的词语一起使用，可能就会使得其情感极性变为中性</li>
+<li>当大段文本中前后出现转折，或者当使用反语或者进行讽刺的时候，就会判断不准确</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>基于机器学习的方法 — 个人理解：神经网络分析文本提取情感特征，类似于 CNN 网络提取图片特征，只不过网络提取特征可能可以有多个指标，一句话，词语等，可以提取或观察到比人类自行定义的指标（字典法）更丰富的特征，所以效果更好<ul>
+<li>使用百度 api</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> jieba</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line"><span class="built_in">dict</span> = pd.read_excel(<span class="string">&#x27;情感词汇本体.xlsx&#x27;</span>, <span class="number">0</span>)</span><br><span class="line">score = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">text = <span class="string">&#x27;中山大学是伟大的民族英雄、伟大的爱国主义者、中国民主革命的伟大先驱孙中山先生于1924年亲手&#x27;</span>\</span><br><span class="line">    <span class="string">&#x27;创办，中国共产党早期领导人共同创建的大学，是中国传播马克思主义的重要发源地之一，具有优良&#x27;</span>\</span><br><span class="line">    <span class="string">&#x27;革命传统、鲜亮红色基因和卓越品格追求。中山大学起初校名为国立广东大学。孙中山先生逝世后，&#x27;</span>\</span><br><span class="line">    <span class="string">&#x27;学校于1926年定名为国立中山大学。&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置自定义词典</span></span><br><span class="line">jieba.load_userdict(<span class="string">&#x27;userdict.txt&#x27;</span>)</span><br><span class="line"><span class="comment"># 避免一个专有词语被切割,如果专用词语过多，就采用第一种方法，将所有的专有词语存储在字典之中</span></span><br><span class="line">jieba.suggest_freq(<span class="string">&#x27;国立广东大学&#x27;</span>, <span class="literal">True</span>)</span><br><span class="line">jieba.suggest_freq(<span class="string">&#x27;国立中山大学&#x27;</span>, <span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 切词，并且在过程中过滤掉停用词</span></span><br><span class="line">segList = jieba.cut(text, use_paddle=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line">filteredSegList = []</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将stopwords存储为一个列表</span></span><br><span class="line">stopwords = <span class="built_in">open</span>(<span class="string">&#x27;stop_words.txt&#x27;</span>, encoding=<span class="string">&#x27;UTF-8&#x27;</span>).readlines()</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> word <span class="keyword">in</span> segList:</span><br><span class="line">    <span class="keyword">if</span> word+<span class="string">&#x27;\n&#x27;</span> <span class="keyword">not</span> <span class="keyword">in</span> stopwords:</span><br><span class="line">        filteredSegList.append(word)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="built_in">print</span>(word, end=<span class="string">&#x27; &#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;\n切词结果: &quot;</span>, filteredSegList)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> word <span class="keyword">in</span> filteredSegList:</span><br><span class="line">    <span class="keyword">if</span> word <span class="keyword">in</span> <span class="built_in">dict</span>[<span class="string">&#x27;词语&#x27;</span>].tolist():</span><br><span class="line">        word_score = <span class="built_in">dict</span>[<span class="built_in">dict</span>[<span class="string">&#x27;词语&#x27;</span>] == word].iloc[<span class="number">0</span>][<span class="string">&#x27;极性&#x27;</span>]</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&#x27;word:<span class="subst">&#123;word&#125;</span>, scores:<span class="subst">&#123;word_score&#125;</span>&#x27;</span>, end=<span class="string">&#x27; &#x27;</span>)</span><br><span class="line">        <span class="keyword">if</span> word_score == <span class="number">1</span>:</span><br><span class="line">            score += <span class="number">1</span></span><br><span class="line">        <span class="keyword">if</span> word_score == <span class="number">2</span>:</span><br><span class="line">            score += -<span class="number">1</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&#x27;\nfinal score: <span class="subst">&#123;score/<span class="built_in">len</span>(filteredSegList)&#125;</span>&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 1为褒义 0为中性 -1为贬义</span></span><br><span class="line"><span class="comment"># 计算结果为0.23214 表示情感倾向为中性偏褒</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="文本相似度分析"><a href="#文本相似度分析" class="headerlink" title="文本相似度分析"></a>文本相似度分析</h3><ul>
+<li>单词间关系<ul>
+<li>同义关系：两个词可以在任意一个句子中互相替换，且不影响句子所要表达的意思</li>
+<li>反义关系：两个词在对某一个特性的描述的时候是某个尺度上两个相反的极点上的值，往往是对于同一事物或者特性的描述可以在一个句子中互相替换，但会影响句子表达的含义</li>
+<li>上下位关系：一个词比另一个词的含义更加具体</li>
+</ul>
+</li>
+<li>相似度 — 词语的同义关系<ul>
+<li>两个词拥有的相同特征越多，相似度就越大</li>
+</ul>
+</li>
+<li>对比方法<ul>
+<li>基于语义字典的方法:通过两个词在词典层次中的距离来进行计算，不同词性词语之间的相似度难以计算。</li>
+<li>基于分布的方法:从语料中自动提取同义关系和其他词语的关系，通过衡量词语的邻居词分布的相似度，来计算其语义相似性，引入“距离”的概念。 — 一个词语的含义是由周围的词语所共同决定的</li>
+</ul>
+</li>
+<li>常用框架方法<br><img src="/../%E6%96%87%E6%9C%AC%E5%88%86%E6%9E%90/Untitled%206.png" alt="Untitled"></li>
+<li>词袋模型 wordBag<br>将一个文本或文档看做是一袋子单词，不考虑其语法和词序关系每个词都是独立的，然后对这一袋子单词进行编码。<ul>
+<li>缺点<ul>
+<li>词袋模型只计算文档中出现了特定的单词的次数，元素的顺序是任意的，没有考虑词语在文本中的上下文之间的相关信息，损失了语句中单词的顺序特征</li>
+<li>对于每一个语句，无论语句的长短，都会使用相同词典长度的编码每一个单词都具有相同的数值化索引，无法体现单词在文本中重要性</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>word2vec</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> gensim <span class="keyword">import</span> downloader</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用gensim的包文件来计算词语之间的相似度</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    model = downloader.load(<span class="string">&#x27;word2vec-google-news-300&#x27;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;car&#x27;</span>, <span class="string">&#x27;minivan&#x27;</span>, model.similarity(<span class="string">&#x27;car&#x27;</span>, <span class="string">&#x27;minivan&#x27;</span>))</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;car&#x27;</span>, <span class="string">&#x27;airplane&#x27;</span>, model.similarity(<span class="string">&#x27;car&#x27;</span>, <span class="string">&#x27;airplane&#x27;</span>))</span><br><span class="line"><span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Error loading model:&quot;</span>, <span class="built_in">str</span>(e))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="主题分析"><a href="#主题分析" class="headerlink" title="主题分析"></a>主题分析</h3><ul>
+<li><p>LDA 模型<br>基于语料库的生成概率模型，将文档表示为潜在主题的随机混合，其中每个主题由一系列单词的分布来表示</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pyLDAvis.gensim_models</span><br><span class="line"><span class="keyword">from</span> gensim <span class="keyword">import</span> corpora</span><br><span class="line"><span class="keyword">from</span> gensim.models <span class="keyword">import</span> ldamodel</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line"><span class="comment"># 提取所有词语构成字典</span></span><br><span class="line">contents = pd.read_csv(<span class="string">&#x27;seg_content.csv&#x27;</span>)</span><br><span class="line">texts = []</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> content <span class="keyword">in</span> contents[<span class="string">&#x27;content&#x27;</span>]:</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> pd.isnull(content):</span><br><span class="line">        texts.append(content.split(<span class="string">&#x27; &#x27;</span>))</span><br><span class="line"></span><br><span class="line">dictionary = corpora.Dictionary(texts)</span><br><span class="line">dictionary.filter_extremes(no_below=<span class="number">2</span>, no_above=<span class="number">0.9</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;dictionary&#x27;</span>, <span class="built_in">len</span>(dictionary))</span><br><span class="line"></span><br><span class="line">corpus = [dictionary.doc2bow(text) <span class="keyword">for</span> text <span class="keyword">in</span> texts]</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> num_topics <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>, <span class="number">10</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;设置主题数量为：&#x27;</span>, num_topics, end=<span class="string">&#x27; &#x27;</span>)</span><br><span class="line">    <span class="comment"># 定义一个LDA模型</span></span><br><span class="line">    lda = ldamodel(corpus=corpus, id2word=dictionary,</span><br><span class="line">                   num_topics=num_topics, passes=<span class="number">60</span>)</span><br><span class="line">    <span class="keyword">for</span> topic <span class="keyword">in</span> lda.print_topics(num_words=<span class="number">10</span>):</span><br><span class="line">        termNumber = topic[<span class="number">0</span>]</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;\ntopic&#x27;</span>, topic[<span class="number">0</span>], <span class="string">&#x27;:&#x27;</span>, end=<span class="string">&#x27; &#x27;</span>)</span><br><span class="line">        listOfTerms = topic[<span class="number">1</span>].split(<span class="string">&#x27;+&#x27;</span>)</span><br><span class="line">        <span class="keyword">for</span> term <span class="keyword">in</span> listOfTerms:</span><br><span class="line">            listItems = term.split(<span class="string">&#x27;*&#x27;</span>)</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&#x27; &#x27;</span>, listItems[<span class="number">1</span>], <span class="string">&#x27;(&#x27;</span>, listItems[<span class="number">0</span>], <span class="string">&#x27;)&#x27;</span>, sep=<span class="string">&#x27;&#x27;</span>, end=<span class="string">&#x27; &#x27;</span>)</span><br></pre></td></tr></table></figure></li>
+</ul>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/search/">Search</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="http://github.com/suebwj">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E6%9C%AC%E5%88%86%E6%9E%90"><span class="toc-number">1.</span> <span class="toc-text">文本分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E6%9C%AC%E5%88%87%E8%AF%8D"><span class="toc-number">2.</span> <span class="toc-text">文本切词</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E6%9C%AC%E8%BF%87%E6%BB%A4%E5%86%85%E5%AE%B9"><span class="toc-number">3.</span> <span class="toc-text">文本过滤内容</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%9D%E7%95%99%E5%9B%BA%E5%AE%9A%E6%90%AD%E9%85%8D%E8%AF%8D%E8%AF%AD"><span class="toc-number">4.</span> <span class="toc-text">保留固定搭配词语</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E9%94%AE%E8%AF%8D%E6%8F%90%E5%8F%96"><span class="toc-number">5.</span> <span class="toc-text">关键词提取</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E9%94%AE%E8%AF%8D%E6%8F%90%E5%8F%96%E7%AE%97%E6%B3%95"><span class="toc-number">6.</span> <span class="toc-text">关键词提取算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E6%9C%AC%E6%83%85%E6%84%9F%E6%9E%81%E6%80%A7%E5%88%86%E6%9E%90"><span class="toc-number">7.</span> <span class="toc-text">文本情感极性分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E6%9C%AC%E7%9B%B8%E4%BC%BC%E5%BA%A6%E5%88%86%E6%9E%90"><span class="toc-number">8.</span> <span class="toc-text">文本相似度分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BB%E9%A2%98%E5%88%86%E6%9E%90"><span class="toc-number">9.</span> <span class="toc-text">主题分析</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://suebwj.github.io/2024/05/26/%E6%96%87%E6%9C%AC%E5%88%86%E6%9E%90/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://suebwj.github.io/2024/05/26/%E6%96%87%E6%9C%AC%E5%88%86%E6%9E%90/&text=文本分析"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://suebwj.github.io/2024/05/26/%E6%96%87%E6%9C%AC%E5%88%86%E6%9E%90/&title=文本分析"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://suebwj.github.io/2024/05/26/%E6%96%87%E6%9C%AC%E5%88%86%E6%9E%90/&is_video=false&description=文本分析"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=文本分析&body=Check out this article: https://suebwj.github.io/2024/05/26/%E6%96%87%E6%9C%AC%E5%88%86%E6%9E%90/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://suebwj.github.io/2024/05/26/%E6%96%87%E6%9C%AC%E5%88%86%E6%9E%90/&title=文本分析"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://suebwj.github.io/2024/05/26/%E6%96%87%E6%9C%AC%E5%88%86%E6%9E%90/&title=文本分析"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://suebwj.github.io/2024/05/26/%E6%96%87%E6%9C%AC%E5%88%86%E6%9E%90/&title=文本分析"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://suebwj.github.io/2024/05/26/%E6%96%87%E6%9C%AC%E5%88%86%E6%9E%90/&title=文本分析"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://suebwj.github.io/2024/05/26/%E6%96%87%E6%9C%AC%E5%88%86%E6%9E%90/&name=文本分析&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://suebwj.github.io/2024/05/26/%E6%96%87%E6%9C%AC%E5%88%86%E6%9E%90/&t=文本分析"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2024
+    Sue Dickinson
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/suebwj">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
