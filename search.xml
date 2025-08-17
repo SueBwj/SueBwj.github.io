@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>Alignment Module</title>
+      <link href="/2025/08/17/AlignmentModule/"/>
+      <url>/2025/08/17/AlignmentModule/</url>
+      
+        <content type="html"><![CDATA[<h2 id="计算机视觉领域的-Alignment-Module-设计"><a href="#计算机视觉领域的-Alignment-Module-设计" class="headerlink" title="计算机视觉领域的 Alignment Module 设计"></a>计算机视觉领域的 Alignment Module 设计</h2><p>目标：将视觉特征与文本或其他模态的特征空间对齐，以实现多模态理解或提升视觉推理能力。</p><h3 id="案例"><a href="#案例" class="headerlink" title="案例"></a>案例</h3><p><img src="../images/FaithDiff.png" alt="FaithDiff alignment Module"><br>为了能够更好的在生成过程中补充 LQ 图像信息，需要将 LQ 信息注入到模型的生成过程中，但是由于 LQ 图像和</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Learning </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Module </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Hello World</title>
       <link href="/2025/08/17/hello-world/"/>
       <url>/2025/08/17/hello-world/</url>
@@ -13,14 +38,14 @@
       
       <categories>
           
-          <category> 日记 </category>
+          <category> diary </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> 测试 </tag>
+            <tag> test </tag>
             
         </tags>
       

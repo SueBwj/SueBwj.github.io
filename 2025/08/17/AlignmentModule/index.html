@@ -6,18 +6,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="欢迎来到我的博客！这是第一篇文章。">
+    <meta name="description" content="计算机视觉领域的 Alignment Module 设计目标：将视觉特征与文本或其他模态的特征空间对齐，以实现多模态理解或提升视觉推理能力。 案例为了能够更好的在生成过程中补充 LQ 图像信息，需要将 LQ 信息注入到模型的生成过程中，但是由于 LQ 图像和">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="https://suebwj.github.io/2025/08/17/hello-world/index.html">
+<meta property="og:title" content="Alignment Module">
+<meta property="og:url" content="https://suebwj.github.io/2025/08/17/AlignmentModule/index.html">
 <meta property="og:site_name" content="Sue&#39;s blog">
-<meta property="og:description" content="欢迎来到我的博客！这是第一篇文章。">
+<meta property="og:description" content="计算机视觉领域的 Alignment Module 设计目标：将视觉特征与文本或其他模态的特征空间对齐，以实现多模态理解或提升视觉推理能力。 案例为了能够更好的在生成过程中补充 LQ 图像信息，需要将 LQ 信息注入到模型的生成过程中，但是由于 LQ 图像和">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2025-08-17T02:00:00.000Z">
-<meta property="article:modified_time" content="2025-08-17T07:15:31.210Z">
+<meta property="og:image" content="https://suebwj.github.io/2025/08/17/images/FaithDiff.png">
+<meta property="article:published_time" content="2025-08-17T07:17:32.000Z">
+<meta property="article:modified_time" content="2025-08-17T07:44:42.103Z">
 <meta property="article:author" content="Sue Dickinson">
-<meta property="article:tag" content="test">
+<meta property="article:tag" content="Module">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://suebwj.github.io/2025/08/17/images/FaithDiff.png">
     
     
       
@@ -37,7 +39,7 @@
       
     
     <!-- title -->
-    <title>Hello World</title>
+    <title>Alignment Module</title>
     <!-- async scripts -->
     <!-- Google Analytics -->
 
@@ -100,8 +102,8 @@
     <span id="actions">
       <ul>
         
-        <li><a class="icon" aria-label="Previous post" href="/2025/08/17/AlignmentModule/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
         
+        <li><a class="icon" aria-label="Next post" href="/2025/08/17/hello-world/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
         
         <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
         <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
@@ -114,21 +116,25 @@
     <br/>
     <div id="share" style="display: none">
       <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://suebwj.github.io/2025/08/17/hello-world/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://suebwj.github.io/2025/08/17/hello-world/&text=Hello World"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://suebwj.github.io/2025/08/17/hello-world/&title=Hello World"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://suebwj.github.io/2025/08/17/hello-world/&is_video=false&description=Hello World"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=Hello World&body=Check out this article: https://suebwj.github.io/2025/08/17/hello-world/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://suebwj.github.io/2025/08/17/hello-world/&title=Hello World"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://suebwj.github.io/2025/08/17/hello-world/&title=Hello World"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://suebwj.github.io/2025/08/17/hello-world/&title=Hello World"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://suebwj.github.io/2025/08/17/hello-world/&title=Hello World"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://suebwj.github.io/2025/08/17/hello-world/&name=Hello World&description=&lt;p&gt;欢迎来到我的博客！这是第一篇文章。&lt;/p&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://suebwj.github.io/2025/08/17/hello-world/&t=Hello World"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://suebwj.github.io/2025/08/17/AlignmentModule/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://suebwj.github.io/2025/08/17/AlignmentModule/&text=Alignment Module"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://suebwj.github.io/2025/08/17/AlignmentModule/&title=Alignment Module"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://suebwj.github.io/2025/08/17/AlignmentModule/&is_video=false&description=Alignment Module"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Alignment Module&body=Check out this article: https://suebwj.github.io/2025/08/17/AlignmentModule/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://suebwj.github.io/2025/08/17/AlignmentModule/&title=Alignment Module"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://suebwj.github.io/2025/08/17/AlignmentModule/&title=Alignment Module"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://suebwj.github.io/2025/08/17/AlignmentModule/&title=Alignment Module"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://suebwj.github.io/2025/08/17/AlignmentModule/&title=Alignment Module"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://suebwj.github.io/2025/08/17/AlignmentModule/&name=Alignment Module&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://suebwj.github.io/2025/08/17/AlignmentModule/&t=Alignment Module"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
     
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89%E9%A2%86%E5%9F%9F%E7%9A%84-Alignment-Module-%E8%AE%BE%E8%AE%A1"><span class="toc-number">1.</span> <span class="toc-text">计算机视觉领域的 Alignment Module 设计</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B"><span class="toc-number">1.1.</span> <span class="toc-text">案例</span></a></li></ol></li></ol>
+      </div>
     
   </span>
 </div>
@@ -140,7 +146,7 @@
   <header>
     
     <h1 class="posttitle p-name" itemprop="name headline">
-        Hello World
+        Alignment Module
     </h1>
 
 
@@ -152,7 +158,7 @@
       
     <div class="postdate">
       
-        <time datetime="2025-08-17T02:00:00.000Z" class="dt-published" itemprop="datePublished">2025-08-17</time>
+        <time datetime="2025-08-17T07:17:32.000Z" class="dt-published" itemprop="datePublished">2025-08-17</time>
         
       
     </div>
@@ -161,14 +167,14 @@
       
     <div class="article-category">
         <i class="fa-solid fa-archive"></i>
-        <a class="category-link" href="/categories/diary/">diary</a>
+        <a class="category-link" href="/categories/Learning/">Learning</a>
     </div>
 
 
       
     <div class="article-tag">
         <i class="fa-solid fa-tag"></i>
-        <a class="p-category" href="/tags/test/" rel="tag">test</a>
+        <a class="p-category" href="/tags/Module/" rel="tag">Module</a>
     </div>
 
 
@@ -177,10 +183,8 @@
   
 
   <div class="content e-content" itemprop="articleBody">
-    <p>欢迎来到我的博客！这是第一篇文章。</p>
-<span id="more"></span>
-
-<p>这里是文章的详细内容…</p>
+    <h2 id="计算机视觉领域的-Alignment-Module-设计"><a href="#计算机视觉领域的-Alignment-Module-设计" class="headerlink" title="计算机视觉领域的 Alignment Module 设计"></a>计算机视觉领域的 Alignment Module 设计</h2><p>目标：将视觉特征与文本或其他模态的特征空间对齐，以实现多模态理解或提升视觉推理能力。</p>
+<h3 id="案例"><a href="#案例" class="headerlink" title="案例"></a>案例</h3><p><img src="../images/FaithDiff.png" alt="FaithDiff alignment Module"><br>为了能够更好的在生成过程中补充 LQ 图像信息，需要将 LQ 信息注入到模型的生成过程中，但是由于 LQ 图像和</p>
 
   </div>
 </article>
@@ -217,26 +221,32 @@
 
     
     
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89%E9%A2%86%E5%9F%9F%E7%9A%84-Alignment-Module-%E8%AE%BE%E8%AE%A1"><span class="toc-number">1.</span> <span class="toc-text">计算机视觉领域的 Alignment Module 设计</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B"><span class="toc-number">1.1.</span> <span class="toc-text">案例</span></a></li></ol></li></ol>
+      </div>
+    
 
     <div id="share-footer" style="display: none">
       <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://suebwj.github.io/2025/08/17/hello-world/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://suebwj.github.io/2025/08/17/hello-world/&text=Hello World"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://suebwj.github.io/2025/08/17/hello-world/&title=Hello World"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://suebwj.github.io/2025/08/17/hello-world/&is_video=false&description=Hello World"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=Hello World&body=Check out this article: https://suebwj.github.io/2025/08/17/hello-world/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://suebwj.github.io/2025/08/17/hello-world/&title=Hello World"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://suebwj.github.io/2025/08/17/hello-world/&title=Hello World"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://suebwj.github.io/2025/08/17/hello-world/&title=Hello World"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://suebwj.github.io/2025/08/17/hello-world/&title=Hello World"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://suebwj.github.io/2025/08/17/hello-world/&name=Hello World&description=&lt;p&gt;欢迎来到我的博客！这是第一篇文章。&lt;/p&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://suebwj.github.io/2025/08/17/hello-world/&t=Hello World"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://suebwj.github.io/2025/08/17/AlignmentModule/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://suebwj.github.io/2025/08/17/AlignmentModule/&text=Alignment Module"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://suebwj.github.io/2025/08/17/AlignmentModule/&title=Alignment Module"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://suebwj.github.io/2025/08/17/AlignmentModule/&is_video=false&description=Alignment Module"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Alignment Module&body=Check out this article: https://suebwj.github.io/2025/08/17/AlignmentModule/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://suebwj.github.io/2025/08/17/AlignmentModule/&title=Alignment Module"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://suebwj.github.io/2025/08/17/AlignmentModule/&title=Alignment Module"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://suebwj.github.io/2025/08/17/AlignmentModule/&title=Alignment Module"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://suebwj.github.io/2025/08/17/AlignmentModule/&title=Alignment Module"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://suebwj.github.io/2025/08/17/AlignmentModule/&name=Alignment Module&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://suebwj.github.io/2025/08/17/AlignmentModule/&t=Alignment Module"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
 
     <div id="actions-footer">
         <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
         
         <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
         <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
