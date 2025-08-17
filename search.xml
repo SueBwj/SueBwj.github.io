@@ -2,6 +2,31 @@
 <search> 
   
   
+    
+    <entry>
+      <title>Hello World</title>
+      <link href="/2025/08/17/hello-world/"/>
+      <url>/2025/08/17/hello-world/</url>
+      
+        <content type="html"><![CDATA[<p>欢迎来到我的博客！这是第一篇文章。</p><span id="more"></span><p>这里是文章的详细内容…</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 日记 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 测试 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
   
   
 </search>
