@@ -1,12 +1,17 @@
 <!DOCTYPE html>
 <html lang=en>
 <head>
-    <!-- so meta -->
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="HandheldFriendly" content="True">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="生成速度 (Generation Speed) SD-Turbo: 实现了单步图像生成。这意味着它只需要一次网络前向传播就能输出最终图像，大大缩短了生成时间，使其适用于实时交互应用。其他扩散模型 (如 Stable Diffusion 1.5&#x2F;2.1, SDXL): 通常需要一个迭代的“去噪”过程，步数（Steps）一般设置在 20 到 50 步之间。步数越多，细节通常越好，但耗时也越长。  实">
+  <!-- so meta -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, maximum-scale=5"
+  />
+  <!-- Google Site Verification -->
+  <meta name="google-site-verification" content="S0jxAEQsYatWH7oe_UM40ez0kWxvEO5A9l6i2M6qjoM" />
+  <meta name="description" content="生成速度 (Generation Speed) SD-Turbo: 实现了单步图像生成。这意味着它只需要一次网络前向传播就能输出最终图像，大大缩短了生成时间，使其适用于实时交互应用。其他扩散模型 (如 Stable Diffusion 1.5&#x2F;2.1, SDXL): 通常需要一个迭代的“去噪”过程，步数（Steps）一般设置在 20 到 50 步之间。步数越多，细节通常越好，但耗时也越长。  实">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SD-Turbo">
 <meta property="og:url" content="https://suebwj.github.io/2025/08/17/SD-turbo/index.html">
@@ -18,31 +23,28 @@
 <meta property="article:author" content="Sue Dickinson">
 <meta property="article:tag" content="AI">
 <meta name="twitter:card" content="summary">
+     
+  <link rel="shortcut icon" href="/images/favicon.ico" />
+     
+  <link
+    rel="icon"
+    type="image/png"
+    href="/images/favicon-192x192.png"
+    sizes="192x192"
+  />
+     
+  <link
+    rel="apple-touch-icon"
+    sizes="180x180"
+    href="/images/apple-touch-icon.png"
+  />
     
-    
-      
-        
-          <link rel="shortcut icon" href="/images/favicon.ico">
-        
-      
-      
-        
-          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
-        
-      
-      
-        
-          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
-        
-      
-    
-    <!-- title -->
-    <title>SD-Turbo</title>
-    <!-- async scripts -->
-    <!-- Google Analytics -->
+  <!-- title -->
+  <title>SD-Turbo</title>
+  <!-- async scripts -->
+  <!-- Google Analytics -->
 
-
-    <!-- Umami Analytics -->
+ <!-- Umami Analytics -->
 
     <script async defer
             data-website-id="d4fd445d-9c4a-4b17-b4e2-92718cb90737"
@@ -50,27 +52,29 @@
     </script>
 
 
-    <!-- styles -->
-    
+  <!-- styles -->
+  
 <link rel="stylesheet" href="/css/style.css">
 
-    <!-- persian styles -->
-    
-    <!-- rss -->
-    
-    
-	<!-- mathjax -->
-	
-		<script type="text/x-mathjax-config">
-		  MathJax.Hub.Config({
-			tex2jax: {
-			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
-			  inlineMath: [['$','$']]
-			}
-		  });
-		</script>
-		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
-	
+  <!-- persian styles -->
+  
+  <!-- rss -->
+   
+  <!-- mathjax -->
+  
+  <script type="text/x-mathjax-config">
+     MathJax.Hub.Config({
+    tex2jax: {
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      inlineMath: [['$','$']]
+    }
+     });
+  </script>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"
+    async
+  ></script>
+  
 <meta name="generator" content="Hexo 7.2.0"></head>
 
 <body class="max-width mx-auto px3 ltr">    
