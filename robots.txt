@@ -1,0 +1,16 @@
+User-agent: *
+Allow: /
+Allow: /archives/
+Allow: /tags/
+Allow: /categories/
+Allow: /about/
+Allow: /reviews/
+Allow: /projects/
+Allow: /stats/
+
+Disallow: /js/
+Disallow: /css/
+Disallow: /lib/
+
+Sitemap: https://suebwj.github.io/sitemap.xml
+Sitemap: https://suebwj.github.io/baidusitemap.xml
