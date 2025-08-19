@@ -4,6 +4,39 @@
   
     
     <entry>
+      <title>《Ocean&#39;s Eight》</title>
+      <link href="/2025/08/19/Ocean8/"/>
+      <url>/2025/08/19/Ocean8/</url>
+      
+        <content type="html"><![CDATA[<h2 id="基本信息"><a href="#基本信息" class="headerlink" title="基本信息"></a>基本信息</h2><div class="movie-info-container"><div class="movie-details">  <ul>      <li><strong>导演</strong>：Gary Ross</li>      <li><strong>主演</strong>：Sandra Bullock、Cate Blanchett、Anne Hathaway、Rihanna、Mindy Kaling、Sarah Paulson、Awkwafina</li>      <li><strong>上映时间</strong>：2018 年</li>      <li><strong>观看时间</strong>：2025 年 6 月 </li>      <li><strong>评分</strong> ⭐⭐⭐⭐⭐ (5/5)</li>  </ul></div><div class="movie-poster"><img src="/images/ocean8.png" alt="Ocean's Eight" width="250" height="370"></div></div><p>个人非常偏爱的电影，虽然剧情上总是被大家吐槽，但是请忽略剧情（bushi），就认认真真的看这些个女的还是相当快乐的。在电影中每个人的角色塑造都还是挺不错了，除了安妮海瑟薇的角色塑造有点别扭~ 强烈强烈安利喜欢 桑婆，大魔王和香蕉姐组合的人都速速看。 以及这部电影随之带来了非常多的线下采访和宣发，都非常的有意思，个人觉得 maybe 这才是精华。</p><p>总之这部电影带给人的感觉就是有权有势有演技的女明星们聚在一起的线上 play，线下每个人也都很有活力和魅力，大概就是独立成功女性的现实爽文，所以看起来很快乐了。</p><p>一些有意思的线下采访：</p><ul><li> <a href="【【中字】The.Graham.Norton.Show.S23E11 【凯特布兰切特】】 https://www.bilibili.com/video/BV1hW411c7Uu/?share_source=copy_web&vd_source=65ec8981c0c50f7df1a335cd85471278"> The.Graham.Norton.Show.S23E11 </a></li><li> <a href="【【中文字幕】Ocean's 8 BBC采访 蕉蕉凯特桑爪三人组（20 Jun 2018）】 https://www.bilibili.com/video/BV12b411M7kD/?share_source=copy_web&vd_source=65ec8981c0c50f7df1a335cd85471278"> 蕉蕉凯特桑爪三人组 </a> </li></ul><style>.movie-info-container {  display: flex;  gap: 2rem;  align-items: flex-start;  margin: 1.5rem 0;}.movie-details {  flex: 2;}.movie-poster {  flex: 1;  text-align: center;}.movie-poster img {  border-radius: 8px;  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);  object-fit: cover; /* 保持比例，裁剪溢出部分 */}@media (max-width: 768px) {  .movie-info-container {    flex-direction: column;    gap: 1rem;  }  .movie-poster img {    width: 200px !important;    height: 300px !important;  }}</style><hr><p><em>本文为个人观影感受，仅供参考。</em></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 影音书评 </category>
+          
+          <category> 电影 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 电影 </tag>
+            
+            <tag> 剧情片 </tag>
+            
+            <tag> 喜剧片 </tag>
+            
+            <tag> 全女主 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>《Fleabag》(伦敦生活)</title>
       <link href="/2025/08/18/fleabag/"/>
       <url>/2025/08/18/fleabag/</url>
@@ -33,7 +66,34 @@
     
     
     <entry>
-      <title>《十一罗汉》</title>
+      <title>HTTP 状态码</title>
+      <link href="/2025/08/18/HTTP_status_code/"/>
+      <url>/2025/08/18/HTTP_status_code/</url>
+      
+        <content type="html"><![CDATA[<h2 id="个人对于自己常见但不熟悉的-HTTP-状态码的总结"><a href="#个人对于自己常见但不熟悉的-HTTP-状态码的总结" class="headerlink" title="个人对于自己常见但不熟悉的 HTTP 状态码的总结"></a>个人对于自己常见但不熟悉的 HTTP 状态码的总结</h2><h3 id="304"><a href="#304" class="headerlink" title="304"></a>304</h3><p>HTTP 状态码 304 表示”未修改”。它表示请求的资源自上次访问以来没有变化，允许浏览器使用其缓存的版本，而不是重新下载。这有助于节省带宽并加快加载时间。</p><hr><h3 id="504"><a href="#504" class="headerlink" title="504"></a>504</h3><p>504 网关超时错误发生在网关或代理服务器未能及时从上游服务器收到响应时。此问题通常由服务器端连接问题引起，但偶尔也会受客户端配置影响。</p><h4 id="常见原因"><a href="#常见原因" class="headerlink" title="常见原因"></a>常见原因</h4><ul><li><p>上游服务器宕机或过载。</p></li><li><p>服务器之间的网络连接问题。</p></li><li><p>DNS 配置不正确或 DNS 记录已过期。</p></li><li><p>防火墙或代理配置错误导致请求被阻止。</p></li></ul><hr><h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>4xx（<strong>客户端</strong>错误状态码）：表示请求包含语法错误或无法完成。</p><p>5xx（<strong>服务器</strong>错误状态码）：服务器在处理请求的过程中发生了错误。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Learning </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Network </tag>
+            
+            <tag> HTTP </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>《Ocean&#39;s Eleven》(十一罗汉)</title>
       <link href="/2025/08/18/%E5%8D%81%E4%B8%80%E7%BD%97%E6%B1%89/"/>
       <url>/2025/08/18/%E5%8D%81%E4%B8%80%E7%BD%97%E6%B1%89/</url>
       
