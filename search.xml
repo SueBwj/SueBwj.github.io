@@ -62,6 +62,31 @@
     
     
     <entry>
+      <title>门控残差-GRN</title>
+      <link href="/2025/08/%E9%97%A8%E6%8E%A7%E6%AE%8B%E5%B7%AE-GRN/"/>
+      <url>/2025/08/%E9%97%A8%E6%8E%A7%E6%AE%8B%E5%B7%AE-GRN/</url>
+      
+        <content type="html"><![CDATA[<h2 id="核心思想"><a href="#核心思想" class="headerlink" title="核心思想"></a>核心思想</h2><p>GRN 的核心思想是将残差连接的“跳跃”路径与门控单元的“开关”功能结合起来。</p><h2 id="残差连接（Residual-Connection）"><a href="#残差连接（Residual-Connection）" class="headerlink" title="残差连接（Residual Connection）"></a>残差连接（Residual Connection）</h2><p>这是残差网络（ResNet）的核心思想。它通过在网络层之间添加一个“跳跃连接”（skip connection），将前一层的输入直接加到后面几层的输出上。这样做的好处是，即使某些层学到的特征不重要，梯度也可以通过这个“捷径”直接传导，有效缓解了梯度消失问题，并让网络更容易学习到恒等映射（identity mapping），从而使网络可以训练得更深。</p><h2 id="门控机制（Gating-Mechanism）"><a href="#门控机制（Gating-Mechanism）" class="headerlink" title="门控机制（Gating Mechanism）"></a>门控机制（Gating Mechanism）</h2><p>门控机制通常使用 Sigmoid 或 Softmax 等激活函数，生成一个 0 到 1 之间的门控值。这个值就像一个“门”，可以动态地控制信息流动的比例。当门控值为 1 时，信息完全通过；当门控值为 0 时，信息被阻断。这种机制让网络可以自适应地学习哪些信息是重要的，并只让重要的信息流向下一层。典型的例子就是长短期记忆网络（LSTM）和门控循环单元（GRU）。</p><p>用公式表示的话，一个典型的 GRN 模块可以写作：</p><script type="math/tex; mode=display">y = Gate(x) \odot F(x, W) + (1 - Gate(x)) \odot x</script>]]></content>
+      
+      
+      <categories>
+          
+          <category> Learning </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 深度学习 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>《Fleabag》(伦敦生活)</title>
       <link href="/2025/08/fleabag/"/>
       <url>/2025/08/fleabag/</url>
