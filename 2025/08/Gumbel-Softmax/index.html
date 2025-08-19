@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <!-- so meta -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, maximum-scale=5"
+  />
+  <!-- Google Site Verification -->
+  <meta name="google-site-verification" content="S0jxAEQsYatWH7oe_UM40ez0kWxvEO5A9l6i2M6qjoM" />
+  <meta name="msvalidate.01" content="1A997080AFF8AC96D109D90DADEE4449" />
+  <meta name="description" content="Gumbel-Softmax">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Gumbel-Softmax">
+<meta property="og:url" content="https://suebwj.github.io/2025/08/Gumbel-Softmax/index.html">
+<meta property="og:site_name" content="Sue&#39;s blog">
+<meta property="og:description" content="Gumbel-Softmax">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-08-18T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-08-18T16:00:00.000Z">
+<meta property="article:author" content="Sue Dickinson">
+<meta property="article:tag" content="机器学习">
+<meta name="twitter:card" content="summary">
+     
+  <link rel="shortcut icon" href="/images/favicon.ico" />
+     
+  <link
+    rel="icon"
+    type="image/png"
+    href="/images/favicon-192x192.png"
+    sizes="192x192"
+  />
+     
+  <link
+    rel="apple-touch-icon"
+    sizes="180x180"
+    href="/images/apple-touch-icon.png"
+  />
+    
+  <!-- title -->
+  <title>Gumbel-Softmax</title>
+  <!-- async scripts -->
+  <!-- Google Analytics -->
+
+ <!-- Umami Analytics -->
+
+    <script async defer
+            data-website-id="d4fd445d-9c4a-4b17-b4e2-92718cb90737"
+            src="https://cloud.umami.is/script.js">
+    </script>
+
+
+  <!-- styles -->
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!-- persian styles -->
+  
+  <!-- rss -->
+   
+  <!-- mathjax -->
+  
+  <script type="text/x-mathjax-config">
+     MathJax.Hub.Config({
+    tex2jax: {
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      inlineMath: [['$','$']]
+    }
+     });
+  </script>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"
+    async
+  ></script>
+  
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/reviews/">影音书评</a></li><!--
+     --><!--
+       --><li><a href="/stats/">统计</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/suebwj">项目</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2025/08/Ocean8/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2025/08/fleabag/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://suebwj.github.io/2025/08/Gumbel-Softmax/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://suebwj.github.io/2025/08/Gumbel-Softmax/&text=Gumbel-Softmax"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://suebwj.github.io/2025/08/Gumbel-Softmax/&title=Gumbel-Softmax"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://suebwj.github.io/2025/08/Gumbel-Softmax/&is_video=false&description=Gumbel-Softmax"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Gumbel-Softmax&body=Check out this article: https://suebwj.github.io/2025/08/Gumbel-Softmax/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://suebwj.github.io/2025/08/Gumbel-Softmax/&title=Gumbel-Softmax"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://suebwj.github.io/2025/08/Gumbel-Softmax/&title=Gumbel-Softmax"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://suebwj.github.io/2025/08/Gumbel-Softmax/&title=Gumbel-Softmax"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://suebwj.github.io/2025/08/Gumbel-Softmax/&title=Gumbel-Softmax"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://suebwj.github.io/2025/08/Gumbel-Softmax/&name=Gumbel-Softmax&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://suebwj.github.io/2025/08/Gumbel-Softmax/&t=Gumbel-Softmax"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Gumbel-Softmax"><span class="toc-number">1.</span> <span class="toc-text">Gumbel-Softmax</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%99%AE%E9%80%9A-softmax"><span class="toc-number">1.1.</span> <span class="toc-text">普通 softmax:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Gumbel-Softmax-%E7%9A%84%E5%85%AC%E5%BC%8F%EF%BC%9A"><span class="toc-number">1.2.</span> <span class="toc-text">Gumbel-Softmax 的公式：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-hard-False-%E8%BF%9E%E7%BB%AD%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.3.</span> <span class="toc-text">1. hard &#x3D; False (连续模式)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-hard-True-%E7%A6%BB%E6%95%A3%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.4.</span> <span class="toc-text">2. hard &#x3D; True (离散模式)</span></a></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        Gumbel-Softmax
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Sue Dickinson</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2025-08-18T16:00:00.000Z" class="dt-published" itemprop="datePublished">2025-08-19</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/Learning/">Learning</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag">机器学习</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>背景：离散决策（one-hot 选择）是不可导的，不能直接在神经网络里反向传播梯度。</p>
+<p>解决方法： 用 Gumbel-Softmax trick</p>
+<h3 id="Gumbel-Softmax"><a href="#Gumbel-Softmax" class="headerlink" title="Gumbel-Softmax"></a>Gumbel-Softmax</h3><h4 id="普通-softmax"><a href="#普通-softmax" class="headerlink" title="普通 softmax:"></a>普通 softmax:</h4><script type="math/tex; mode=display">p_i = \frac{\exp(\text{logits}_i / \tau)}{\sum_j \exp(\text{logits}_j / \tau)}</script><ul>
+<li><p><strong>各个符号的含义</strong></p>
+<ul>
+<li><p><strong>logits<sub>i</sub></strong>：<br>模型输出的第 i 类的”原始分数”，还没有经过归一化。</p>
+</li>
+<li><p><strong>τ (temperature, 温度参数)</strong>：<br>控制分布的”平滑程度”。当 τ=1 时，就是普通的 softmax。τ 越大，分布越平滑，概率越接近均匀分布。</p>
+</li>
+<li><p><strong>exp(·)</strong>：<br>指数函数，把分数变成正数。</p>
+</li>
+<li><p><strong>分母</strong>：<br>对所有类别的指数和求和，用来做归一化，保证结果是概率分布。</p>
+</li>
+<li><p><strong>结果 p<sub>i</sub></strong>：<br>这是第 i 类的概率，满足 $\sum_i p_i = 1$。</p>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h4 id="Gumbel-Softmax-的公式："><a href="#Gumbel-Softmax-的公式：" class="headerlink" title="Gumbel-Softmax 的公式："></a>Gumbel-Softmax 的公式：</h4><script type="math/tex; mode=display">p_i = \frac{\exp(\text{logits}_i + g_i / \tau)}{\sum_j \exp(\text{logits}_j + g_j / \tau)}</script><p>在 logits 上加上 Gumbel 噪声，再 softmax，有两种模式：</p>
+<h4 id="1-hard-False-连续模式"><a href="#1-hard-False-连续模式" class="headerlink" title="1. hard = False (连续模式)"></a>1. <code>hard = False</code> (连续模式)</h4><ul>
+<li>输出一个概率向量（类似 soft one-hot）</li>
+<li>比如：<code>[0.7, 0.2, 0.1]</code></li>
+<li>这个输出是连续的，可以直接反向传播梯度</li>
+<li>好处：完全可导，可以用作常规训练</li>
+<li>缺点：不是真正的离散化，模型真正使用时可能表现不同</li>
+</ul>
+<h4 id="2-hard-True-离散模式"><a href="#2-hard-True-离散模式" class="headerlink" title="2. hard = True (离散模式)"></a>2. <code>hard = True</code> (离散模式)</h4><ul>
+<li>在前向传播时，会输出”硬化”为 one-hot，比如上面的数据会变成：<code>[1, 0, 0]</code></li>
+<li>这样看起来像真正的离散选择</li>
+<li>但在反向传播时，仍然是按照 soft 版本的梯度（就是那个 <code>[0.7, 0.2, 0.1]</code>）- 这叫 <strong>straight-through estimator</strong></li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> torch.nn.functional <span class="keyword">as</span> F</span><br><span class="line"></span><br><span class="line"><span class="comment"># 假设 logits 来自一个 3 类分类器</span></span><br><span class="line">logits = torch.tensor([[<span class="number">2.0</span>, <span class="number">1.0</span>, <span class="number">0.1</span>]], requires_grad=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line">tau = <span class="number">1.0</span>  <span class="comment"># 温度参数</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># ---------------------------</span></span><br><span class="line"><span class="comment"># 1. hard=False （软 one-hot，连续概率分布）</span></span><br><span class="line"><span class="comment"># ---------------------------</span></span><br><span class="line">y_soft = F.gumbel_softmax(logits, tau=tau, hard=<span class="literal">False</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;hard=False 输出:&quot;</span>, y_soft)</span><br><span class="line"></span><br><span class="line">loss_soft = y_soft.<span class="built_in">sum</span>()   <span class="comment"># 简单构造一个损失</span></span><br><span class="line">loss_soft.backward()</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;hard=False 梯度:&quot;</span>, logits.grad)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 梯度清零</span></span><br><span class="line">logits.grad.zero_()</span><br><span class="line"></span><br><span class="line"><span class="comment"># ---------------------------</span></span><br><span class="line"><span class="comment"># 2. hard=True （前向 one-hot，但梯度来自 soft 版本）</span></span><br><span class="line"><span class="comment"># ---------------------------</span></span><br><span class="line">y_hard = F.gumbel_softmax(logits, tau=tau, hard=<span class="literal">True</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;\nhard=True 输出:&quot;</span>, y_hard)</span><br><span class="line"></span><br><span class="line">loss_hard = y_hard.<span class="built_in">sum</span>()</span><br><span class="line">loss_hard.backward()</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;hard=True 梯度:&quot;</span>, logits.grad)</span><br><span class="line"></span><br><span class="line"><span class="comment"># hard=False 输出: tensor([[0.6591, 0.2479, 0.0930]], grad_fn=&lt;GumbelSoftmaxBackward&gt;)</span></span><br><span class="line"><span class="comment"># hard=False 梯度: tensor([[0., 0., 0.]])</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># hard=True 输出: tensor([[1., 0., 0.]], grad_fn=&lt;GumbelSoftmaxBackward&gt;)</span></span><br><span class="line"><span class="comment"># hard=True 梯度: tensor([[0., 0., 0.]])</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+  </div>
+</article>
+
+
+    <div class="blog-post-comments">
+        <div id="utterances_thread">
+            <noscript>加载评论需要在浏览器启用 JavaScript 脚本支持。</noscript>
+        </div>
+    </div>
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/reviews/">影音书评</a></li>
+        
+          <li><a href="/stats/">统计</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="http://github.com/suebwj">项目</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Gumbel-Softmax"><span class="toc-number">1.</span> <span class="toc-text">Gumbel-Softmax</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%99%AE%E9%80%9A-softmax"><span class="toc-number">1.1.</span> <span class="toc-text">普通 softmax:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Gumbel-Softmax-%E7%9A%84%E5%85%AC%E5%BC%8F%EF%BC%9A"><span class="toc-number">1.2.</span> <span class="toc-text">Gumbel-Softmax 的公式：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-hard-False-%E8%BF%9E%E7%BB%AD%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.3.</span> <span class="toc-text">1. hard &#x3D; False (连续模式)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-hard-True-%E7%A6%BB%E6%95%A3%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.4.</span> <span class="toc-text">2. hard &#x3D; True (离散模式)</span></a></li></ol></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://suebwj.github.io/2025/08/Gumbel-Softmax/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://suebwj.github.io/2025/08/Gumbel-Softmax/&text=Gumbel-Softmax"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://suebwj.github.io/2025/08/Gumbel-Softmax/&title=Gumbel-Softmax"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://suebwj.github.io/2025/08/Gumbel-Softmax/&is_video=false&description=Gumbel-Softmax"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Gumbel-Softmax&body=Check out this article: https://suebwj.github.io/2025/08/Gumbel-Softmax/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://suebwj.github.io/2025/08/Gumbel-Softmax/&title=Gumbel-Softmax"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://suebwj.github.io/2025/08/Gumbel-Softmax/&title=Gumbel-Softmax"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://suebwj.github.io/2025/08/Gumbel-Softmax/&title=Gumbel-Softmax"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://suebwj.github.io/2025/08/Gumbel-Softmax/&title=Gumbel-Softmax"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://suebwj.github.io/2025/08/Gumbel-Softmax/&name=Gumbel-Softmax&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://suebwj.github.io/2025/08/Gumbel-Softmax/&t=Gumbel-Softmax"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2024-2025
+    Sue Dickinson
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/reviews/">影音书评</a></li><!--
+     --><!--
+       --><li><a href="/stats/">统计</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/suebwj">项目</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+    <script type="text/javascript">
+      var utterances_repo = 'SueBwj/SueBwj.github.io';
+      var utterances_issue_term = 'pathname';
+      var utterances_label = '💬 Comments';
+      var utterances_theme = 'github-dark';
+
+      (function(){
+          var script = document.createElement('script');
+
+          script.src = 'https://utteranc.es/client.js';
+          script.setAttribute('repo', utterances_repo);
+          script.setAttribute('issue-term', 'pathname');
+          script.setAttribute('label', utterances_label);
+          script.setAttribute('theme', utterances_theme);
+          script.setAttribute('crossorigin', 'anonymous');
+          script.async = true;
+          (document.getElementById('utterances_thread')).appendChild(script);
+      }());
+  </script>
+
+
+<!-- 不蒜子统计 -->
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

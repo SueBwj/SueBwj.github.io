@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang=en>
+<html lang=zh>
 <head>
   <!-- so meta -->
   <meta charset="utf-8" />
@@ -15,10 +15,10 @@
   <meta name="description" content="生成速度 (Generation Speed) SD-Turbo: 实现了单步图像生成。这意味着它只需要一次网络前向传播就能输出最终图像，大大缩短了生成时间，使其适用于实时交互应用。其他扩散模型 (如 Stable Diffusion 1.5&#x2F;2.1, SDXL): 通常需要一个迭代的“去噪”过程，步数（Steps）一般设置在 20 到 50 步之间。步数越多，细节通常越好，但耗时也越长。  实">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SD-Turbo">
-<meta property="og:url" content="https://suebwj.github.io/2025/08/17/SD-turbo/index.html">
+<meta property="og:url" content="https://suebwj.github.io/2025/08/SD-turbo/index.html">
 <meta property="og:site_name" content="Sue&#39;s blog">
 <meta property="og:description" content="生成速度 (Generation Speed) SD-Turbo: 实现了单步图像生成。这意味着它只需要一次网络前向传播就能输出最终图像，大大缩短了生成时间，使其适用于实时交互应用。其他扩散模型 (如 Stable Diffusion 1.5&#x2F;2.1, SDXL): 通常需要一个迭代的“去噪”过程，步数（Steps）一般设置在 20 到 50 步之间。步数越多，细节通常越好，但耗时也越长。  实">
-<meta property="og:locale" content="en_US">
+<meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-08-17T12:00:00.000Z">
 <meta property="article:modified_time" content="2025-08-17T12:21:59.804Z">
 <meta property="article:author" content="Sue Dickinson">
@@ -80,26 +80,26 @@
 
 <body class="max-width mx-auto px3 ltr">    
       <div id="header-post">
-  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
-  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
-  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
   <span id="menu">
     <span id="nav">
       <ul>
         <!--
-       --><li><a href="/">Home</a></li><!--
+       --><li><a href="/">首页</a></li><!--
      --><!--
-       --><li><a href="/search/">Search</a></li><!--
+       --><li><a href="/search/">搜索</a></li><!--
      --><!--
-       --><li><a href="/about/">About</a></li><!--
+       --><li><a href="/about/">关于</a></li><!--
      --><!--
-       --><li><a href="/reviews/">reviews</a></li><!--
+       --><li><a href="/reviews/">影音书评</a></li><!--
      --><!--
-       --><li><a href="/stats/">stats</a></li><!--
+       --><li><a href="/stats/">统计</a></li><!--
      --><!--
-       --><li><a href="/archives/">Writing</a></li><!--
+       --><li><a href="/archives/">归档</a></li><!--
      --><!--
-       --><li><a target="_blank" rel="noopener" href="http://github.com/suebwj">Projects</a></li><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/suebwj">项目</a></li><!--
      -->
       </ul>
     </span>
@@ -107,33 +107,33 @@
     <span id="actions">
       <ul>
         
-        <li><a class="icon" aria-label="Previous post" href="/2025/08/18/killing_eve/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="上一篇" href="/2025/08/%E5%8D%81%E4%B8%80%E7%BD%97%E6%B1%89/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
         
         
-        <li><a class="icon" aria-label="Next post" href="/2025/08/17/AlignmentModule/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="下一篇" href="/2025/08/AlignmentModule/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
         
-        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
-        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
       </ul>
-      <span id="i-prev" class="info" style="display:none;">Previous post</span>
-      <span id="i-next" class="info" style="display:none;">Next post</span>
-      <span id="i-top" class="info" style="display:none;">Back to top</span>
-      <span id="i-share" class="info" style="display:none;">Share post</span>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
     </span>
     <br/>
     <div id="share" style="display: none">
       <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://suebwj.github.io/2025/08/17/SD-turbo/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://suebwj.github.io/2025/08/17/SD-turbo/&text=SD-Turbo"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://suebwj.github.io/2025/08/17/SD-turbo/&title=SD-Turbo"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://suebwj.github.io/2025/08/17/SD-turbo/&is_video=false&description=SD-Turbo"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=SD-Turbo&body=Check out this article: https://suebwj.github.io/2025/08/17/SD-turbo/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://suebwj.github.io/2025/08/17/SD-turbo/&title=SD-Turbo"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://suebwj.github.io/2025/08/17/SD-turbo/&title=SD-Turbo"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://suebwj.github.io/2025/08/17/SD-turbo/&title=SD-Turbo"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://suebwj.github.io/2025/08/17/SD-turbo/&title=SD-Turbo"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://suebwj.github.io/2025/08/17/SD-turbo/&name=SD-Turbo&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://suebwj.github.io/2025/08/17/SD-turbo/&t=SD-Turbo"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://suebwj.github.io/2025/08/SD-turbo/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://suebwj.github.io/2025/08/SD-turbo/&text=SD-Turbo"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://suebwj.github.io/2025/08/SD-turbo/&title=SD-Turbo"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://suebwj.github.io/2025/08/SD-turbo/&is_video=false&description=SD-Turbo"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=SD-Turbo&body=Check out this article: https://suebwj.github.io/2025/08/SD-turbo/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://suebwj.github.io/2025/08/SD-turbo/&title=SD-Turbo"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://suebwj.github.io/2025/08/SD-turbo/&title=SD-Turbo"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://suebwj.github.io/2025/08/SD-turbo/&title=SD-Turbo"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://suebwj.github.io/2025/08/SD-turbo/&title=SD-Turbo"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://suebwj.github.io/2025/08/SD-turbo/&name=SD-Turbo&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://suebwj.github.io/2025/08/SD-turbo/&t=SD-Turbo"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -212,7 +212,7 @@
 
     <div class="blog-post-comments">
         <div id="utterances_thread">
-            <noscript>Please enable JavaScript to view the comments.</noscript>
+            <noscript>加载评论需要在浏览器启用 JavaScript 脚本支持。</noscript>
         </div>
     </div>
 
@@ -224,19 +224,19 @@
     <div id="nav-footer" style="display: none">
       <ul>
         
-          <li><a href="/">Home</a></li>
+          <li><a href="/">首页</a></li>
         
-          <li><a href="/search/">Search</a></li>
+          <li><a href="/search/">搜索</a></li>
         
-          <li><a href="/about/">About</a></li>
+          <li><a href="/about/">关于</a></li>
         
-          <li><a href="/reviews/">reviews</a></li>
+          <li><a href="/reviews/">影音书评</a></li>
         
-          <li><a href="/stats/">stats</a></li>
+          <li><a href="/stats/">统计</a></li>
         
-          <li><a href="/archives/">Writing</a></li>
+          <li><a href="/archives/">归档</a></li>
         
-          <li><a target="_blank" rel="noopener" href="http://github.com/suebwj">Projects</a></li>
+          <li><a target="_blank" rel="noopener" href="http://github.com/suebwj">项目</a></li>
         
       </ul>
     </div>
@@ -250,28 +250,28 @@
 
     <div id="share-footer" style="display: none">
       <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://suebwj.github.io/2025/08/17/SD-turbo/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://suebwj.github.io/2025/08/17/SD-turbo/&text=SD-Turbo"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://suebwj.github.io/2025/08/17/SD-turbo/&title=SD-Turbo"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://suebwj.github.io/2025/08/17/SD-turbo/&is_video=false&description=SD-Turbo"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=SD-Turbo&body=Check out this article: https://suebwj.github.io/2025/08/17/SD-turbo/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://suebwj.github.io/2025/08/17/SD-turbo/&title=SD-Turbo"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://suebwj.github.io/2025/08/17/SD-turbo/&title=SD-Turbo"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://suebwj.github.io/2025/08/17/SD-turbo/&title=SD-Turbo"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://suebwj.github.io/2025/08/17/SD-turbo/&title=SD-Turbo"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://suebwj.github.io/2025/08/17/SD-turbo/&name=SD-Turbo&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://suebwj.github.io/2025/08/17/SD-turbo/&t=SD-Turbo"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://suebwj.github.io/2025/08/SD-turbo/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://suebwj.github.io/2025/08/SD-turbo/&text=SD-Turbo"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://suebwj.github.io/2025/08/SD-turbo/&title=SD-Turbo"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://suebwj.github.io/2025/08/SD-turbo/&is_video=false&description=SD-Turbo"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=SD-Turbo&body=Check out this article: https://suebwj.github.io/2025/08/SD-turbo/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://suebwj.github.io/2025/08/SD-turbo/&title=SD-Turbo"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://suebwj.github.io/2025/08/SD-turbo/&title=SD-Turbo"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://suebwj.github.io/2025/08/SD-turbo/&title=SD-Turbo"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://suebwj.github.io/2025/08/SD-turbo/&title=SD-Turbo"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://suebwj.github.io/2025/08/SD-turbo/&name=SD-Turbo&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://suebwj.github.io/2025/08/SD-turbo/&t=SD-Turbo"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
 
     <div id="actions-footer">
-        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
         
-          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
         
-        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
-        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
     </div>
 
   </div>
@@ -290,19 +290,19 @@
     <nav>
       <ul>
         <!--
-       --><li><a href="/">Home</a></li><!--
+       --><li><a href="/">首页</a></li><!--
      --><!--
-       --><li><a href="/search/">Search</a></li><!--
+       --><li><a href="/search/">搜索</a></li><!--
      --><!--
-       --><li><a href="/about/">About</a></li><!--
+       --><li><a href="/about/">关于</a></li><!--
      --><!--
-       --><li><a href="/reviews/">reviews</a></li><!--
+       --><li><a href="/reviews/">影音书评</a></li><!--
      --><!--
-       --><li><a href="/stats/">stats</a></li><!--
+       --><li><a href="/stats/">统计</a></li><!--
      --><!--
-       --><li><a href="/archives/">Writing</a></li><!--
+       --><li><a href="/archives/">归档</a></li><!--
      --><!--
-       --><li><a target="_blank" rel="noopener" href="http://github.com/suebwj">Projects</a></li><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/suebwj">项目</a></li><!--
      -->
       </ul>
     </nav>
@@ -332,7 +332,7 @@
   <script type="text/javascript">
   $(function() {
     // copy-btn HTML
-    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
     btn += '<i class="fa-regular fa-clone"></i>';
     btn += '</span>';
     // mount it!
@@ -343,7 +343,7 @@
       }
     });
     clip.on('success', function(e) {
-      e.trigger.setAttribute('aria-label', "Copied!");
+      e.trigger.setAttribute('aria-label', "复制成功！");
       e.clearSelection();
     })
   })

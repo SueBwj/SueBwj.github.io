@@ -5,8 +5,8 @@
     
     <entry>
       <title>《Ocean&#39;s Eight》</title>
-      <link href="/2025/08/19/Ocean8/"/>
-      <url>/2025/08/19/Ocean8/</url>
+      <link href="/2025/08/Ocean8/"/>
+      <url>/2025/08/Ocean8/</url>
       
         <content type="html"><![CDATA[<h2 id="基本信息"><a href="#基本信息" class="headerlink" title="基本信息"></a>基本信息</h2><div class="movie-info-container"><div class="movie-details">  <ul>      <li><strong>导演</strong>：Gary Ross</li>      <li><strong>主演</strong>：Sandra Bullock、Cate Blanchett、Anne Hathaway、Rihanna、Mindy Kaling、Sarah Paulson、Awkwafina</li>      <li><strong>上映时间</strong>：2018 年</li>      <li><strong>观看时间</strong>：2025 年 6 月 </li>      <li><strong>评分</strong> ⭐⭐⭐⭐⭐ (5/5)</li>  </ul></div><div class="movie-poster"><img src="/images/ocean8.png" alt="Ocean's Eight" width="250" height="370"></div></div><p>个人非常偏爱的电影，虽然剧情上总是被大家吐槽，但是请忽略剧情（bushi），就认认真真的看这些个女的还是相当快乐的。在电影中每个人的角色塑造都还是挺不错了，除了安妮海瑟薇的角色塑造有点别扭~ 强烈强烈安利喜欢 桑婆，大魔王和香蕉姐组合的人都速速看。 以及这部电影随之带来了非常多的线下采访和宣发，都非常的有意思，个人觉得 maybe 这才是精华。</p><p>总之这部电影带给人的感觉就是有权有势有演技的女明星们聚在一起的线上 play，线下每个人也都很有活力和魅力，大概就是独立成功女性的现实爽文，所以看起来很快乐了。</p><p>一些有意思的线下采访：</p><ul><li> <a href="【【中字】The.Graham.Norton.Show.S23E11 【凯特布兰切特】】 https://www.bilibili.com/video/BV1hW411c7Uu/?share_source=copy_web&vd_source=65ec8981c0c50f7df1a335cd85471278"> The.Graham.Norton.Show.S23E11 </a></li><li> <a href="【【中文字幕】Ocean's 8 BBC采访 蕉蕉凯特桑爪三人组（20 Jun 2018）】 https://www.bilibili.com/video/BV12b411M7kD/?share_source=copy_web&vd_source=65ec8981c0c50f7df1a335cd85471278"> 蕉蕉凯特桑爪三人组 </a> </li></ul><style>.movie-info-container {  display: flex;  gap: 2rem;  align-items: flex-start;  margin: 1.5rem 0;}.movie-details {  flex: 2;}.movie-poster {  flex: 1;  text-align: center;}.movie-poster img {  border-radius: 8px;  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);  object-fit: cover; /* 保持比例，裁剪溢出部分 */}@media (max-width: 768px) {  .movie-info-container {    flex-direction: column;    gap: 1rem;  }  .movie-poster img {    width: 200px !important;    height: 300px !important;  }}</style><hr><p><em>本文为个人观影感受，仅供参考。</em></p>]]></content>
       
@@ -37,9 +37,34 @@
     
     
     <entry>
+      <title>Gumbel-Softmax</title>
+      <link href="/2025/08/Gumbel-Softmax/"/>
+      <url>/2025/08/Gumbel-Softmax/</url>
+      
+        <content type="html"><![CDATA[<p>背景：离散决策（one-hot 选择）是不可导的，不能直接在神经网络里反向传播梯度。</p><p>解决方法： 用 Gumbel-Softmax trick</p><h3 id="Gumbel-Softmax"><a href="#Gumbel-Softmax" class="headerlink" title="Gumbel-Softmax"></a>Gumbel-Softmax</h3><h4 id="普通-softmax"><a href="#普通-softmax" class="headerlink" title="普通 softmax:"></a>普通 softmax:</h4><script type="math/tex; mode=display">p_i = \frac{\exp(\text{logits}_i / \tau)}{\sum_j \exp(\text{logits}_j / \tau)}</script><ul><li><p><strong>各个符号的含义</strong></p><ul><li><p><strong>logits<sub>i</sub></strong>：<br>模型输出的第 i 类的”原始分数”，还没有经过归一化。</p></li><li><p><strong>τ (temperature, 温度参数)</strong>：<br>控制分布的”平滑程度”。当 τ=1 时，就是普通的 softmax。τ 越大，分布越平滑，概率越接近均匀分布。</p></li><li><p><strong>exp(·)</strong>：<br>指数函数，把分数变成正数。</p></li><li><p><strong>分母</strong>：<br>对所有类别的指数和求和，用来做归一化，保证结果是概率分布。</p></li><li><p><strong>结果 p<sub>i</sub></strong>：<br>这是第 i 类的概率，满足 $\sum_i p_i = 1$。</p></li></ul></li></ul><hr><h4 id="Gumbel-Softmax-的公式："><a href="#Gumbel-Softmax-的公式：" class="headerlink" title="Gumbel-Softmax 的公式："></a>Gumbel-Softmax 的公式：</h4><script type="math/tex; mode=display">p_i = \frac{\exp(\text{logits}_i + g_i / \tau)}{\sum_j \exp(\text{logits}_j + g_j / \tau)}</script><p>在 logits 上加上 Gumbel 噪声，再 softmax，有两种模式：</p><h4 id="1-hard-False-连续模式"><a href="#1-hard-False-连续模式" class="headerlink" title="1. hard = False (连续模式)"></a>1. <code>hard = False</code> (连续模式)</h4><ul><li>输出一个概率向量（类似 soft one-hot）</li><li>比如：<code>[0.7, 0.2, 0.1]</code></li><li>这个输出是连续的，可以直接反向传播梯度</li><li>好处：完全可导，可以用作常规训练</li><li>缺点：不是真正的离散化，模型真正使用时可能表现不同</li></ul><h4 id="2-hard-True-离散模式"><a href="#2-hard-True-离散模式" class="headerlink" title="2. hard = True (离散模式)"></a>2. <code>hard = True</code> (离散模式)</h4><ul><li>在前向传播时，会输出”硬化”为 one-hot，比如上面的数据会变成：<code>[1, 0, 0]</code></li><li>这样看起来像真正的离散选择</li><li>但在反向传播时，仍然是按照 soft 版本的梯度（就是那个 <code>[0.7, 0.2, 0.1]</code>）- 这叫 <strong>straight-through estimator</strong></li></ul><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> torch.nn.functional <span class="keyword">as</span> F</span><br><span class="line"></span><br><span class="line"><span class="comment"># 假设 logits 来自一个 3 类分类器</span></span><br><span class="line">logits = torch.tensor([[<span class="number">2.0</span>, <span class="number">1.0</span>, <span class="number">0.1</span>]], requires_grad=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line">tau = <span class="number">1.0</span>  <span class="comment"># 温度参数</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># ---------------------------</span></span><br><span class="line"><span class="comment"># 1. hard=False （软 one-hot，连续概率分布）</span></span><br><span class="line"><span class="comment"># ---------------------------</span></span><br><span class="line">y_soft = F.gumbel_softmax(logits, tau=tau, hard=<span class="literal">False</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;hard=False 输出:&quot;</span>, y_soft)</span><br><span class="line"></span><br><span class="line">loss_soft = y_soft.<span class="built_in">sum</span>()   <span class="comment"># 简单构造一个损失</span></span><br><span class="line">loss_soft.backward()</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;hard=False 梯度:&quot;</span>, logits.grad)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 梯度清零</span></span><br><span class="line">logits.grad.zero_()</span><br><span class="line"></span><br><span class="line"><span class="comment"># ---------------------------</span></span><br><span class="line"><span class="comment"># 2. hard=True （前向 one-hot，但梯度来自 soft 版本）</span></span><br><span class="line"><span class="comment"># ---------------------------</span></span><br><span class="line">y_hard = F.gumbel_softmax(logits, tau=tau, hard=<span class="literal">True</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;\nhard=True 输出:&quot;</span>, y_hard)</span><br><span class="line"></span><br><span class="line">loss_hard = y_hard.<span class="built_in">sum</span>()</span><br><span class="line">loss_hard.backward()</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;hard=True 梯度:&quot;</span>, logits.grad)</span><br><span class="line"></span><br><span class="line"><span class="comment"># hard=False 输出: tensor([[0.6591, 0.2479, 0.0930]], grad_fn=&lt;GumbelSoftmaxBackward&gt;)</span></span><br><span class="line"><span class="comment"># hard=False 梯度: tensor([[0., 0., 0.]])</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># hard=True 输出: tensor([[1., 0., 0.]], grad_fn=&lt;GumbelSoftmaxBackward&gt;)</span></span><br><span class="line"><span class="comment"># hard=True 梯度: tensor([[0., 0., 0.]])</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> Learning </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 机器学习 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>《Fleabag》(伦敦生活)</title>
-      <link href="/2025/08/18/fleabag/"/>
-      <url>/2025/08/18/fleabag/</url>
+      <link href="/2025/08/fleabag/"/>
+      <url>/2025/08/fleabag/</url>
       
         <content type="html"><![CDATA[<h2 id="基本信息"><a href="#基本信息" class="headerlink" title="基本信息"></a>基本信息</h2><div class="movie-info-container"><div class="movie-details">  <ul>      <li><strong>导演</strong>：菲比·沃勒-布里奇（Phoebe Waller-Bridge）</li>      <li><strong>主演</strong> 菲比·沃勒-布里奇、安德鲁·斯科特等</li>      <li><strong>上映时间</strong>：2016 年</li>      <li><strong>观看时间</strong>：2025 年 5 月</li>      <li><strong>评分</strong> ⭐⭐⭐⭐⭐ (5/5)</li>  </ul></div><div class="movie-poster"><img src="/images/fleabag.png" alt="fleabag poster" width="250" height="370"></div></div><p>优质的互联网嘴替：</p><ul>    <li><a href="https://ahsmmy.typlog.io/episodes/s2-e09-e68891e4bbace983bde698afe3808ce5a4b1e8b4a5e3808de79a84e5a5b3e69d83e4b8bbe4b989e88085-e3808ae4" target="_blank"> 播客《是猫咪呀》 </a> S2.E09 我们都是「失败」的女权主义者 | 《伦敦生活》</li>    <li><a href="https://podcasts.apple.com/cn/podcast/%E7%87%95%E5%A4%96%E4%B9%8B%E6%84%8F-%E4%BC%A6%E6%95%A6%E7%94%9F%E6%B4%BB-%E6%88%91%E7%9A%84%E5%AE%8C%E8%9B%8B%E4%BA%BA%E7%94%9F/id1620123449?i=1000681056441" target="_blank"> 播客《燕外之意》 </a> 伦敦生活，我的完蛋人生 </li></ul><p>《Fleabag》是百看不厌的剧集，不同的心境和年龄看会有不一样的感受，和《Friends》很像，但是整体的色调更荒诞和孤独，所以就意外的很适合城市独居女性。有自我厌恶，家庭冲突，畸形的姐妹和伴侣关系… 但 Fleabag 总给我生生不息的生活希望可能是让我意识到了很多事情 dosen’t matter，生活可以很荒诞的过下去（不过也有人说看完更 emo 了，hh）。</p><style>.movie-info-container {  display: flex;  gap: 2rem;  align-items: flex-start;  margin: 1.5rem 0;}.movie-details {  flex: 2;}.movie-poster {  flex: 1;  text-align: center;}.movie-poster img {  border-radius: 8px;  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);  object-fit: cover; /* 保持比例，裁剪溢出部分 */}@media (max-width: 768px) {  .movie-info-container {    flex-direction: column;    gap: 1rem;  }  .movie-poster img {    width: 200px !important;    height: 300px !important;  }}</style><hr><p><em>本文为个人观影感受，仅供参考。</em></p>]]></content>
       
@@ -48,7 +73,7 @@
           
           <category> 影音书评 </category>
           
-          <category> 英剧 </category>
+          <category> 电视剧 </category>
           
       </categories>
       
@@ -67,8 +92,8 @@
     
     <entry>
       <title>HTTP 状态码</title>
-      <link href="/2025/08/18/HTTP_status_code/"/>
-      <url>/2025/08/18/HTTP_status_code/</url>
+      <link href="/2025/08/HTTP_status_code/"/>
+      <url>/2025/08/HTTP_status_code/</url>
       
         <content type="html"><![CDATA[<h2 id="个人对于自己常见但不熟悉的-HTTP-状态码的总结"><a href="#个人对于自己常见但不熟悉的-HTTP-状态码的总结" class="headerlink" title="个人对于自己常见但不熟悉的 HTTP 状态码的总结"></a>个人对于自己常见但不熟悉的 HTTP 状态码的总结</h2><h3 id="304"><a href="#304" class="headerlink" title="304"></a>304</h3><p>HTTP 状态码 304 表示”未修改”。它表示请求的资源自上次访问以来没有变化，允许浏览器使用其缓存的版本，而不是重新下载。这有助于节省带宽并加快加载时间。</p><hr><h3 id="504"><a href="#504" class="headerlink" title="504"></a>504</h3><p>504 网关超时错误发生在网关或代理服务器未能及时从上游服务器收到响应时。此问题通常由服务器端连接问题引起，但偶尔也会受客户端配置影响。</p><h4 id="常见原因"><a href="#常见原因" class="headerlink" title="常见原因"></a>常见原因</h4><ul><li><p>上游服务器宕机或过载。</p></li><li><p>服务器之间的网络连接问题。</p></li><li><p>DNS 配置不正确或 DNS 记录已过期。</p></li><li><p>防火墙或代理配置错误导致请求被阻止。</p></li></ul><hr><h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>4xx（<strong>客户端</strong>错误状态码）：表示请求包含语法错误或无法完成。</p><p>5xx（<strong>服务器</strong>错误状态码）：服务器在处理请求的过程中发生了错误。</p>]]></content>
       
@@ -93,9 +118,40 @@
     
     
     <entry>
+      <title>《Killing Eve》(杀死伊芙)</title>
+      <link href="/2025/08/killing_eve/"/>
+      <url>/2025/08/killing_eve/</url>
+      
+        <content type="html"><![CDATA[<h2 id="基本信息"><a href="#基本信息" class="headerlink" title="基本信息"></a>基本信息</h2><div class="movie-info-container"><div class="movie-details">  <ul>      <li><strong>导演</strong>：每一季都在换（去豆瓣 or wiki查吧）</li>      <li><strong>主演</strong>：朱迪·科默、吴珊卓等</li>      <li><strong>上映时间</strong>：2018 年</li>      <li><strong>观看时间</strong>：2025 年 5 月 17 日</li>      <li><strong>评分</strong> ⭐⭐⭐⭐⭐ (5/5)</li>  </ul></div><div class="movie-poster"><img src="/images/killing-eve-poster.png" alt="杀死伊芙海报" width="250" height="370">Killing eve 值得更好的结局。</div></div><p>太太太太喜欢了…，想法太多了，千言万绪说不完，找了一些优质的互联网嘴替。</p><ul>  <li><a href="https://ahsmmy.typlog.io/episodes/s2-e02e3808akilling-evee3808be8afb7e694bee8bf87e8bf99e59cbae796afe78b82e38081e6b5aae6bcabe38081e6b7b" target="_blank"> 播客节目： 是猫咪呀 </a></li>  <li><a href="https://b23.tv/YIfsoIu" target="_blank"> 剪辑 killing eve x fortnight </a>没有想到fortnight 歌词和 killing eve 意外的很搭。</li> </ul><p>看完喜欢朱迪·科默的也请去支持一下她的舞台剧作品：<a href="https://movie.douban.com/subject/35861791/" target="_blank">《初步举证》</a></p><style>.movie-info-container {  display: flex;  gap: 2rem;  align-items: flex-start;  margin: 1.5rem 0;}.movie-details {  flex: 2;}.movie-poster {  flex: 1;  text-align: center;}.movie-poster img {  border-radius: 8px;  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);  object-fit: cover; /* 保持比例，裁剪溢出部分 */}@media (max-width: 768px) {  .movie-info-container {    flex-direction: column;    gap: 1rem;  }  .movie-poster img {    width: 200px !important;    height: 300px !important;  }}</style><hr><p><em>本文为个人观影感受，仅供参考。</em></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 影音书评 </category>
+          
+          <category> 电视剧 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 剧情片 </tag>
+            
+            <tag> 英剧 </tag>
+            
+            <tag> 双女主 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>《Ocean&#39;s Eleven》(十一罗汉)</title>
-      <link href="/2025/08/18/%E5%8D%81%E4%B8%80%E7%BD%97%E6%B1%89/"/>
-      <url>/2025/08/18/%E5%8D%81%E4%B8%80%E7%BD%97%E6%B1%89/</url>
+      <link href="/2025/08/%E5%8D%81%E4%B8%80%E7%BD%97%E6%B1%89/"/>
+      <url>/2025/08/%E5%8D%81%E4%B8%80%E7%BD%97%E6%B1%89/</url>
       
         <content type="html"><![CDATA[<h2 id="基本信息"><a href="#基本信息" class="headerlink" title="基本信息"></a>基本信息</h2><div class="movie-info-container"><div class="movie-details">  <ul>      <li><strong>导演</strong>：史蒂文·索德伯格</li>      <li><strong>主演</strong>：乔治·克鲁尼、布拉德·皮特、马特·达蒙、朱莉娅·罗伯茨、凯瑟琳·泽塔-琼斯</li>      <li><strong>上映时间</strong>：2001 年</li>      <li><strong>观看时间</strong>：2025 年 8 月 16 日</li>      <li><strong>评分</strong> ⭐⭐⭐☆☆ (3/5)</li>  </ul></div><div class="movie-poster"><img src="/images/oceans-eleven-poster.png" alt="十一罗汉海报" width="250" height="370"></div></div><p>冲着茱莉亚·罗伯茨去看的，结果是花瓶美女的角色，可能是由于先看了 <a href="https://en.wikipedia.org/wiki/Ocean%27s_8">Ocean 8</a>，二者风格比较相似，所以并没有太多的惊喜。 不过众星云集，剧情和部分人物塑造都还不错。总体上算是不错的爆米花电影。</p><style>.movie-info-container {  display: flex;  gap: 2rem;  align-items: flex-start;  margin: 1.5rem 0;}.movie-details {  flex: 2;}.movie-poster {  flex: 1;  text-align: center;}.movie-poster img {  border-radius: 8px;  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);  object-fit: cover; /* 保持比例，裁剪溢出部分 */}@media (max-width: 768px) {  .movie-info-container {    flex-direction: column;    gap: 1rem;  }  .movie-poster img {    width: 200px !important;    height: 300px !important;  }}</style><hr><p><em>本文为个人观影感受，仅供参考。</em></p>]]></content>
       
@@ -122,40 +178,9 @@
     
     
     <entry>
-      <title>《Killing Eve》(杀死伊芙)</title>
-      <link href="/2025/08/18/killing_eve/"/>
-      <url>/2025/08/18/killing_eve/</url>
-      
-        <content type="html"><![CDATA[<h2 id="基本信息"><a href="#基本信息" class="headerlink" title="基本信息"></a>基本信息</h2><div class="movie-info-container"><div class="movie-details">  <ul>      <li><strong>导演</strong>：每一季都在换（去豆瓣 or wiki查吧）</li>      <li><strong>主演</strong>：朱迪·科默、吴珊卓等</li>      <li><strong>上映时间</strong>：2018 年</li>      <li><strong>观看时间</strong>：2025 年 5 月 17 日</li>      <li><strong>评分</strong> ⭐⭐⭐⭐⭐ (5/5)</li>  </ul></div><div class="movie-poster"><img src="/images/killing-eve-poster.png" alt="杀死伊芙海报" width="250" height="370">Killing eve 值得更好的结局。</div></div><p>太太太太喜欢了…，想法太多了，千言万绪说不完，找了一些优质的互联网嘴替。</p><ul>  <li><a href="https://ahsmmy.typlog.io/episodes/s2-e02e3808akilling-evee3808be8afb7e694bee8bf87e8bf99e59cbae796afe78b82e38081e6b5aae6bcabe38081e6b7b" target="_blank"> 播客节目： 是猫咪呀 </a></li>  <li><a href="https://b23.tv/YIfsoIu" target="_blank"> 剪辑 killing eve x fortnight </a>没有想到fortnight 歌词和 killing eve 意外的很搭。</li> </ul><p>看完喜欢朱迪·科默的也请去支持一下她的舞台剧作品：<a href="https://movie.douban.com/subject/35861791/" target="_blank">《初步举证》</a></p><style>.movie-info-container {  display: flex;  gap: 2rem;  align-items: flex-start;  margin: 1.5rem 0;}.movie-details {  flex: 2;}.movie-poster {  flex: 1;  text-align: center;}.movie-poster img {  border-radius: 8px;  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);  object-fit: cover; /* 保持比例，裁剪溢出部分 */}@media (max-width: 768px) {  .movie-info-container {    flex-direction: column;    gap: 1rem;  }  .movie-poster img {    width: 200px !important;    height: 300px !important;  }}</style><hr><p><em>本文为个人观影感受，仅供参考。</em></p>]]></content>
-      
-      
-      <categories>
-          
-          <category> 影音书评 </category>
-          
-          <category> 英剧 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> 剧情片 </tag>
-            
-            <tag> 英剧 </tag>
-            
-            <tag> 双女主 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>SD-Turbo</title>
-      <link href="/2025/08/17/SD-turbo/"/>
-      <url>/2025/08/17/SD-turbo/</url>
+      <link href="/2025/08/SD-turbo/"/>
+      <url>/2025/08/SD-turbo/</url>
       
         <content type="html"><![CDATA[<ol><li><p><strong>生成速度 (Generation Speed)</strong></p><p>SD-Turbo: 实现了单步图像生成。这意味着它只需要一次网络前向传播就能输出最终图像，大大缩短了生成时间，使其适用于实时交互应用。<br>其他扩散模型 (如 Stable Diffusion 1.5/2.1, SDXL): 通常需要一个迭代的“去噪”过程，步数（Steps）一般设置在 20 到 50 步之间。步数越多，细节通常越好，但耗时也越长。</p></li><li><p><strong>实现技术 (Underlying Technology)</strong></p><p>SD-Turbo: 采用了一种名为对抗性扩散蒸馏 (Adversarial Diffusion Distillation, ADD) 的新技术。<br>可以将其理解为一种“模型蒸馏”技术。它有一个强大的“教师模型”（基于 SD 2.1），SD-Turbo 作为“学生模型”来学习教师的生成能力。<br>与传统蒸馏不同，它引入了对抗性训练（类似 GANs），有一个判别器来判断生成图像的真伪，这迫使 SD-Turbo 学会在单步内就生成非常逼真的图像。<br>其他扩散模型: 使用的是扩散与去噪（Denoising Diffusion Probabilistic Models, DDPM）原理。通过一个逐步添加噪声的前向过程和一个逐步去除噪声的反向过程来生成图像，这个反向过程就是我们通常所说的采样（sampling）。</p></li><li><p><strong>图像质量与细节 (Image Quality &amp; Detail)</strong></p><p>SD-Turbo: 在单步生成的前提下，图像质量非常惊人，但在精细的细节、复杂构图和对提示词（Prompt）的精确理解上，可能略逊于经过多步迭代的顶级模型（如 SDXL）。它在速度和质量之间做了一个极致的平衡。<br>其他扩散模型: 可以通过增加迭代步数来提升图像的细节和一致性，通常能够更好地遵循复杂的提示词。SDXL 在这方面尤其出色。</p></li><li><p><strong>使用方式 (Usage)</strong></p><p>SD-Turbo: 在使用时，通常不需要或不推荐使用 guidance_scale (CFG) 和 negative_prompt。因为它的模型设计就是为了在单步内直接生成，没有多步迭代的过程给这些参数来引导。通常会将 guidance_scale 设置为 0。<br>其他扩散模型: guidance_scale 和 negative_prompt 是非常重要的控制手段，用来增强提示词的相关性并避免不希望出现的元素。</p></li></ol><h3 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h3><p><a href="https://huggingface.co/stabilityai/sd-turbo">SD-Turbo huggingface</a></p>]]></content>
       
@@ -179,8 +204,8 @@
     
     <entry>
       <title>Alignment Module</title>
-      <link href="/2025/08/17/AlignmentModule/"/>
-      <url>/2025/08/17/AlignmentModule/</url>
+      <link href="/2025/08/AlignmentModule/"/>
+      <url>/2025/08/AlignmentModule/</url>
       
         <content type="html"><![CDATA[<h2 id="计算机视觉领域的-Alignment-Module-设计"><a href="#计算机视觉领域的-Alignment-Module-设计" class="headerlink" title="计算机视觉领域的 Alignment Module 设计"></a>计算机视觉领域的 Alignment Module 设计</h2><p>目标：将视觉特征与文本或其他模态的特征空间对齐，以实现多模态理解或提升视觉推理能力。</p><h3 id="FaithDiff"><a href="#FaithDiff" class="headerlink" title="FaithDiff"></a>FaithDiff</h3><p><img src="/images/FaithDiff.png" alt="FaithDiff alignment Module"><br>为了能够更好的在生成过程中补充 LQ 图像信息，需要将 LQ 信息注入到模型的生成过程中，但是由于 LQ 图像和 noisy latnet $x_t^{HQ}$ 之间存在 gap，直接相加是不大合理的，所以设计 <code>Alignment Module</code> 将 LQ 图像和 $x_t^{HQ}$ 进行对齐，然后输入到模型中。<br>具体来说，FaithDiff 中的 Alignment Module 设计如下：</p><script type="math/tex; mode=display">\begin{align}f_t^x &= \text{Conv}(x_t^{HQ}), \\f^m &= \text{Conv}(f^{LQ}), \\f_t^c &= \text{Concat}(f_t^x, f^m), \\\text{Trans}(f_t^c) &= \mathcal{T}_2(\mathcal{T}_1(f_t^c)), \\f_t^a &= \text{Linear}(\text{Trans}(f_t^c) + f_t^x),\end{align}</script><p>其中 $\mathcal{T}$ 是 Transformer Block, 对应的 <a href="https://github.com/JyChen9811/FaithDiff/issues/16">Alignment Module</a> 的代码位置</p><h3 id="IP-Adapter"><a href="#IP-Adapter" class="headerlink" title="IP-Adapter"></a>IP-Adapter</h3><p><img src="/images/IPadapter.png" alt="IP-Adapter"></p><p>IP-Adapter 通过解耦的两个 Cross-Attention 分别融合图像信息和文本信息，其中图像信息通过 <code>Image-Conditioned Attention</code> 进行融合，文本信息通过 <code>Text-Conditioned Attention</code> 进行融合。这种方式不会让图像和文本信息相互干扰，在信息传递的过程中可以依次提取所需要的图像和文本信息。</p><h3 id="DAEFR"><a href="#DAEFR" class="headerlink" title="DAEFR"></a>DAEFR</h3><p><img src="/images/DAEFR.png" alt="DAEFR"></p><p>DAEFR 采用 CLIP 的方式，在 (b) Association Stage 对齐 LQ 和 HQ，后续采用 Attention 机制将 LQ 和 HQ 信息进行融合。</p><h2 id="参考论文"><a href="#参考论文" class="headerlink" title="参考论文"></a>参考论文</h2><ul><li><a href="https://arxiv.org/abs/2411.18824">FaithDiff: Unleashing Diffusion Models for Faithful Text-to-Image Generation</a></li><li><a href="https://arxiv.org/abs/2308.06721">IP-Adapter: Text Compatible Image Prompt Adapter for Text-to-Image Diffusion Models</a></li><li><a href="https://arxiv.org/pdf/2308.07314">DAEFR: DUAL ASSOCIATED ENCODER FOR FACE RESTORATION</a></li></ul>]]></content>
       
@@ -204,8 +229,8 @@
     
     <entry>
       <title>Hello World</title>
-      <link href="/2025/08/17/hello-world/"/>
-      <url>/2025/08/17/hello-world/</url>
+      <link href="/2025/08/hello-world/"/>
+      <url>/2025/08/hello-world/</url>
       
         <content type="html"><![CDATA[<p>欢迎来到我的博客！这是第一篇文章。</p><span id="more"></span><p>这里是文章的详细内容…</p>]]></content>
       

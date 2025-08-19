@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang=en>
+<html lang=zh>
 <head>
   <!-- so meta -->
   <meta charset="utf-8" />
@@ -15,10 +15,10 @@
   <meta name="description" content="个人对于自己常见但不熟悉的 HTTP 状态码的总结304HTTP 状态码 304 表示”未修改”。它表示请求的资源自上次访问以来没有变化，允许浏览器使用其缓存的版本，而不是重新下载。这有助于节省带宽并加快加载时间。  504504 网关超时错误发生在网关或代理服务器未能及时从上游服务器收到响应时。此问题通常由服务器端连接问题引起，但偶尔也会受客户端配置影响。 常见原因 上游服务器宕机或过载。  服">
 <meta property="og:type" content="article">
 <meta property="og:title" content="HTTP 状态码">
-<meta property="og:url" content="https://suebwj.github.io/2025/08/18/HTTP_status_code/index.html">
+<meta property="og:url" content="https://suebwj.github.io/2025/08/HTTP_status_code/index.html">
 <meta property="og:site_name" content="Sue&#39;s blog">
 <meta property="og:description" content="个人对于自己常见但不熟悉的 HTTP 状态码的总结304HTTP 状态码 304 表示”未修改”。它表示请求的资源自上次访问以来没有变化，允许浏览器使用其缓存的版本，而不是重新下载。这有助于节省带宽并加快加载时间。  504504 网关超时错误发生在网关或代理服务器未能及时从上游服务器收到响应时。此问题通常由服务器端连接问题引起，但偶尔也会受客户端配置影响。 常见原因 上游服务器宕机或过载。  服">
-<meta property="og:locale" content="en_US">
+<meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-08-18T07:17:32.000Z">
 <meta property="article:modified_time" content="2025-08-18T13:01:43.610Z">
 <meta property="article:author" content="Sue Dickinson">
@@ -81,26 +81,26 @@
 
 <body class="max-width mx-auto px3 ltr">    
       <div id="header-post">
-  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
-  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
-  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
   <span id="menu">
     <span id="nav">
       <ul>
         <!--
-       --><li><a href="/">Home</a></li><!--
+       --><li><a href="/">首页</a></li><!--
      --><!--
-       --><li><a href="/search/">Search</a></li><!--
+       --><li><a href="/search/">搜索</a></li><!--
      --><!--
-       --><li><a href="/about/">About</a></li><!--
+       --><li><a href="/about/">关于</a></li><!--
      --><!--
-       --><li><a href="/reviews/">reviews</a></li><!--
+       --><li><a href="/reviews/">影音书评</a></li><!--
      --><!--
-       --><li><a href="/stats/">stats</a></li><!--
+       --><li><a href="/stats/">统计</a></li><!--
      --><!--
-       --><li><a href="/archives/">Writing</a></li><!--
+       --><li><a href="/archives/">归档</a></li><!--
      --><!--
-       --><li><a target="_blank" rel="noopener" href="http://github.com/suebwj">Projects</a></li><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/suebwj">项目</a></li><!--
      -->
       </ul>
     </span>
@@ -108,33 +108,33 @@
     <span id="actions">
       <ul>
         
-        <li><a class="icon" aria-label="Previous post" href="/2025/08/18/fleabag/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="上一篇" href="/2025/08/fleabag/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
         
         
-        <li><a class="icon" aria-label="Next post" href="/2025/08/18/%E5%8D%81%E4%B8%80%E7%BD%97%E6%B1%89/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="下一篇" href="/2025/08/killing_eve/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
         
-        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
-        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
       </ul>
-      <span id="i-prev" class="info" style="display:none;">Previous post</span>
-      <span id="i-next" class="info" style="display:none;">Next post</span>
-      <span id="i-top" class="info" style="display:none;">Back to top</span>
-      <span id="i-share" class="info" style="display:none;">Share post</span>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
     </span>
     <br/>
     <div id="share" style="display: none">
       <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://suebwj.github.io/2025/08/18/HTTP_status_code/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://suebwj.github.io/2025/08/18/HTTP_status_code/&text=HTTP 状态码"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://suebwj.github.io/2025/08/18/HTTP_status_code/&title=HTTP 状态码"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://suebwj.github.io/2025/08/18/HTTP_status_code/&is_video=false&description=HTTP 状态码"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=HTTP 状态码&body=Check out this article: https://suebwj.github.io/2025/08/18/HTTP_status_code/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://suebwj.github.io/2025/08/18/HTTP_status_code/&title=HTTP 状态码"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://suebwj.github.io/2025/08/18/HTTP_status_code/&title=HTTP 状态码"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://suebwj.github.io/2025/08/18/HTTP_status_code/&title=HTTP 状态码"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://suebwj.github.io/2025/08/18/HTTP_status_code/&title=HTTP 状态码"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://suebwj.github.io/2025/08/18/HTTP_status_code/&name=HTTP 状态码&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://suebwj.github.io/2025/08/18/HTTP_status_code/&t=HTTP 状态码"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://suebwj.github.io/2025/08/HTTP_status_code/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://suebwj.github.io/2025/08/HTTP_status_code/&text=HTTP 状态码"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://suebwj.github.io/2025/08/HTTP_status_code/&title=HTTP 状态码"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://suebwj.github.io/2025/08/HTTP_status_code/&is_video=false&description=HTTP 状态码"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=HTTP 状态码&body=Check out this article: https://suebwj.github.io/2025/08/HTTP_status_code/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://suebwj.github.io/2025/08/HTTP_status_code/&title=HTTP 状态码"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://suebwj.github.io/2025/08/HTTP_status_code/&title=HTTP 状态码"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://suebwj.github.io/2025/08/HTTP_status_code/&title=HTTP 状态码"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://suebwj.github.io/2025/08/HTTP_status_code/&title=HTTP 状态码"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://suebwj.github.io/2025/08/HTTP_status_code/&name=HTTP 状态码&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://suebwj.github.io/2025/08/HTTP_status_code/&t=HTTP 状态码"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -214,7 +214,7 @@
 
     <div class="blog-post-comments">
         <div id="utterances_thread">
-            <noscript>Please enable JavaScript to view the comments.</noscript>
+            <noscript>加载评论需要在浏览器启用 JavaScript 脚本支持。</noscript>
         </div>
     </div>
 
@@ -226,19 +226,19 @@
     <div id="nav-footer" style="display: none">
       <ul>
         
-          <li><a href="/">Home</a></li>
+          <li><a href="/">首页</a></li>
         
-          <li><a href="/search/">Search</a></li>
+          <li><a href="/search/">搜索</a></li>
         
-          <li><a href="/about/">About</a></li>
+          <li><a href="/about/">关于</a></li>
         
-          <li><a href="/reviews/">reviews</a></li>
+          <li><a href="/reviews/">影音书评</a></li>
         
-          <li><a href="/stats/">stats</a></li>
+          <li><a href="/stats/">统计</a></li>
         
-          <li><a href="/archives/">Writing</a></li>
+          <li><a href="/archives/">归档</a></li>
         
-          <li><a target="_blank" rel="noopener" href="http://github.com/suebwj">Projects</a></li>
+          <li><a target="_blank" rel="noopener" href="http://github.com/suebwj">项目</a></li>
         
       </ul>
     </div>
@@ -252,28 +252,28 @@
 
     <div id="share-footer" style="display: none">
       <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://suebwj.github.io/2025/08/18/HTTP_status_code/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://suebwj.github.io/2025/08/18/HTTP_status_code/&text=HTTP 状态码"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://suebwj.github.io/2025/08/18/HTTP_status_code/&title=HTTP 状态码"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://suebwj.github.io/2025/08/18/HTTP_status_code/&is_video=false&description=HTTP 状态码"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=HTTP 状态码&body=Check out this article: https://suebwj.github.io/2025/08/18/HTTP_status_code/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://suebwj.github.io/2025/08/18/HTTP_status_code/&title=HTTP 状态码"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://suebwj.github.io/2025/08/18/HTTP_status_code/&title=HTTP 状态码"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://suebwj.github.io/2025/08/18/HTTP_status_code/&title=HTTP 状态码"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://suebwj.github.io/2025/08/18/HTTP_status_code/&title=HTTP 状态码"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://suebwj.github.io/2025/08/18/HTTP_status_code/&name=HTTP 状态码&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://suebwj.github.io/2025/08/18/HTTP_status_code/&t=HTTP 状态码"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://suebwj.github.io/2025/08/HTTP_status_code/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://suebwj.github.io/2025/08/HTTP_status_code/&text=HTTP 状态码"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://suebwj.github.io/2025/08/HTTP_status_code/&title=HTTP 状态码"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://suebwj.github.io/2025/08/HTTP_status_code/&is_video=false&description=HTTP 状态码"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=HTTP 状态码&body=Check out this article: https://suebwj.github.io/2025/08/HTTP_status_code/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://suebwj.github.io/2025/08/HTTP_status_code/&title=HTTP 状态码"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://suebwj.github.io/2025/08/HTTP_status_code/&title=HTTP 状态码"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://suebwj.github.io/2025/08/HTTP_status_code/&title=HTTP 状态码"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://suebwj.github.io/2025/08/HTTP_status_code/&title=HTTP 状态码"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://suebwj.github.io/2025/08/HTTP_status_code/&name=HTTP 状态码&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://suebwj.github.io/2025/08/HTTP_status_code/&t=HTTP 状态码"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
 
     <div id="actions-footer">
-        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
         
-          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
         
-        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
-        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
     </div>
 
   </div>
@@ -292,19 +292,19 @@
     <nav>
       <ul>
         <!--
-       --><li><a href="/">Home</a></li><!--
+       --><li><a href="/">首页</a></li><!--
      --><!--
-       --><li><a href="/search/">Search</a></li><!--
+       --><li><a href="/search/">搜索</a></li><!--
      --><!--
-       --><li><a href="/about/">About</a></li><!--
+       --><li><a href="/about/">关于</a></li><!--
      --><!--
-       --><li><a href="/reviews/">reviews</a></li><!--
+       --><li><a href="/reviews/">影音书评</a></li><!--
      --><!--
-       --><li><a href="/stats/">stats</a></li><!--
+       --><li><a href="/stats/">统计</a></li><!--
      --><!--
-       --><li><a href="/archives/">Writing</a></li><!--
+       --><li><a href="/archives/">归档</a></li><!--
      --><!--
-       --><li><a target="_blank" rel="noopener" href="http://github.com/suebwj">Projects</a></li><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/suebwj">项目</a></li><!--
      -->
       </ul>
     </nav>
@@ -334,7 +334,7 @@
   <script type="text/javascript">
   $(function() {
     // copy-btn HTML
-    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
     btn += '<i class="fa-regular fa-clone"></i>';
     btn += '</span>';
     // mount it!
@@ -345,7 +345,7 @@
       }
     });
     clip.on('success', function(e) {
-      e.trigger.setAttribute('aria-label', "Copied!");
+      e.trigger.setAttribute('aria-label', "复制成功！");
       e.clearSelection();
     })
   })

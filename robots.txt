@@ -5,12 +5,22 @@ Allow: /tags/
 Allow: /categories/
 Allow: /about/
 Allow: /reviews/
-Allow: /projects/
 Allow: /stats/
+Allow: /search/
 
+# 禁止访问静态资源和系统文件
 Disallow: /js/
 Disallow: /css/
 Disallow: /lib/
+Disallow: /_posts/
+Disallow: /node_modules/
 
+# 允许访问图片资源
+Allow: /images/
+
+# 站点地图
 Sitemap: https://suebwj.github.io/sitemap.xml
 Sitemap: https://suebwj.github.io/baidusitemap.xml
+
+# 爬取延迟 (对服务器友好)
+Crawl-delay: 1
