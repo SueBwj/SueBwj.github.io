@@ -3,6 +3,23 @@
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   
   <url>
+    <loc>https://suebwj.github.io/2025/08/React-UseCallback/</loc>
+    
+    <lastmod>2025-08-19T16:00:00.000Z</lastmod>
+    
+    <changefreq>
+      weekly
+    </changefreq>
+    <priority>
+      0.8
+      
+    </priority>
+    
+    
+    
+  </url>
+  
+  <url>
     <loc>https://suebwj.github.io/2025/08/fleabag/</loc>
     
     <lastmod>2025-08-19T05:45:17.773Z</lastmod>
