@@ -4,6 +4,33 @@
   
     
     <entry>
+      <title>Feature-wise Linear Modulation (FiLM)</title>
+      <link href="/2025/08/FiLM-Feature-wise-Linear-Modulation/"/>
+      <url>/2025/08/FiLM-Feature-wise-Linear-Modulation/</url>
+      
+        <content type="html"><![CDATA[<h1 id="FiLM-特征层面线性调制-Feature-wise-Linear-Modulation"><a href="#FiLM-特征层面线性调制-Feature-wise-Linear-Modulation" class="headerlink" title="FiLM: 特征层面线性调制 (Feature-wise Linear Modulation)"></a>FiLM: 特征层面线性调制 (Feature-wise Linear Modulation)</h1><p>在深度学习领域，我们经常需要模型根据某些外部条件来调整自身的行为。例如，在图像生成任务中，我们可能希望根据一段文字描述（“一只正在草地上奔跑的金色小狗”）来生成相应的图片；在视觉问答（VQA）中，模型需要根据提出的问题来分析图像并给出答案。</p><p>如何将这些“条件信息”高效地注入到神经网络中，一直是一个核心问题。一种朴素的方法是在输入层将条件向量与主输入数据拼接（Concatenate）在一起，但这常常导致条件信息在网络深层传递时被稀释或遗忘。</p><p>为了解决这个问题，FiLM (Feature-wise Linear Modulation) 应运而生。它是一种思想巧妙且高效的技术，其核心在于：不直接将条件作为数据输入，而是用它来“调制”或“操纵”网络中间层的特征，这种调整通过一个非常简单的仿射变换（affine transformation）来实现，也就是对特征进行缩放 (scale) 和偏移 (shift)。</p><h2 id="工作原理"><a href="#工作原理" class="headerlink" title="工作原理"></a>工作原理</h2><p>FiLM 层的基本数学公式是：</p><script type="math/tex; mode=display">FiLM(x) = \gamma \cdot x + \beta</script><p>其中，$x$ 是输入特征，$\gamma$ 和 $\beta$ 是可学习的参数, 由外部的条件信息（比如 文本嵌入、类别标签、时间步等）通过一个小网络预测得到。FiLM 的操作不包含归一化步骤。它直接在原始特征上进行缩放和偏移，目的是让条件信息来“操纵”或“调整”这些特征。</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> torch.nn <span class="keyword">as</span> nn</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">FiLMLayer</span>(nn.Module):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, channels, condition_dim</span>):</span><br><span class="line">        <span class="built_in">super</span>().__init__()</span><br><span class="line">        <span class="comment"># 条件网络，将条件向量映射到 gamma 和 beta</span></span><br><span class="line">        self.cond_net = nn.Linear(condition_dim, channels * <span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">forward</span>(<span class="params">self, x, condition</span>):</span><br><span class="line">        <span class="comment"># x 的形状: [B, C, H, W] (以CNN为例)</span></span><br><span class="line">        <span class="comment"># condition 的形状: [B, D]</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># 1. 通过条件网络生成 gamma 和 beta</span></span><br><span class="line">        gamma_beta = self.cond_net(condition) <span class="comment"># [B, C*2]</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># 2. 将输出切分为 gamma 和 beta</span></span><br><span class="line">        gamma, beta = torch.chunk(gamma_beta, <span class="number">2</span>, dim=<span class="number">1</span>) <span class="comment"># 均为 [B, C]</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># 3. 调整形状以匹配特征 x</span></span><br><span class="line">        <span class="comment"># unsqueeze 用于增加维度以进行广播 (broadcast)</span></span><br><span class="line">        gamma = gamma.unsqueeze(<span class="number">2</span>).unsqueeze(<span class="number">3</span>) <span class="comment"># [B, C, 1, 1]</span></span><br><span class="line">        beta = beta.unsqueeze(<span class="number">2</span>).unsqueeze(<span class="number">3</span>)   <span class="comment"># [B, C, 1, 1]</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># 4. 应用 FiLM 调制</span></span><br><span class="line">        <span class="keyword">return</span> x * gamma + beta</span><br></pre></td></tr></table></figure><h2 id="FiLM-vs-AdaLN"><a href="#FiLM-vs-AdaLN" class="headerlink" title="FiLM vs AdaLN"></a>FiLM vs AdaLN</h2><p>FiLM 经常与 AdaLN (Adaptive Layer Normalization) 相提并论。它们的核心思想相似（都是动态生成仿射变换参数），但有一个关键区别：</p><ul><li><p>FiLM: 直接对特征进行仿射变换 γx + β。</p></li><li><p>AdaLN: 先对特征进行归一化，然后再进行仿射变换 γ * Norm(x) + β。</p></li></ul><p>可以认为，AdaLN 是 FiLM 思想在层归一化（Layer Normalization）上的一种特例化应用。AdaLN 在稳定训练的同时注入条件，在许多生成模型（如 DiT）中非常流行。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Learning </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> FiLM </tag>
+            
+            <tag> style transfer </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>React-useCallback</title>
       <link href="/2025/08/React-UseCallback/"/>
       <url>/2025/08/React-UseCallback/</url>
