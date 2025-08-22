@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <!-- so meta -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, maximum-scale=5"
+  />
+  <!-- Google Site Verification -->
+  <meta name="google-site-verification" content="S0jxAEQsYatWH7oe_UM40ez0kWxvEO5A9l6i2M6qjoM" />
+  <meta name="msvalidate.01" content="1A997080AFF8AC96D109D90DADEE4449" />
+  <meta name="description" content="How to train a LQ Encoder">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How to train a LQ Encoder">
+<meta property="og:url" content="https://suebwj.github.io/2025/08/How-to-train-a-LQ-Encoder-%E5%A6%82%E4%BD%95%E8%AE%AD%E7%BB%83%E4%B8%80%E4%B8%AALQ-Encoder/index.html">
+<meta property="og:site_name" content="Sue&#39;s blog">
+<meta property="og:description" content="How to train a LQ Encoder">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://suebwj.github.io/images/supir.png">
+<meta property="og:image" content="https://suebwj.github.io/images/PASD.png">
+<meta property="og:image" content="https://suebwj.github.io/images/Seesr.png">
+<meta property="og:image" content="https://suebwj.github.io/images/HeroSR.png">
+<meta property="og:image" content="https://suebwj.github.io/images/CodeFormer.png">
+<meta property="og:image" content="https://suebwj.github.io/images/DAEFR_method.png">
+<meta property="article:published_time" content="2025-08-21T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-08-21T16:00:00.000Z">
+<meta property="article:author" content="Sue Dickinson">
+<meta property="article:tag" content="LQ Encoder">
+<meta property="article:tag" content="Computer Vision">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://suebwj.github.io/images/supir.png">
+     
+  <link rel="shortcut icon" href="/images/favicon.ico" />
+     
+  <link
+    rel="icon"
+    type="image/png"
+    href="/images/favicon-192x192.png"
+    sizes="192x192"
+  />
+     
+  <link
+    rel="apple-touch-icon"
+    sizes="180x180"
+    href="/images/apple-touch-icon.png"
+  />
+    
+  <!-- title -->
+  <title>How to train a LQ Encoder</title>
+  <!-- async scripts -->
+  <!-- Google Analytics -->
+
+ <!-- Umami Analytics -->
+
+    <script async defer
+            data-website-id="d4fd445d-9c4a-4b17-b4e2-92718cb90737"
+            src="https://cloud.umami.is/script.js">
+    </script>
+
+
+  <!-- styles -->
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!-- persian styles -->
+  
+  <!-- rss -->
+   
+  <!-- mathjax -->
+  
+  <script type="text/x-mathjax-config">
+     MathJax.Hub.Config({
+    tex2jax: {
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      inlineMath: [['$','$']]
+    }
+     });
+  </script>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"
+    async
+  ></script>
+  
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/reviews/">影音书评</a></li><!--
+     --><!--
+       --><li><a href="/stats/">统计</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/suebwj">项目</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2025/08/FiLM-Feature-wise-Linear-Modulation/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://suebwj.github.io/2025/08/How-to-train-a-LQ-Encoder-%E5%A6%82%E4%BD%95%E8%AE%AD%E7%BB%83%E4%B8%80%E4%B8%AALQ-Encoder/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://suebwj.github.io/2025/08/How-to-train-a-LQ-Encoder-%E5%A6%82%E4%BD%95%E8%AE%AD%E7%BB%83%E4%B8%80%E4%B8%AALQ-Encoder/&text=How to train a LQ Encoder"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://suebwj.github.io/2025/08/How-to-train-a-LQ-Encoder-%E5%A6%82%E4%BD%95%E8%AE%AD%E7%BB%83%E4%B8%80%E4%B8%AALQ-Encoder/&title=How to train a LQ Encoder"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://suebwj.github.io/2025/08/How-to-train-a-LQ-Encoder-%E5%A6%82%E4%BD%95%E8%AE%AD%E7%BB%83%E4%B8%80%E4%B8%AALQ-Encoder/&is_video=false&description=How to train a LQ Encoder"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=How to train a LQ Encoder&body=Check out this article: https://suebwj.github.io/2025/08/How-to-train-a-LQ-Encoder-%E5%A6%82%E4%BD%95%E8%AE%AD%E7%BB%83%E4%B8%80%E4%B8%AALQ-Encoder/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://suebwj.github.io/2025/08/How-to-train-a-LQ-Encoder-%E5%A6%82%E4%BD%95%E8%AE%AD%E7%BB%83%E4%B8%80%E4%B8%AALQ-Encoder/&title=How to train a LQ Encoder"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://suebwj.github.io/2025/08/How-to-train-a-LQ-Encoder-%E5%A6%82%E4%BD%95%E8%AE%AD%E7%BB%83%E4%B8%80%E4%B8%AALQ-Encoder/&title=How to train a LQ Encoder"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://suebwj.github.io/2025/08/How-to-train-a-LQ-Encoder-%E5%A6%82%E4%BD%95%E8%AE%AD%E7%BB%83%E4%B8%80%E4%B8%AALQ-Encoder/&title=How to train a LQ Encoder"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://suebwj.github.io/2025/08/How-to-train-a-LQ-Encoder-%E5%A6%82%E4%BD%95%E8%AE%AD%E7%BB%83%E4%B8%80%E4%B8%AALQ-Encoder/&title=How to train a LQ Encoder"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://suebwj.github.io/2025/08/How-to-train-a-LQ-Encoder-%E5%A6%82%E4%BD%95%E8%AE%AD%E7%BB%83%E4%B8%80%E4%B8%AALQ-Encoder/&name=How to train a LQ Encoder&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://suebwj.github.io/2025/08/How-to-train-a-LQ-Encoder-%E5%A6%82%E4%BD%95%E8%AE%AD%E7%BB%83%E4%B8%80%E4%B8%AALQ-Encoder/&t=How to train a LQ Encoder"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#References"><span class="toc-number">1.</span> <span class="toc-text">References</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        How to train a LQ Encoder
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Sue Dickinson</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2025-08-21T16:00:00.000Z" class="dt-published" itemprop="datePublished">2025-08-22</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/Learning/">Learning</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/Computer-Vision/" rel="tag">Computer Vision</a>, <a class="p-category" href="/tags/LQ-Encoder/" rel="tag">LQ Encoder</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <ul>
+<li><p>情况一：LQ = Low-Quality (低质量)</p>
+<ul>
+<li><p>目标：训练一个编码器（Encoder），使其能够从低质量、有损、模糊或带噪点的输入（如低分辨率图片、压缩过的音频）中提取出稳定、鲁棒的核心特征。</p>
+</li>
+<li><p>应用场景：图像超分辨率 (Super-Resolution)、图像修复 (Image Restoration)、人脸增强 (Face Enhancement)、去噪 (Denoising) 等。</p>
+</li>
+</ul>
+</li>
+<li><p>案例 1： 《SUPIR》<br><img src="/images/supir.png" alt="SUPIR"><br>在 SUPIR 中，为了确保低质量图像能够被正确映射到与预训练 SDXL 相同的潜在空间，作者提出了训练一个抗退化编码器（Degradation-Robust Encoder）。</p>
+<p>SDXL 的扩散生成过程在潜在空间中进行。图像首先通过预训练的编码器映射到潜在空间。为了有效利用预训练的 SDXL，低质量图像 <script type="math/tex">x_{LQ}</script> 也应该被映射到相同的潜在空间。由于原始编码器没有在低质量图像上训练，直接使用它进行编码会影响模型对低质量图像内容的判断，进而产生误导性的人工制品作为图像内容。训练一个抗退化编码器 <script type="math/tex">\mathcal{E}_{dr}</script>，通过最小化损失函数使其对退化具有鲁棒性：</p>
+<script type="math/tex; mode=display">\mathcal{L}_c = ||\mathcal{D}(\mathcal{E}_{dr}(x_{LQ})) - \mathcal{D}(\mathcal{E}_{dr}(x_{GT}))||_2^2</script><p>其中：</p>
+<ul>
+<li>$\mathcal{E}_{dr}$ 是待微调的抗退化编码器</li>
+<li>$\mathcal{D}$ 是固定的解码器</li>
+<li>$x_{GT}$ 是真实图像（ground truth）</li>
+</ul>
+<p>这样训练出的编码器能够将低质量图像编码到与高质量图像相同的潜在空间中，确保后续扩散过程的有效性。</p>
+</li>
+<li><p>案例 2： 《PASD》<br><img src="/images/PASD.png" alt="PASD"></p>
+<p>真实世界的低质量图像通常受到复杂且未知的降解影响。因此，作者采用一个降解去除模块来减少降解的影响，并从低质量图像中提取“干净”的特征以控制扩散过程。如图 2 所示，作者采用金字塔网络来提取输入低质量图像的 1/2、1/4 和 1/8 缩放分辨率的多尺度特征图。直观地，这些特征可以用于尽可能接近地逼近相应尺度的高质量图像，以便后续的扩散模块可以专注于恢复真实的图像细节，减轻区分图像降解的负担。因此，作者通过采用卷积层“toRGB”将每个单尺度特征图转换为高质量 RGB 图像空间，引入中间监督。作者在每个分辨率尺度上应用 L1 损失，以强制该尺度的重建接近于高质量图像的相应尺度：</p>
+<script type="math/tex; mode=display">L_{DR} = \sum_{s} ||I_{s}^{HQ} - I_{s}^{ISR}||_1</script><p>其中：</p>
+<ul>
+<li>$I_{s}^{HQ}$ 是尺度 s 上的高质量真实值</li>
+<li>$I_{s}^{ISR}$ 是尺度 s 上的 ISR 输出</li>
+</ul>
+</li>
+<li><p>案例 3： 《SeeSR》<br><img src="/images/Seesr.png" alt="Seesr"></p>
+<p>DAPE 是从预训练的标签模型（如 RAM）微调而来的。如图 2(a) 所示，高分辨率图像 $x$ 通过一个冻结的标签模型输出表示嵌入 $f^{HR}$ 和 logits 嵌入 $g^{HR}$，作为监督 DAPE 训练的锚点。低分辨率图像 $y$ 是通过对 $x$ 应用随机降级获得的，它们被输入到可训练的图像编码器和标签头中。为了使 DAPE 对图像降级具有鲁棒性，作者强制低分辨率分支的表示嵌入和 logits 嵌入接近高分辨率分支的嵌入。训练目标如下：</p>
+<script type="math/tex; mode=display">\mathcal{L}_{DAPE} = \mathcal{L}_{f}^{HR} + \lambda \mathcal{L}_{g}^{HR}</script><p>其中 $\lambda$ 是平衡参数，$f^{HR}$ 和 $g^{HR}$ 是低分辨率分支的表示嵌入和 logits 嵌入。<script type="math/tex">\mathcal{L}_{f}</script> 是均方误差（MSE）损失，而 <script type="math/tex">\mathcal{L}_{g}</script> 是交叉熵损失。通过对齐低分辨率和高分辨率分支的输出，DAPE 学会从损坏的图像输入中预测高质量的语义提示。</p>
+</li>
+<li><p>案例 4： 《HeroSR》<br><img src="/images/HeroSR.png" alt="HeroSR"><br>前三种都是有监督，HeroSR 是无监督的方式，采用端到端的优化，让 VAE encoder 和 Unet 注入的 LoRA 层去调制。</p>
+</li>
+<li><p>情况二：LQ = Learned Quantization (学习型量化)</p>
+<ul>
+<li><p>目标：训练一个编码器，其输出的连续特征向量会被一个量化层（Quantization Layer）映射到一组离散的、有限的“码本” (Codebook) 向量上。</p>
+</li>
+<li><p>应用场景：高效的数据压缩、高质量的生成模型（如 VQ-VAE, VQ-GAN）、学习离散化的数据表征。</p>
+</li>
+</ul>
+</li>
+<li><p>案例 1： 《CodeFormer》<br><img src="/images/CodeFormer.png" alt="CodeFormer"><br>借助训练好的包含 HQ 图像信息的码本，端到端的优化 LQ Encoder。</p>
+</li>
+<li><p>案例 2： 《DAEFR》<br><img src="/images/DAEFR_method.png" alt="DAEFR"></p>
+<ol>
+<li><p><strong>第一阶段</strong> 使用 VQ-VAE 预训练训练:</p>
+<ul>
+<li>LQ Encoder → LQ Codebook → LQ Decoder</li>
+<li>目标：重建 LQ 图像 $x_{LQ}$，得到良好的潜在特征表示。</li>
+</ul>
+</li>
+<li><p><strong>第二阶段</strong> 专注与 HQ 表示的关联:</p>
+<ul>
+<li>让 LQ Encoder 学习到能预测到 HQ Encoder 的特征边际。</li>
+</ul>
+</li>
+<li><p><strong>第三阶段</strong>:</p>
+<ul>
+<li>LQ Encoder 提供输入特征，经过注意力加 Transformer，预测 HQ 的 code index，最终用 HQ Decoder 重建 HQ 图像。</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2401.13627">SUPIR</a></li>
+<li><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2308.14469">PASD</a></li>
+<li><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2311.16518">SeeSR</a></li>
+<li><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2412.07152">HeroSR</a></li>
+<li><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2206.11253">CodeFormer</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/LIAGM/DAEFR">DAEFR</a></li>
+</ul>
+
+  </div>
+</article>
+
+
+    <div class="blog-post-comments">
+        <div id="utterances_thread">
+            <noscript>加载评论需要在浏览器启用 JavaScript 脚本支持。</noscript>
+        </div>
+    </div>
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/reviews/">影音书评</a></li>
+        
+          <li><a href="/stats/">统计</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="http://github.com/suebwj">项目</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#References"><span class="toc-number">1.</span> <span class="toc-text">References</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://suebwj.github.io/2025/08/How-to-train-a-LQ-Encoder-%E5%A6%82%E4%BD%95%E8%AE%AD%E7%BB%83%E4%B8%80%E4%B8%AALQ-Encoder/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://suebwj.github.io/2025/08/How-to-train-a-LQ-Encoder-%E5%A6%82%E4%BD%95%E8%AE%AD%E7%BB%83%E4%B8%80%E4%B8%AALQ-Encoder/&text=How to train a LQ Encoder"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://suebwj.github.io/2025/08/How-to-train-a-LQ-Encoder-%E5%A6%82%E4%BD%95%E8%AE%AD%E7%BB%83%E4%B8%80%E4%B8%AALQ-Encoder/&title=How to train a LQ Encoder"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://suebwj.github.io/2025/08/How-to-train-a-LQ-Encoder-%E5%A6%82%E4%BD%95%E8%AE%AD%E7%BB%83%E4%B8%80%E4%B8%AALQ-Encoder/&is_video=false&description=How to train a LQ Encoder"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=How to train a LQ Encoder&body=Check out this article: https://suebwj.github.io/2025/08/How-to-train-a-LQ-Encoder-%E5%A6%82%E4%BD%95%E8%AE%AD%E7%BB%83%E4%B8%80%E4%B8%AALQ-Encoder/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://suebwj.github.io/2025/08/How-to-train-a-LQ-Encoder-%E5%A6%82%E4%BD%95%E8%AE%AD%E7%BB%83%E4%B8%80%E4%B8%AALQ-Encoder/&title=How to train a LQ Encoder"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://suebwj.github.io/2025/08/How-to-train-a-LQ-Encoder-%E5%A6%82%E4%BD%95%E8%AE%AD%E7%BB%83%E4%B8%80%E4%B8%AALQ-Encoder/&title=How to train a LQ Encoder"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://suebwj.github.io/2025/08/How-to-train-a-LQ-Encoder-%E5%A6%82%E4%BD%95%E8%AE%AD%E7%BB%83%E4%B8%80%E4%B8%AALQ-Encoder/&title=How to train a LQ Encoder"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://suebwj.github.io/2025/08/How-to-train-a-LQ-Encoder-%E5%A6%82%E4%BD%95%E8%AE%AD%E7%BB%83%E4%B8%80%E4%B8%AALQ-Encoder/&title=How to train a LQ Encoder"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://suebwj.github.io/2025/08/How-to-train-a-LQ-Encoder-%E5%A6%82%E4%BD%95%E8%AE%AD%E7%BB%83%E4%B8%80%E4%B8%AALQ-Encoder/&name=How to train a LQ Encoder&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://suebwj.github.io/2025/08/How-to-train-a-LQ-Encoder-%E5%A6%82%E4%BD%95%E8%AE%AD%E7%BB%83%E4%B8%80%E4%B8%AALQ-Encoder/&t=How to train a LQ Encoder"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2024-2025
+    Sue Dickinson
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/reviews/">影音书评</a></li><!--
+     --><!--
+       --><li><a href="/stats/">统计</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/suebwj">项目</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+    <script type="text/javascript">
+      var utterances_repo = 'SueBwj/SueBwj.github.io';
+      var utterances_issue_term = 'pathname';
+      var utterances_label = '💬 Comments';
+      var utterances_theme = 'github-dark';
+
+      (function(){
+          var script = document.createElement('script');
+
+          script.src = 'https://utteranc.es/client.js';
+          script.setAttribute('repo', utterances_repo);
+          script.setAttribute('issue-term', 'pathname');
+          script.setAttribute('label', utterances_label);
+          script.setAttribute('theme', utterances_theme);
+          script.setAttribute('crossorigin', 'anonymous');
+          script.async = true;
+          (document.getElementById('utterances_thread')).appendChild(script);
+      }());
+  </script>
+
+
+<!-- 不蒜子统计 -->
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>
