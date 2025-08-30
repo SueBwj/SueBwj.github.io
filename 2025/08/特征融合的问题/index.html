@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <!-- so meta -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, maximum-scale=5"
+  />
+  <!-- Google Site Verification -->
+  <meta name="google-site-verification" content="S0jxAEQsYatWH7oe_UM40ez0kWxvEO5A9l6i2M6qjoM" />
+  <meta name="msvalidate.01" content="1A997080AFF8AC96D109D90DADEE4449" />
+  <meta name="description" content="双Decoder特征进行融合的时候，生成图片出行彩色spot">
+<meta property="og:type" content="article">
+<meta property="og:title" content="特征融合的问题">
+<meta property="og:url" content="https://suebwj.github.io/2025/08/%E7%89%B9%E5%BE%81%E8%9E%8D%E5%90%88%E7%9A%84%E9%97%AE%E9%A2%98/index.html">
+<meta property="og:site_name" content="Sue&#39;s blog">
+<meta property="og:description" content="双Decoder特征进行融合的时候，生成图片出行彩色spot">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://suebwj.github.io/images/%E7%89%B9%E5%BE%81%E8%9E%8D%E5%90%88.png">
+<meta property="article:published_time" content="2025-08-29T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-08-29T16:00:00.000Z">
+<meta property="article:author" content="Sue Dickinson">
+<meta property="article:tag" content="特征融合">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://suebwj.github.io/images/%E7%89%B9%E5%BE%81%E8%9E%8D%E5%90%88.png">
+     
+  <link rel="shortcut icon" href="/images/favicon.ico" />
+     
+  <link
+    rel="icon"
+    type="image/png"
+    href="/images/favicon-192x192.png"
+    sizes="192x192"
+  />
+     
+  <link
+    rel="apple-touch-icon"
+    sizes="180x180"
+    href="/images/apple-touch-icon.png"
+  />
+    
+  <!-- title -->
+  <title>特征融合的问题</title>
+  <!-- async scripts -->
+  <!-- Google Analytics -->
+
+ <!-- Umami Analytics -->
+
+    <script async defer
+            data-website-id="d4fd445d-9c4a-4b17-b4e2-92718cb90737"
+            src="https://cloud.umami.is/script.js">
+    </script>
+
+
+  <!-- styles -->
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!-- persian styles -->
+  
+  <!-- rss -->
+   
+  <!-- mathjax -->
+  
+  <script type="text/x-mathjax-config">
+     MathJax.Hub.Config({
+    tex2jax: {
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      inlineMath: [['$','$']]
+    }
+     });
+  </script>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"
+    async
+  ></script>
+  
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/reviews/">影音书评</a></li><!--
+     --><!--
+       --><li><a href="/stats/">统计</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/suebwj">项目</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2025/08/How-to-train-a-LQ-Encoder-%E5%A6%82%E4%BD%95%E8%AE%AD%E7%BB%83%E4%B8%80%E4%B8%AALQ-Encoder/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://suebwj.github.io/2025/08/%E7%89%B9%E5%BE%81%E8%9E%8D%E5%90%88%E7%9A%84%E9%97%AE%E9%A2%98/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://suebwj.github.io/2025/08/%E7%89%B9%E5%BE%81%E8%9E%8D%E5%90%88%E7%9A%84%E9%97%AE%E9%A2%98/&text=特征融合的问题"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://suebwj.github.io/2025/08/%E7%89%B9%E5%BE%81%E8%9E%8D%E5%90%88%E7%9A%84%E9%97%AE%E9%A2%98/&title=特征融合的问题"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://suebwj.github.io/2025/08/%E7%89%B9%E5%BE%81%E8%9E%8D%E5%90%88%E7%9A%84%E9%97%AE%E9%A2%98/&is_video=false&description=特征融合的问题"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=特征融合的问题&body=Check out this article: https://suebwj.github.io/2025/08/%E7%89%B9%E5%BE%81%E8%9E%8D%E5%90%88%E7%9A%84%E9%97%AE%E9%A2%98/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://suebwj.github.io/2025/08/%E7%89%B9%E5%BE%81%E8%9E%8D%E5%90%88%E7%9A%84%E9%97%AE%E9%A2%98/&title=特征融合的问题"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://suebwj.github.io/2025/08/%E7%89%B9%E5%BE%81%E8%9E%8D%E5%90%88%E7%9A%84%E9%97%AE%E9%A2%98/&title=特征融合的问题"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://suebwj.github.io/2025/08/%E7%89%B9%E5%BE%81%E8%9E%8D%E5%90%88%E7%9A%84%E9%97%AE%E9%A2%98/&title=特征融合的问题"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://suebwj.github.io/2025/08/%E7%89%B9%E5%BE%81%E8%9E%8D%E5%90%88%E7%9A%84%E9%97%AE%E9%A2%98/&title=特征融合的问题"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://suebwj.github.io/2025/08/%E7%89%B9%E5%BE%81%E8%9E%8D%E5%90%88%E7%9A%84%E9%97%AE%E9%A2%98/&name=特征融合的问题&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://suebwj.github.io/2025/08/%E7%89%B9%E5%BE%81%E8%9E%8D%E5%90%88%E7%9A%84%E9%97%AE%E9%A2%98/&t=特征融合的问题"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%AF%E8%83%BD%E5%8E%9F%E5%9B%A0"><span class="toc-number">1.</span> <span class="toc-text">可能原因</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E2%9C%85-%E6%94%B9%E8%BF%9B%E5%BB%BA%E8%AE%AE%EF%BC%88%E5%87%8F%E5%B0%91%E9%A2%9C%E8%89%B2%E7%82%B9%E4%BC%AA%E5%BD%B1%EF%BC%89"><span class="toc-number">2.</span> <span class="toc-text">✅ 改进建议（减少颜色点伪影）</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        特征融合的问题
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Sue Dickinson</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2025-08-29T16:00:00.000Z" class="dt-published" itemprop="datePublished">2025-08-30</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/Learning/">Learning</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/%E7%89%B9%E5%BE%81%E8%9E%8D%E5%90%88/" rel="tag">特征融合</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h3 id="可能原因"><a href="#可能原因" class="headerlink" title="可能原因"></a>可能原因</h3><ol>
+<li><strong>特征融合方式不平滑</strong><ul>
+<li>如果用的是简单的 <strong>add 或 cat → conv</strong>，不同来源的特征分布差别很大，容易在局部出现爆点。</li>
+<li>特别是人脸区域，分布差异会被放大，导致 decoder 输出异常颜色。 (如图鼻子处的橙色 spot)[lq, gt, decoder1, fuse, decoder2]<br><img src="/images/特征融合.png" alt="特征融合不平滑"></li>
+</ul>
+</li>
+<li><strong>特征未完全对齐</strong><ul>
+<li>特征不严格对齐，就会在融合时留下边界/点状伪影。</li>
+<li>简单的 bilinear 插值可能不足以保证平滑过渡。</li>
+</ul>
+</li>
+<li><strong>数值范围不匹配</strong><ul>
+<li>不同的 feature 可能处于不同的数值范围。</li>
+<li>如果没有做 <strong>归一化 (LayerNorm/InstanceNorm)</strong>，直接相加/拼接就会出现色彩点。</li>
+</ul>
+</li>
+<li><strong>过度依赖外部特征 (shortcut)</strong><ul>
+<li>Decoder 可能在某些 spatial 位置几乎完全依赖外部特征，导致颜色直接来自教师分布 → 出现随机偏色点。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="✅-改进建议（减少颜色点伪影）"><a href="#✅-改进建议（减少颜色点伪影）" class="headerlink" title="✅ 改进建议（减少颜色点伪影）"></a>✅ 改进建议（减少颜色点伪影）</h3><ol>
+<li><strong>融合前加归一化</strong><ul>
+<li>做 <code>LayerNorm</code> 或 <code>InstanceNorm</code>。</li>
+<li>保证不同来源特征在数值范围和统计量上一致。</li>
+</ul>
+</li>
+<li><strong>改进融合模块</strong><ul>
+<li>用 <strong>CrossAttention</strong> 替代简单的 cat/add：<ul>
+<li>Query = 学生 decoder 当前特征</li>
+<li>Key/Value = 对齐后的外部特征</li>
+<li>好处：decoder 自己“选择”要不要用外部特征，而不是被硬注入。</li>
+</ul>
+</li>
+<li>或者轻量化尝试 <strong>LoRA CrossAttn</strong>（只训练小参数），避免大模型过拟合。</li>
+</ul>
+</li>
+<li><strong>特征 Dropout</strong><ul>
+<li>训练时随机丢掉一部分外部特征通道或 spatial patch。</li>
+<li>防止 decoder 过度依赖外部特征，减少 shortcut 伪影。</li>
+</ul>
+</li>
+<li><strong>损失函数中加 smooth/TV loss</strong><ul>
+<li>在图像层面约束颜色平滑性，抑制单点爆炸的颜色。</li>
+</ul>
+</li>
+</ol>
+<hr>
+
+  </div>
+</article>
+
+
+    <div class="blog-post-comments">
+        <div id="utterances_thread">
+            <noscript>加载评论需要在浏览器启用 JavaScript 脚本支持。</noscript>
+        </div>
+    </div>
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/reviews/">影音书评</a></li>
+        
+          <li><a href="/stats/">统计</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="http://github.com/suebwj">项目</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%AF%E8%83%BD%E5%8E%9F%E5%9B%A0"><span class="toc-number">1.</span> <span class="toc-text">可能原因</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E2%9C%85-%E6%94%B9%E8%BF%9B%E5%BB%BA%E8%AE%AE%EF%BC%88%E5%87%8F%E5%B0%91%E9%A2%9C%E8%89%B2%E7%82%B9%E4%BC%AA%E5%BD%B1%EF%BC%89"><span class="toc-number">2.</span> <span class="toc-text">✅ 改进建议（减少颜色点伪影）</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://suebwj.github.io/2025/08/%E7%89%B9%E5%BE%81%E8%9E%8D%E5%90%88%E7%9A%84%E9%97%AE%E9%A2%98/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://suebwj.github.io/2025/08/%E7%89%B9%E5%BE%81%E8%9E%8D%E5%90%88%E7%9A%84%E9%97%AE%E9%A2%98/&text=特征融合的问题"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://suebwj.github.io/2025/08/%E7%89%B9%E5%BE%81%E8%9E%8D%E5%90%88%E7%9A%84%E9%97%AE%E9%A2%98/&title=特征融合的问题"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://suebwj.github.io/2025/08/%E7%89%B9%E5%BE%81%E8%9E%8D%E5%90%88%E7%9A%84%E9%97%AE%E9%A2%98/&is_video=false&description=特征融合的问题"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=特征融合的问题&body=Check out this article: https://suebwj.github.io/2025/08/%E7%89%B9%E5%BE%81%E8%9E%8D%E5%90%88%E7%9A%84%E9%97%AE%E9%A2%98/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://suebwj.github.io/2025/08/%E7%89%B9%E5%BE%81%E8%9E%8D%E5%90%88%E7%9A%84%E9%97%AE%E9%A2%98/&title=特征融合的问题"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://suebwj.github.io/2025/08/%E7%89%B9%E5%BE%81%E8%9E%8D%E5%90%88%E7%9A%84%E9%97%AE%E9%A2%98/&title=特征融合的问题"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://suebwj.github.io/2025/08/%E7%89%B9%E5%BE%81%E8%9E%8D%E5%90%88%E7%9A%84%E9%97%AE%E9%A2%98/&title=特征融合的问题"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://suebwj.github.io/2025/08/%E7%89%B9%E5%BE%81%E8%9E%8D%E5%90%88%E7%9A%84%E9%97%AE%E9%A2%98/&title=特征融合的问题"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://suebwj.github.io/2025/08/%E7%89%B9%E5%BE%81%E8%9E%8D%E5%90%88%E7%9A%84%E9%97%AE%E9%A2%98/&name=特征融合的问题&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://suebwj.github.io/2025/08/%E7%89%B9%E5%BE%81%E8%9E%8D%E5%90%88%E7%9A%84%E9%97%AE%E9%A2%98/&t=特征融合的问题"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2024-2025
+    Sue Dickinson
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/reviews/">影音书评</a></li><!--
+     --><!--
+       --><li><a href="/stats/">统计</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/suebwj">项目</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+    <script type="text/javascript">
+      var utterances_repo = 'SueBwj/SueBwj.github.io';
+      var utterances_issue_term = 'pathname';
+      var utterances_label = '💬 Comments';
+      var utterances_theme = 'github-dark';
+
+      (function(){
+          var script = document.createElement('script');
+
+          script.src = 'https://utteranc.es/client.js';
+          script.setAttribute('repo', utterances_repo);
+          script.setAttribute('issue-term', 'pathname');
+          script.setAttribute('label', utterances_label);
+          script.setAttribute('theme', utterances_theme);
+          script.setAttribute('crossorigin', 'anonymous');
+          script.async = true;
+          (document.getElementById('utterances_thread')).appendChild(script);
+      }());
+  </script>
+
+
+<!-- 不蒜子统计 -->
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

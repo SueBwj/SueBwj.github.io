@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>特征融合的问题</title>
+      <link href="/2025/08/%E7%89%B9%E5%BE%81%E8%9E%8D%E5%90%88%E7%9A%84%E9%97%AE%E9%A2%98/"/>
+      <url>/2025/08/%E7%89%B9%E5%BE%81%E8%9E%8D%E5%90%88%E7%9A%84%E9%97%AE%E9%A2%98/</url>
+      
+        <content type="html"><![CDATA[<h3 id="可能原因"><a href="#可能原因" class="headerlink" title="可能原因"></a>可能原因</h3><ol><li><strong>特征融合方式不平滑</strong><ul><li>如果用的是简单的 <strong>add 或 cat → conv</strong>，不同来源的特征分布差别很大，容易在局部出现爆点。</li><li>特别是人脸区域，分布差异会被放大，导致 decoder 输出异常颜色。 (如图鼻子处的橙色 spot)[lq, gt, decoder1, fuse, decoder2]<br><img src="/images/特征融合.png" alt="特征融合不平滑"></li></ul></li><li><strong>特征未完全对齐</strong><ul><li>特征不严格对齐，就会在融合时留下边界/点状伪影。</li><li>简单的 bilinear 插值可能不足以保证平滑过渡。</li></ul></li><li><strong>数值范围不匹配</strong><ul><li>不同的 feature 可能处于不同的数值范围。</li><li>如果没有做 <strong>归一化 (LayerNorm/InstanceNorm)</strong>，直接相加/拼接就会出现色彩点。</li></ul></li><li><strong>过度依赖外部特征 (shortcut)</strong><ul><li>Decoder 可能在某些 spatial 位置几乎完全依赖外部特征，导致颜色直接来自教师分布 → 出现随机偏色点。</li></ul></li></ol><hr><h3 id="✅-改进建议（减少颜色点伪影）"><a href="#✅-改进建议（减少颜色点伪影）" class="headerlink" title="✅ 改进建议（减少颜色点伪影）"></a>✅ 改进建议（减少颜色点伪影）</h3><ol><li><strong>融合前加归一化</strong><ul><li>做 <code>LayerNorm</code> 或 <code>InstanceNorm</code>。</li><li>保证不同来源特征在数值范围和统计量上一致。</li></ul></li><li><strong>改进融合模块</strong><ul><li>用 <strong>CrossAttention</strong> 替代简单的 cat/add：<ul><li>Query = 学生 decoder 当前特征</li><li>Key/Value = 对齐后的外部特征</li><li>好处：decoder 自己“选择”要不要用外部特征，而不是被硬注入。</li></ul></li><li>或者轻量化尝试 <strong>LoRA CrossAttn</strong>（只训练小参数），避免大模型过拟合。</li></ul></li><li><strong>特征 Dropout</strong><ul><li>训练时随机丢掉一部分外部特征通道或 spatial patch。</li><li>防止 decoder 过度依赖外部特征，减少 shortcut 伪影。</li></ul></li><li><strong>损失函数中加 smooth/TV loss</strong><ul><li>在图像层面约束颜色平滑性，抑制单点爆炸的颜色。</li></ul></li></ol><hr>]]></content>
+      
+      
+      <categories>
+          
+          <category> Learning </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 特征融合 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>How to train a LQ Encoder</title>
       <link href="/2025/08/How-to-train-a-LQ-Encoder-%E5%A6%82%E4%BD%95%E8%AE%AD%E7%BB%83%E4%B8%80%E4%B8%AALQ-Encoder/"/>
       <url>/2025/08/How-to-train-a-LQ-Encoder-%E5%A6%82%E4%BD%95%E8%AE%AD%E7%BB%83%E4%B8%80%E4%B8%AALQ-Encoder/</url>
