@@ -4,6 +4,71 @@
   
     
     <entry>
+      <title>null_kv cls_token</title>
+      <link href="/2025/09/null-kv/"/>
+      <url>/2025/09/null-kv/</url>
+      
+        <content type="html"><![CDATA[<p>简单来说，nk 和 nv 共同组成了一个可学习的 “空”令牌（null token） 或 “哨兵”令牌（sentinel token）。这个特殊的令牌不来自任何输入，而是作为模型的一个内置参数，在每次注意力计算时被动态添加到序列的开头。</p><h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">self.null_kv = nn.Parameter(torch.randn(<span class="number">2</span>, heads, <span class="number">1</span>, dim_head))</span><br></pre></td></tr></table></figure><ul><li>第一个维度是 2， 分别代表 key(k) 和 value(v)</li><li>1 代表这是长度为 1 的序列，即单个令牌</li></ul><h3 id="forward"><a href="#forward" class="headerlink" title="forward"></a>forward</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment"># 1. 解包成 nk (null key) 和 nv (null value)</span></span><br><span class="line">nk, nv = self.null_kv</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 复制以匹配批次大小 (batch size)</span></span><br><span class="line">nk, nv = <span class="built_in">map</span>(<span class="keyword">lambda</span> t: repeat(t, <span class="string">&#x27;h 1 d -&gt; b h 1 d&#x27;</span>, b=x.shape[<span class="number">0</span>]), (nk, nv))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 将 nk 和 nv 拼接到真实 key 和 value 序列的开头</span></span><br><span class="line">k = torch.cat((nk, k), dim=-<span class="number">2</span>)</span><br><span class="line">v = torch.cat((nv, v), dim=-<span class="number">2</span>)</span><br></pre></td></tr></table></figure><h3 id="核心目的"><a href="#核心目的" class="headerlink" title="核心目的"></a>核心目的</h3><p>引入这样一个“空”令牌主要有两个核心目的，这让模型变得更加灵活和强大：</p><ol><li><strong>作为“信息池”或“空操作” (Information Sink / No-Op)</strong><br>想象一下，序列中的某个查询令牌（query）可能在当前上下文中找不到任何与之强相关的其他令牌。如果没有 null_kv，它仍然必须将注意力权重分配给序列中的其他项。</li></ol><ul><li><p>提供一个“无处可去”时的选择：null_kv 提供了一个“无所谓”或“以上都不是”的选项。当一个 query 不需要从序列中任何特定部分提取信息时，它可以将大部分注意力权重分配给这个“空”令牌。</p></li><li><p>充当信息“垃圾桶”：这允许模型有效地执行“空操作”（No-Operation），即选择性地忽略当前上下文，而不是被迫整合不相关的信息。这在处理包含噪声或不重要元素的序列时特别有用。</p></li></ul><ol><li><strong>作为“全局信息库” (Global Information Repository)</strong><br>由于 null_kv 是一个可学习的参数，它不依赖于任何具体输入。在整个训练过程中，模型可以学会将一些全局的、与上下文无关的“知识”或“偏置”存储在 nv (null value) 中。</li></ol><ul><li><p>可学习的全局内存：任何位置的 query 都可以通过关注 nk (null key) 来从 nv 中读取这些存储好的全局信息。</p></li><li><p>类比：你可以把它想象成一个小的、可读写的“剪贴板”或“草稿纸”。模型在上面记录了一些普遍有用的信息（比如任务类型、通用特征等），序列中的任何令牌都可以随时查阅。</p></li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> Learning </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Null_kv </tag>
+            
+            <tag> cls_token </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>python-@beartype</title>
+      <link href="/2025/09/python-beartype/"/>
+      <url>/2025/09/python-beartype/</url>
+      
+        <content type="html"><![CDATA[<p>@beartype 是 Python 里的一个 函数/方法/类的装饰器，来自 <a href="https://github.com/beartype/beartype?utm_source=chatgpt.com">beartype 库</a>，用于 运行时类型检查。</p><h3 id="🔹-简单解释"><a href="#🔹-简单解释" class="headerlink" title="🔹 简单解释"></a>🔹 简单解释</h3><p>在 Python 里我们通常用 类型注解（type hints），例如：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">add</span>(<span class="params">x: <span class="built_in">int</span>, y: <span class="built_in">int</span></span>) -&gt; <span class="built_in">int</span>:</span><br><span class="line">    <span class="keyword">return</span> x + y</span><br><span class="line"></span><br></pre></td></tr></table></figure><p>Python 本身不会强制检查类型（add(“a”, “b”) 也能跑）。<br>beartype 就是一个运行时检查工具，可以让这些类型注解 真正生效，在调用时验证输入输出是否符合注解。</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> beartype <span class="keyword">import</span> beartype</span><br><span class="line"></span><br><span class="line"><span class="meta">@beartype</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">concat</span>(<span class="params">a: <span class="built_in">str</span>, b: <span class="built_in">str</span></span>) -&gt; <span class="built_in">str</span>:</span><br><span class="line">    <span class="keyword">return</span> a + b</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(concat(<span class="string">&quot;hello&quot;</span>, <span class="string">&quot;world&quot;</span>))  <span class="comment"># ✅ 正常</span></span><br><span class="line"><span class="built_in">print</span>(concat(<span class="string">&quot;hello&quot;</span>, <span class="number">123</span>))      <span class="comment"># ❌ TypeError</span></span><br><span class="line"></span><br></pre></td></tr></table></figure><h3 id="支持的功能"><a href="#支持的功能" class="headerlink" title="支持的功能"></a>支持的功能</h3><p>✅ 检查函数参数和返回值的类型</p><p>✅ 支持 List[int], Tuple[str, int], Optional[float] 等复杂注解</p><p>✅ 支持类和方法</p><p>✅ 出错时会给出清晰的报错信息</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Learning </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> python </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>python-einops</title>
+      <link href="/2025/09/python-einops/"/>
+      <url>/2025/09/python-einops/</url>
+      
+        <content type="html"><![CDATA[<h3 id="what-is-einops"><a href="#what-is-einops" class="headerlink" title="what is einops"></a>what is einops</h3><p>einops 是一个用于张量操作的 Python 库，它的核心思想是使用一种更直观、更声明性的方式来重塑、转置和执行其他多维数组操作。它的名字是 “Einstein operations” 的缩写，因为它受到爱因斯坦求和约定（Einstein summation notation）的启发。</p><h3 id="einops-的用法"><a href="#einops-的用法" class="headerlink" title="einops 的用法"></a>einops 的用法</h3><p>传统上，在 NumPy、PyTorch、TensorFlow 等库中进行张量操作，你需要使用一系列函数，比如 <code>reshape</code>, <code>transpose</code>, <code>permute</code>, <code>view</code> 等。这很容易出错，特别是当张量的维度很多时，你可能会混淆轴的顺序和大小。</p><p>einops 通过一个统一的、高可读性的表达式来解决这个问题。它的核心函数是 <code>rearrange</code>, <code>reduce</code> 和 <code>repeat</code>。</p><ol><li><p><code>rearrange</code><br>这是 einops 最常用的函数，它结合了 重塑 (reshape) 和 转置 (transpose) 的功能。它的语法非常直观：einops.rearrange(tensor, ‘… -&gt; …’)。</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> einops</span><br><span class="line"><span class="keyword">import</span> torch</span><br><span class="line">tensor = torch.randn(<span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>)</span><br><span class="line"><span class="built_in">print</span>(einops.rearrange(tensor, <span class="string">&#x27;b c h w -&gt; b h w c&#x27;</span>))</span><br></pre></td></tr></table></figure><p>另一个例子是，将形状为 (batch, channels, height, width) 的图像分割成不重叠的小块（patch），并展平。</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 假设 patch 大小是 16x16</span></span><br><span class="line"><span class="built_in">print</span>(einops.rearrange(img, <span class="string">&#x27;b c (h p1) (w p2) -&gt; b (h w) (p1 p2 c)&#x27;</span>, p1=<span class="number">16</span>, p2=<span class="number">16</span>))</span><br></pre></td></tr></table></figure></li><li><p><code>reduce</code><br>这个函数用于执行各种常见的聚合操作，比如求和、求平均、最大值、最小值等。它的语法是：einops.reduce(tensor, ‘… -&gt; …’, ‘op’)。</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> einops <span class="keyword">import</span> reduce</span><br><span class="line">output_tensor = reduce(input_tensor, <span class="string">&#x27;b c h w -&gt; c&#x27;</span>, <span class="string">&#x27;mean&#x27;</span>)</span><br></pre></td></tr></table></figure><p>这个表达式表示将 b, h, w 维度求平均，只保留 c 维度。</p></li><li><p><code>repeat</code><br>这个函数用于重复张量的某些维度，它的语法是：einops.repeat(tensor, ‘… -&gt; …’, **kwargs)。</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> einops <span class="keyword">import</span> repeat</span><br><span class="line">output_tensor = repeat(img, <span class="string">&#x27;h w -&gt; h w 3&#x27;</span>)</span><br></pre></td></tr></table></figure><p>将一个形状为 (height, width) 的灰度图像复制成 3 个通道。</p></li></ol>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>机试考前复习</title>
       <link href="/2025/08/%E6%9C%BA%E8%AF%95%E8%80%83%E5%89%8D%E5%A4%8D%E4%B9%A0/"/>
       <url>/2025/08/%E6%9C%BA%E8%AF%95%E8%80%83%E5%89%8D%E5%A4%8D%E4%B9%A0/</url>
