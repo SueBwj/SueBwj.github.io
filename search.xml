@@ -31,6 +31,31 @@
     
     
     <entry>
+      <title>Token-Critic</title>
+      <link href="/2025/09/Token-Critic/"/>
+      <url>/2025/09/Token-Critic/</url>
+      
+        <content type="html"><![CDATA[<h3 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h3><p>Token-Critic 用来判断 which visual tokens belong to the original image and which were sampled by the generative transformer. 在非自回归的生成中知道哪些 tokens 需要保留哪些 tokens 需要被替换是一件比较困难的事情，所以 token-critic (一个 transformer 模型) 被提出用来解决这个问题。<br><img src="/images/token-critic.png" alt="token-critic"></p><p>Token-Critic 解决了三个关键的限制问题：</p><ol><li><p><strong>token 掩码委托给 Token-Critic 模型</strong></p><ul><li>Token-Critic 模型经过训练，能够区分哪些 token 属于真实分布，哪些不属于</li><li>它学习判断每个 visual token 的质量和真实性</li></ul></li><li><p><strong>迭代采样过程中的精确掩码</strong></p><ul><li>在每次迭代中，Token-Critic 不是简单地丢弃采样的 token，而是能够精确地识别出质量较差的 token</li><li>这使得模型能够保留高质量的生成 token，同时替换掉不符合真实分布的 token</li></ul></li><li><p><strong>改进的采样程序</strong></p><ul><li>传统方法可能会在迭代解码过程中错误地丢弃已经正确采样的 token</li><li>Token-Critic 通过精确的质量评估，避免了这种误删除，从而提升了整体生成质量</li></ul></li></ol><h3 id="Token-Critic-的结构"><a href="#Token-Critic-的结构" class="headerlink" title="Token-Critic 的结构"></a>Token-Critic 的结构</h3><p>Transformer 结构，输出的结果为每个 token 的得分，表示在根据 condition 的情况下生成的 token 的质量。</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> torch.nn <span class="keyword">as</span> nn</span><br><span class="line"><span class="keyword">import</span> torch.nn.functional <span class="keyword">as</span> F</span><br><span class="line"><span class="keyword">from</span> einops <span class="keyword">import</span> rearrange</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">exists</span>(<span class="params">val</span>):</span><br><span class="line">    <span class="keyword">return</span> val <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">SelfCritic</span>(nn.Module):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, net</span>):</span><br><span class="line">        <span class="built_in">super</span>().__init__()</span><br><span class="line">        self.net = net</span><br><span class="line">        self.to_pred = nn.Linear(net.dim, <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">forward_with_cond_scale</span>(<span class="params">self, x, *args, **kwargs</span>):</span><br><span class="line">        _, embeds = self.net.forward_with_cond_scale(</span><br><span class="line">            x, *args, return_embed=<span class="literal">True</span>, **kwargs)</span><br><span class="line">        <span class="keyword">return</span> self.to_pred(embeds)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">forward_with_neg_prompt</span>(<span class="params">self, x, *args, **kwargs</span>):</span><br><span class="line">        _, embeds = self.net.forward_with_neg_prompt(</span><br><span class="line">            x, *args, return_embed=<span class="literal">True</span>, **kwargs)</span><br><span class="line">        <span class="keyword">return</span> self.to_pred(embeds)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">forward</span>(<span class="params">self, x, *args, labels=<span class="literal">None</span>, **kwargs</span>):</span><br><span class="line">        _, embeds = self.net(x, *args, return_embed=<span class="literal">True</span>, **kwargs)</span><br><span class="line">        logits = self.to_pred(embeds)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> exists(labels):</span><br><span class="line">            <span class="keyword">return</span> logits</span><br><span class="line"></span><br><span class="line">        logits = rearrange(logits, <span class="string">&#x27;... 1 -&gt; ...&#x27;</span>)</span><br><span class="line">        <span class="keyword">return</span> F.binary_cross_entropy_with_logits(logits, labels)</span><br><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> Learning </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Token-Critic </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>python-@beartype</title>
       <link href="/2025/09/python-beartype/"/>
       <url>/2025/09/python-beartype/</url>
